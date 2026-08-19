@@ -2731,6 +2731,769 @@
     return { update, draw };
   })();
 
+  /* ---------- Esperimento 02.1 · La bilancia di torsione ---------- */
+
+  const cavendishSim = (() => {
+    const canvas = document.getElementById("canvas-cavendish");
+    const chipEl = document.getElementById("cav-chip");
+    const deflEl = document.getElementById("cav-deflection");
+    const massEl = document.getElementById("cav-mass");
+    const massSlider = document.getElementById("cav-mass-slider");
+    const rSlider = document.getElementById("cav-r-slider");
+    const goBtn = document.getElementById("cav-go");
+    const resetBtn = document.getElementById("cav-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let near = false;
+    let arm = 0;
+    let rot = 0;
+    let rotV = 0;
+
+    goBtn.addEventListener("click", () => {
+      near = !near;
+      goBtn.textContent = near ? "Allontana le sfere" : "Avvicina le sfere";
+    });
+    resetBtn.addEventListener("click", () => {
+      near = false;
+      rot = 0;
+      rotV = 0;
+      arm = 0;
+      goBtn.textContent = "Avvicina le sfere";
+    });
+
+    function update(dt) {
+      const target = near ? 1 : 0;
+      arm += (target - arm) * Math.min(1, dt * 2.2);
+      const M = +massSlider.value;
+      const r = +rSlider.value;
+      const arcmin = (M / (r * r)) * 0.6;
+      const targetVis = near ? arcmin * 20 : 0;
+      const stiff = 26;
+      const damp = 5;
+      rotV += (targetVis - rot) * stiff * dt;
+      rotV *= Math.max(0, 1 - damp * dt);
+      rot += rotV * dt;
+      if (!near && Math.abs(rot) < 0.02 && Math.abs(rotV) < 0.02) {
+        rot = 0;
+        rotV = 0;
+      }
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const cx = w / 2;
+      const cy = h / 2;
+      const M = +massSlider.value;
+      const rCm = +rSlider.value;
+
+      const bg = ctx.createRadialGradient(cx, cy, 4, cx, cy, h * 0.62);
+      bg.addColorStop(0, "#16202f");
+      bg.addColorStop(1, "#0a0f1a");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const rBar = Math.min(w, h) * 0.30;
+      const rs = 7;
+      const rb = 9 + (M / 200) * 9;
+
+      ctx.strokeStyle = "rgba(127,208,198,0.12)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, rBar + rb + 6, 0, Math.PI * 2);
+      ctx.stroke();
+
+      const rotRad = (rot * Math.PI) / 180;
+
+      const bigA = lerp(Math.PI / 2, 0, arm);
+      const bigR = rBar + rb + 3;
+      for (const off of [0, Math.PI]) {
+        const ba = bigA + off;
+        const bx = cx + Math.cos(ba) * bigR;
+        const by = cy + Math.sin(ba) * bigR;
+        const g = ctx.createRadialGradient(bx - rb * 0.3, by - rb * 0.3, 2, bx, by, rb);
+        g.addColorStop(0, "#c9c2b2");
+        g.addColorStop(1, "#5a5548");
+        ctx.beginPath();
+        ctx.arc(bx, by, rb, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.font = "500 11px 'IBM Plex Mono', monospace";
+        ctx.fillStyle = "rgba(232,226,210,0.85)";
+        ctx.fillText("M", bx - 5, by - rb - 5);
+      }
+
+      ctx.strokeStyle = "rgba(232,226,210,0.55)";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(rotRad) * rBar, cy + Math.sin(rotRad) * rBar);
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx - Math.cos(rotRad) * rBar, cy - Math.sin(rotRad) * rBar);
+      ctx.stroke();
+
+      for (const off of [0, Math.PI]) {
+        const a = rotRad + off;
+        const sx = cx + Math.cos(a) * rBar;
+        const sy = cy + Math.sin(a) * rBar;
+        const g = ctx.createRadialGradient(sx - 2, sy - 2, 1, sx, sy, rs);
+        g.addColorStop(0, "#7fd0c6");
+        g.addColorStop(1, "#2c4a52");
+        ctx.beginPath();
+        ctx.arc(sx, sy, rs, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.font = "500 11px 'IBM Plex Mono', monospace";
+        ctx.fillStyle = "rgba(127,208,198,0.9)";
+        ctx.fillText("m", sx - 4, sy - rs - 5);
+      }
+
+      ctx.strokeStyle = "rgba(232,226,210,0.9)";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(cx - 4, cy);
+      ctx.lineTo(cx + 4, cy);
+      ctx.moveTo(cx, cy - 4);
+      ctx.lineTo(cx, cy + 4);
+      ctx.stroke();
+
+      const arcmin = (M / (rCm * rCm)) * 0.6;
+      deflEl.textContent = near ? `${arcmin.toFixed(1)}′` : "0,0′";
+      massEl.textContent = `${M} kg`;
+      chipEl.textContent = near ? "le sfere si attraggono: la bilancia si piega" : "sfere lontane · a riposo";
+    }
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 02.2 · Il perielio di Mercurio ---------- */
+
+  const mercurySim = (() => {
+    const canvas = document.getElementById("canvas-mercury");
+    const chipEl = document.getElementById("merc-chip");
+    const precEl = document.getElementById("merc-precession");
+    const elapsedEl = document.getElementById("merc-elapsed");
+    const newtonBtn = document.getElementById("merc-newton");
+    const einsteinBtn = document.getElementById("merc-einstein");
+    const speedSlider = document.getElementById("merc-speed");
+    const resetBtn = document.getElementById("merc-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let mode = "newton";
+    let years = 0;
+    let theta = 0;
+    let precess = 0;
+    let trail = [];
+
+    newtonBtn.addEventListener("click", () => {
+      mode = "newton";
+      newtonBtn.classList.add("is-active");
+      einsteinBtn.classList.remove("is-active");
+    });
+    einsteinBtn.addEventListener("click", () => {
+      mode = "einstein";
+      einsteinBtn.classList.add("is-active");
+      newtonBtn.classList.remove("is-active");
+    });
+    resetBtn.addEventListener("click", () => {
+      years = 0;
+      theta = 0;
+      precess = 0;
+      trail = [];
+    });
+
+    function update(dt) {
+      const speed = +speedSlider.value;
+      const yps = speed * 0.4;
+      years += dt * yps;
+      theta += dt * yps * Math.PI * 2 * 4.15;
+      if (mode === "einstein") precess += dt * 0.15 * yps;
+      trail.push(theta);
+      if (trail.length > 90) trail.shift();
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const cx = w / 2;
+      const cy = h / 2;
+      const e = 0.55;
+      const a = Math.min(w, h) * 0.36;
+      const psi = (precess * Math.PI) / 180;
+
+      const bg = ctx.createRadialGradient(cx, cy, 2, cx, cy, a * 1.5);
+      bg.addColorStop(0, "#1a1208");
+      bg.addColorStop(1, "#0a0f1a");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const glow = ctx.createRadialGradient(cx, cy, 2, cx, cy, a * 0.42);
+      glow.addColorStop(0, "rgba(240,180,90,0.9)");
+      glow.addColorStop(0.35, "rgba(240,180,90,0.18)");
+      glow.addColorStop(1, "rgba(240,180,90,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(cx - a * 0.42, cy - a * 0.42, a * 0.84, a * 0.84);
+      ctx.beginPath();
+      ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+      ctx.fillStyle = "#f0b45a";
+      ctx.fill();
+
+      function ellipsePath(rot) {
+        ctx.beginPath();
+        for (let phi = 0; phi <= Math.PI * 2 + 0.01; phi += 0.02) {
+          const r = (a * (1 - e * e)) / (1 + e * Math.cos(phi));
+          const ang = rot + phi;
+          const x = cx + r * Math.cos(ang);
+          const y = cy + r * Math.sin(ang);
+          if (phi === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+      }
+
+      if (mode === "einstein") {
+        ctx.strokeStyle = "rgba(141,149,163,0.28)";
+        ctx.setLineDash([4, 6]);
+        ctx.lineWidth = 1;
+        ellipsePath(0);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      ctx.strokeStyle = "rgba(127,208,198,0.35)";
+      ctx.lineWidth = 1.4;
+      ellipsePath(psi);
+      ctx.stroke();
+
+      const pr = a * (1 - e);
+      const pAng = psi;
+      ctx.strokeStyle = "#f0b45a";
+      ctx.lineWidth = 2;
+      const ppx = cx + Math.cos(pAng) * pr;
+      const ppy = cy + Math.sin(pAng) * pr;
+      ctx.beginPath();
+      ctx.moveTo(ppx - 7, ppy);
+      ctx.lineTo(ppx + 7, ppy);
+      ctx.moveTo(ppx, ppy - 7);
+      ctx.lineTo(ppx, ppy + 7);
+      ctx.stroke();
+
+      for (const t of trail) {
+        const r = (a * (1 - e * e)) / (1 + e * Math.cos(t));
+        const ang = psi + t;
+        const x = cx + r * Math.cos(ang);
+        const y = cy + r * Math.sin(ang);
+        ctx.globalAlpha = 0.25;
+        ctx.fillStyle = "#7fd0c6";
+        ctx.beginPath();
+        ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      const r = (a * (1 - e * e)) / (1 + e * Math.cos(theta));
+      const ang = psi + theta;
+      ctx.beginPath();
+      ctx.arc(cx + r * Math.cos(ang), cy + r * Math.sin(ang), 5, 0, Math.PI * 2);
+      ctx.fillStyle = "#d9d6c8";
+      ctx.fill();
+
+      ctx.font = "400 11px 'IBM Plex Mono', monospace";
+      ctx.fillStyle = "rgba(217,214,200,0.6)";
+      ctx.fillText("Sole", cx + 16, cy + 4);
+      ctx.fillStyle = "#f0b45a";
+      ctx.fillText("perielio", ppx + 12, ppy - 8);
+
+      precEl.textContent = mode === "einstein" ? "43″/secolo" : "0″/secolo";
+      elapsedEl.textContent = `${years.toFixed(0)} anni`;
+      chipEl.textContent = mode === "einstein" ? "Einstein · il perielio avanza" : "Newton · orbita chiusa";
+    }
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 03.1 · La luce che inciampa ---------- */
+
+  const poundRebkaSim = (() => {
+    const canvas = document.getElementById("canvas-pound");
+    const chipEl = document.getElementById("pound-chip");
+    const hEl = document.getElementById("pound-h");
+    const shiftEl = document.getElementById("pound-shift");
+    const hSlider = document.getElementById("pound-h-slider");
+    const goBtn = document.getElementById("pound-go");
+    const resetBtn = document.getElementById("pound-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let state = "idle";
+    let t = 0;
+    const DUR = 1.7;
+
+    goBtn.addEventListener("click", () => {
+      if (state === "flying") return;
+      state = "flying";
+      t = 0;
+    });
+    resetBtn.addEventListener("click", () => {
+      state = "idle";
+      t = 0;
+      shiftEl.textContent = "—";
+      chipEl.textContent = `torre Jefferson · ${(+hSlider.value).toFixed(1).replace(".", ",")} m`;
+    });
+
+    function formatShift(v) {
+      const e = -15;
+      const mant = (v / 1e-15).toFixed(1).replace(".", ",");
+      return `${mant} × 10⁻¹⁵`;
+    }
+
+    function update(dt) {
+      if (state === "flying") {
+        t += dt;
+        if (t >= DUR) {
+          state = "done";
+          const h = +hSlider.value;
+          shiftEl.textContent = formatShift((9.81 * h) / 9e16);
+        }
+      }
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const hm = +hSlider.value;
+      const baseY = h * 0.85;
+      const topY = h * 0.12;
+      const scale = (baseY - topY) / 50;
+      const tw = Math.min(46, w * 0.14);
+      const towerH = hm * scale;
+      const tx = w * 0.16;
+
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, "#0a0f1c");
+      bg.addColorStop(1, "#101a28");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = "#1c2839";
+      ctx.fillRect(tx - tw / 2, baseY - towerH, tw, towerH);
+      ctx.strokeStyle = "rgba(127,208,198,0.5)";
+      ctx.lineWidth = 1.6;
+      ctx.strokeRect(tx - tw / 2, baseY - towerH, tw, towerH);
+
+      ctx.fillStyle = "rgba(217,214,200,0.5)";
+      ctx.font = "400 11px 'IBM Plex Mono', monospace";
+      ctx.fillText(`${hm.toFixed(1).replace(".", ",")} m`, tx + tw / 2 + 6, baseY - towerH / 2);
+
+      if (state === "idle") {
+        ctx.fillStyle = "#f0b45a";
+        ctx.beginPath();
+        ctx.arc(tx, baseY - 8, 5, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        const p = clamp(t / DUR, 0, 1);
+        const y = baseY - p * towerH;
+        ctx.strokeStyle = "rgba(240,180,90,0.6)";
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        for (let xx = -tw / 2; xx <= tw / 2 + 4; xx += 3) {
+          const wy = y + Math.sin((xx - tx) * 0.7 + p * 8) * 4 * (1 + p * 1.4);
+          if (xx === -tw / 2) ctx.moveTo(xx, wy);
+          else ctx.lineTo(xx, wy);
+        }
+        ctx.stroke();
+
+        for (let c = 0; c < 6; c++) {
+          const cy = baseY - ((c + 0.5) / 6) * towerH * (0.4 + p * 0.6);
+          ctx.strokeStyle = "rgba(240,180,90,0.35)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(tx - tw / 2 + 6, cy);
+          ctx.lineTo(tx + tw / 2 - 6, cy);
+          ctx.stroke();
+        }
+
+        if (state === "done") {
+          ctx.fillStyle = "#7fd0c6";
+          ctx.font = "500 12px 'IBM Plex Mono', monospace";
+          ctx.fillText("Δf/f misurato", tx - tw / 2 - 6, baseY - towerH - 8);
+        }
+      }
+
+      hEl.textContent = `${hm.toFixed(1).replace(".", ",")} m`;
+      chipEl.textContent = state === "flying"
+        ? "il fotone sale · perde energia"
+        : state === "done"
+          ? "misura: la luce è arrivata 'stanca'"
+          : `torre Jefferson · ${hm.toFixed(1).replace(".", ",")} m`;
+    }
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 03.2 · L'eco che tarda ---------- */
+
+  const shapiroSim = (() => {
+    const canvas = document.getElementById("canvas-shapiro");
+    const chipEl = document.getElementById("shap-chip");
+    const rtEl = document.getElementById("shap-roundtrip");
+    const delayEl = document.getElementById("shap-delay");
+    const sunBtn = document.getElementById("shap-sun");
+    const goBtn = document.getElementById("shap-go");
+    const resetBtn = document.getElementById("shap-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let w = 0, h = 0;
+    let sun = true;
+    let flying = false;
+    let t = 0;
+    const DUR = 1.6;
+
+    sunBtn.addEventListener("click", () => {
+      sun = !sun;
+      sunBtn.textContent = sun ? "Gravità del Sole: attiva" : "Gravità del Sole: disattivata";
+      sunBtn.classList.toggle("is-active", sun);
+    });
+    goBtn.addEventListener("click", () => {
+      if (flying) return;
+      flying = true;
+      t = 0;
+    });
+    resetBtn.addEventListener("click", () => {
+      flying = false;
+      t = 0;
+      delayEl.textContent = sun ? "≈ 200 µs" : "0 µs";
+    });
+
+    function update(dt) {
+      if (flying) {
+        t += dt;
+        if (t >= DUR) {
+          flying = false;
+          delayEl.textContent = sun ? "≈ 200 µs" : "0 µs";
+        }
+      }
+    }
+
+    function pathPoint(p) {
+      const ex = w * 0.1;
+      const ey = h * 0.5;
+      const vx = w * 0.8;
+      const vy = h * 0.5;
+      const sx = w * 0.35;
+      const x = ex + (vx - ex) * p;
+      const y = ey + (vy - ey) * p;
+      let off = 0;
+      if (sun) {
+        const d = Math.abs(x - sx) / (w * 0.5);
+        off = Math.exp(-d * d * 9) * h * 0.05;
+      }
+      return { x, y: y - off };
+    }
+
+    function draw() {
+      const s = sizeCanvas(canvas);
+      const ctx = s.ctx;
+      w = s.w;
+      h = s.h;
+
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, "#0a0f1c");
+      bg.addColorStop(1, "#131c2e");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const glow = ctx.createRadialGradient(w * 0.35, h * 0.5, 2, w * 0.35, h * 0.5, w * 0.09);
+      glow.addColorStop(0, "rgba(240,180,90,0.95)");
+      glow.addColorStop(0.5, "rgba(240,180,90,0.2)");
+      glow.addColorStop(1, "rgba(240,180,90,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(w * 0.35 - w * 0.09, h * 0.5 - w * 0.09, w * 0.18, w * 0.18);
+      ctx.beginPath();
+      ctx.arc(w * 0.35, h * 0.5, 13, 0, Math.PI * 2);
+      ctx.fillStyle = "#f0b45a";
+      ctx.fill();
+
+      function station(x, label) {
+        ctx.fillStyle = "#1c2839";
+        ctx.beginPath();
+        ctx.arc(x, h * 0.5, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(217,214,200,0.7)";
+        ctx.font = "400 11px 'IBM Plex Mono', monospace";
+        ctx.fillText(label, x - 14, h * 0.5 + 24);
+      }
+      station(w * 0.1, "Terra");
+      station(w * 0.9, "Venere");
+
+      ctx.strokeStyle = sun ? "rgba(127,208,198,0.4)" : "rgba(141,149,163,0.3)";
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      for (let p = 0; p <= 1.0001; p += 0.01) {
+        const pt = pathPoint(p);
+        if (p === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (flying) {
+        const p = clamp(t / DUR, 0, 1);
+        const fwd = p <= 0.5 ? p * 2 : 1;
+        const back = p > 0.5 ? (p - 0.5) * 2 : 0;
+        const pt = back > 0 ? pathPoint(1 - back) : pathPoint(fwd);
+        ctx.fillStyle = "#7fd0c6";
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      chipEl.textContent = sun ? "Gravità del Sole: attiva" : "Gravità del Sole: disattivata";
+      delayEl.textContent = sun ? "≈ 200 µs" : "0 µs";
+    }
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 03.3 · Il metronomo ---------- */
+
+  const hulseTaylorSim = (() => {
+    const canvas = document.getElementById("canvas-hulse");
+    const chipEl = document.getElementById("hulse-chip");
+    const periodEl = document.getElementById("hulse-period");
+    const decayEl = document.getElementById("hulse-decay");
+    const orbitEl = document.getElementById("hulse-orbit");
+    const speedSlider = document.getElementById("hulse-speed");
+    const goBtn = document.getElementById("hulse-go");
+    const resetBtn = document.getElementById("hulse-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let w = 0, h = 0;
+    let running = false;
+    let years = 0;
+    let theta = 0;
+    let flash = 0;
+
+    goBtn.addEventListener("click", () => { running = true; });
+    resetBtn.addEventListener("click", () => {
+      running = false;
+      years = 0;
+      theta = 0;
+      flash = 0;
+    });
+
+    function update(dt) {
+      if (running) {
+        const speed = +speedSlider.value;
+        years += dt * speed * 0.5;
+        if (years >= 60) {
+          running = false;
+          years = 60;
+        }
+      }
+      const y = Math.min(years, 60);
+      const rFrac = 1 - 0.0014 * y;
+      const omega = 2.6 * Math.pow(1 / rFrac, 1.5);
+      const before = Math.floor(theta / (Math.PI * 2));
+      theta += omega * dt;
+      const after = Math.floor(theta / (Math.PI * 2));
+      if (after > before) flash = 0.35;
+      flash -= dt;
+    }
+
+    function draw() {
+      const s = sizeCanvas(canvas);
+      const ctx = s.ctx;
+      w = s.w;
+      h = s.h;
+
+      const bg = ctx.createRadialGradient(w / 2, h / 2, 2, w / 2, h / 2, h * 0.5);
+      bg.addColorStop(0, "#131d31");
+      bg.addColorStop(1, "#070c16");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const y = Math.min(years, 60);
+      const rFrac = 1 - 0.0014 * y;
+      const a0 = Math.min(w, h) * 0.3;
+      const r = a0 * rFrac;
+
+      ctx.strokeStyle = "rgba(141,149,163,0.25)";
+      ctx.setLineDash([3, 6]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(w / 2, h / 2, a0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = "rgba(127,208,198,0.5)";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.arc(w / 2, h / 2, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      for (const off of [0, Math.PI]) {
+        const a = theta + off;
+        const x = w / 2 + Math.cos(a) * r;
+        const y2 = h / 2 + Math.sin(a) * r;
+        const g = ctx.createRadialGradient(x - 3, y2 - 3, 1, x, y2, 12);
+        g.addColorStop(0, "#c9c2b2");
+        g.addColorStop(1, "#4a4438");
+        ctx.beginPath();
+        ctx.arc(x, y2, 12, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+      }
+
+      if (flash > 0) {
+        const a = theta;
+        ctx.strokeStyle = `rgba(240,180,90,${(flash / 0.35) * 0.9})`;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(w / 2 + Math.cos(a) * r, h / 2 + Math.sin(a) * r);
+        ctx.lineTo(w / 2 + Math.cos(a) * r * 1.9, h / 2 + Math.sin(a) * r * 1.9);
+        ctx.stroke();
+      }
+
+      periodEl.textContent = "7,75 h";
+      decayEl.textContent = "−76 µs/anno";
+      orbitEl.textContent = `${(rFrac * 100).toFixed(1)}%`;
+      chipEl.textContent = running
+        ? "il battito accelera: l'orbita perde energia"
+        : years >= 60
+          ? "1974 → oggi · misura confermata"
+          : "1974 · il battito accelera";
+    }
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 03.4 · Giroscopi in orbita ---------- */
+
+  const gpB = (() => {
+    const canvas = document.getElementById("canvas-gpb");
+    const chipEl = document.getElementById("gpb-chip");
+    const angleEl = document.getElementById("gpb-angle");
+    const speedSlider = document.getElementById("gpb-speed");
+    const goBtn = document.getElementById("gpb-go");
+    const resetBtn = document.getElementById("gpb-reset");
+
+    const isVisible = trackVisibility(canvas);
+
+    let w = 0, h = 0;
+    let running = false;
+    let years = 0;
+    let orb = 0;
+
+    goBtn.addEventListener("click", () => { running = true; });
+    resetBtn.addEventListener("click", () => {
+      running = false;
+      years = 0;
+      orb = 0;
+    });
+
+    function update(dt) {
+      if (running) {
+        const speed = +speedSlider.value;
+        years += dt * speed * 0.6;
+        orb += dt * 0.6;
+      }
+    }
+
+    function draw() {
+      const s = sizeCanvas(canvas);
+      const ctx = s.ctx;
+      w = s.w;
+      h = s.h;
+
+      const cx = w / 2;
+      const cy = h / 2;
+      const re = Math.min(w, h) * 0.24;
+      const ro = re * 1.55;
+
+      const bg = ctx.createRadialGradient(cx, cy, re * 0.6, cx, cy, ro * 1.3);
+      bg.addColorStop(0, "#101a28");
+      bg.addColorStop(1, "#070b12");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const earth = ctx.createRadialGradient(cx - re * 0.3, cy - re * 0.3, re * 0.1, cx, cy, re);
+      earth.addColorStop(0, "#2b3a52");
+      earth.addColorStop(1, "#0a111d");
+      ctx.beginPath();
+      ctx.arc(cx, cy, re, 0, Math.PI * 2);
+      ctx.fillStyle = earth;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(127,208,198,0.45)";
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      for (const sgn of [-1, 1]) {
+        const ay = cy + sgn * re * 0.82;
+        ctx.strokeStyle = "rgba(240,180,90,0.55)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, ay, 10, Math.PI * 0.15, Math.PI * 0.85);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(cx - sgn * 12, ay - 2);
+        ctx.lineTo(cx - sgn * 6, ay - 9);
+        ctx.lineTo(cx - sgn * 2, ay - 1);
+        ctx.fill();
+      }
+
+      ctx.strokeStyle = "rgba(141,149,163,0.3)";
+      ctx.setLineDash([4, 5]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, ro, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const sx = cx + Math.cos(orb) * ro;
+      const sy = cy + Math.sin(orb) * ro;
+
+      const arcsec = years * 6.639;
+      const tiltDeg = Math.min(arcsec * 0.55, 42);
+      const tilt = (tiltDeg * Math.PI) / 180;
+      const baseAng = Math.atan2(sy - cy, sx - cx);
+      const a1 = baseAng - tilt * 0.5;
+      const a2 = baseAng + tilt * 0.5;
+
+      ctx.strokeStyle = "rgba(127,208,198,0.3)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let t = -tilt; t <= tilt + 0.001; t += 0.03) {
+        const a = baseAng + t;
+        const x = sx + Math.cos(a) * 16;
+        const y = sy + Math.sin(a) * 16;
+        if (t === -tilt) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+      ctx.fillStyle = "#d9d6c8";
+      ctx.fill();
+
+      ctx.strokeStyle = "#f0b45a";
+      ctx.lineWidth = 2.4;
+      ctx.beginPath();
+      ctx.moveTo(sx + Math.cos(a2) * 26, sy + Math.sin(a2) * 26);
+      ctx.lineTo(sx + Math.cos(a1) * 26, sy + Math.sin(a1) * 26);
+      ctx.stroke();
+
+      angleEl.textContent = `${arcsec.toFixed(0)}″`;
+      chipEl.textContent = running
+        ? "lo spaziotempo gira con la Terra"
+        : "2004–2005 · Stanford";
+    }
+
+    return { update, draw };
+  })();
+
   /* ---------- Loop ---------- */
 
   let last = performance.now();
@@ -2764,6 +3527,18 @@
     microSim.draw();
     laserSim.update(dt);
     laserSim.draw();
+    cavendishSim.update(dt);
+    cavendishSim.draw();
+    mercurySim.update(dt);
+    mercurySim.draw();
+    poundRebkaSim.update(dt);
+    poundRebkaSim.draw();
+    shapiroSim.update(dt);
+    shapiroSim.draw();
+    hulseTaylorSim.update(dt);
+    hulseTaylorSim.draw();
+    gpB.update(dt);
+    gpB.draw();
     gwSim.update(dt);
     gwSim.draw();
     etSim.update(dt);

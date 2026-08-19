@@ -315,6 +315,61 @@
         </div>
       </div>
 
+      </section>
+
+    <section id="magellano" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 11 · Il giro che chiude il cerchio</p>
+        <h2>La prova più lunga:<br>tre anni a tutto tondo</h2>
+        <p class="lede">
+          Nel 1519 Magellano salpò da Sevilla verso ovest. Non tornò: morì a Mactan,
+          nelle Filippine. Fu Juan Sebastián Elcano a riportare a casa la nave
+          Victoria nel 1522. Avevano girato tutto il pianeta: non c'era nessun bordo,
+          perché la Terra è tonda.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-magellano" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="mag-chip">1519 · Magellano parte da Sevilla</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">tappa</span>
+              <span class="readout-val" id="mag-tappa">Sevilla · partenza</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">percorso</span>
+              <span class="readout-val" id="mag-giro">0% del giro</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">velocità di navigazione</span>
+              <input type="range" id="mag-speed" min="1" max="100" step="1" value="40">
+              <span class="slider-scale"><i>lento</i><i>veloce</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="mag-go" class="btn btn-primary" type="button">Avvia il giro</button>
+            <button id="mag-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Circa 85.000 chilometri, quasi tre anni, una sola nave tornata: la
+            Victoria, con Elcano al comando. Prima di quel 1522 l'umanità sapeva
+            che la Terra è tonda — ma nessuno l'aveva ancora dimostrato viaggiando.
+          </p>
+        </div>
+      </div>
+
       <p class="closing reveal">
         Non c'è bisogno di crederci:<br>
         c'è bisogno di misurare.

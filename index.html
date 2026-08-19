@@ -698,6 +698,125 @@
       </div>
     </section>
 
+    <section id="cavendish" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02.1 · La bilancia di torsione</p>
+        <h2>Si può pesare<br>la Terra</h2>
+        <p class="lede">
+          Nel 1798 Henry Cavendish appese un'asta con due sfere di piombo a un filo di
+          quarzo. Avvicinando due sfere grandi, l'asta si piegava appena di un
+          decimo di millimetro. Da quella torsione misurò G, la costante che tiene
+          insieme l'universo — e con quella pesò la Terra.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-cavendish" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="cav-chip">sfere lontane · a riposo</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">deflessione</span>
+              <span class="readout-val" id="cav-deflection">0,0′</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">G misurata</span>
+              <span class="readout-val" id="cav-g">6,674 × 10⁻¹¹</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">massa delle sfere</span>
+              <span class="readout-val" id="cav-mass">158 kg</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">massa delle sfere grandi</span>
+              <input type="range" id="cav-mass-slider" min="50" max="200" step="5" value="158">
+              <span class="slider-scale"><i>50 kg</i><i>200 kg</i></span>
+            </label>
+            <label class="slider">
+              <span class="slider-label">distanza tra le sfere</span>
+              <input type="range" id="cav-r-slider" min="5" max="20" step="1" value="10">
+              <span class="slider-scale"><i>5 cm</i><i>20 cm</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="cav-go" class="btn btn-primary" type="button">Avvicina le sfere</button>
+            <button id="cav-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La deflessione cresce con la massa e crolla con il quadrato della distanza.
+            Ma G resta sempre la stessa: non dipende né da qui né da quando la misuri.
+            È la costante che fa pesare una bilancia ogni volta che ci sali sopra.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mercurio" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02.2 · Il perielio di Mercurio</p>
+        <h2>Un'orbita che<br>sfida Newton</h2>
+        <p class="lede">
+          Mercurio ruota intorno al Sole, ma il suo punto più vicino al Sole — il
+          perielio — avanza di 43 secondi d'arco al secolo. Newton non riusciva a
+          spiegarlo. Einstein sì: il Sole curva lo spazio-tempo, e l'orbita
+          "gira" attorno alla massa.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-mercury" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="merc-chip">Newton · orbita chiusa</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">avanzamento del perielio</span>
+              <span class="readout-val" id="merc-precession">0″/secolo</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">tempo simulato</span>
+              <span class="readout-val" id="merc-elapsed">0 anni</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">velocità del tempo</span>
+              <input type="range" id="merc-speed" min="1" max="100" step="1" value="30">
+              <span class="slider-scale"><i>lento</i><i>veloce</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="merc-newton" class="btn btn-primary is-active" type="button">Newton</button>
+            <button id="merc-einstein" class="btn" type="button">Einstein</button>
+            <button id="merc-reset" class="btn btn-ghost" type="button">Reset</button>
+          </div>
+
+          <p class="aside">
+            Con Newton l'orbita è un'ellisse perfetta: il perielio torna sempre nello
+            stesso punto. Con Einstein il perielio avanza di 43″ ogni secolo — appena
+            un centesimo di grado, ma visibile nell'arco dei millenni. La linea tratteggiata
+            è l'orbita di Newton, per confronto.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section id="vita" class="experiment">
       <div class="section-head reveal">
         <p class="eyebrow">Esperimento 03 · Gravità, 24 ore su 24</p>
@@ -896,6 +1015,222 @@
               bisogna partire quando è già avanti rispetto a noi.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pound" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03.1 · La luce che inciampa</p>
+        <h2>La gravità<br>stanca la luce</h2>
+        <p class="lede">
+          Nel 1959, alla torre Jefferson di Harvard, Pound e Rebka mandarono un fascio
+          di raggi gamma dal basso verso l'alto. In 22,6 metri la luce perde energia:
+          sale "stanca", e i suoi battiti rallentano di 2,5 millesimi di miliardesimo.
+          È Einstein che si piega di fronte alla misura.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-pound" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="pound-chip">torre Jefferson · 22,6 m</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">altezza</span>
+              <span class="readout-val" id="pound-h">22,6 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">perdita di energia Δf/f</span>
+              <span class="readout-val" id="pound-shift">—</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">altezza della torre</span>
+              <input type="range" id="pound-h-slider" min="10" max="50" step="0.5" value="22.6">
+              <span class="slider-scale"><i>10 m</i><i>50 m</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="pound-go" class="btn btn-primary" type="button">Manda il fotone</button>
+            <button id="pound-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La luce sale, la gravità la frena: Δf/f = g·h/c². Il fenomeno è minuscolo —
+            ma misurabile, e oggi entra anche nel GPS, che compensa gli orologi che
+            corrono più veloci in orbita.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="shapiro" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03.2 · L'eco che tarda</p>
+        <h2>La luce rallenta<br>vicino al Sole</h2>
+        <p class="lede">
+          Nel 1964 Irwin Shapiro misurò il tempo di andata e ritorno di un segnale radar
+          inviato verso Venere. Quando il segnale sfiorava il Sole, tornava in ritardo:
+          la massa curva lo spazio-tempo e la luce, da lontano, sembra viaggiare più lenta.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-shapiro" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="shap-chip">Gravità del Sole: attiva</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">andata e ritorno</span>
+              <span class="readout-val" id="shap-roundtrip">1.700 s</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">ritardo extra</span>
+              <span class="readout-val" id="shap-delay">≈ 200 µs</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="shap-sun" class="btn btn-primary is-active" type="button">Gravità del Sole: attiva</button>
+            <button id="shap-go" class="btn" type="button">Lancia il segnale</button>
+            <button id="shap-reset" class="btn btn-ghost" type="button">Reset</button>
+          </div>
+
+          <p class="aside">
+            Passando vicino al Sole il segnale percorre una traiettoria leggermente curva
+            e impiega circa 200 microsecondi in più. È il "ritardo di Shapiro", confermato
+            anche dalle sonde Cassini e BepiColombo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="hulse" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03.3 · Il metronomo</p>
+        <h2>Una pulsar che batte<br>sempre più in fretta</h2>
+        <p class="lede">
+          Nel 1974 Hulse e Taylor trovarono una pulsar in orbita con un'altra stella di
+          neutroni. Il suo battito accelera: l'orbita perde energia, che fugge via come
+          onde gravitazionali. La misura combacia con Einstein al decimale — e valse il
+          Nobel nel 1993, vent'anni prima di LIGO.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-hulse" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="hulse-chip">1974 · il battito accelera</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">periodo orbitale</span>
+              <span class="readout-val" id="hulse-period">7,75 h</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">perdita di periodo</span>
+              <span class="readout-val" id="hulse-decay">−76 µs/anno</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">raggio dell'orbita</span>
+              <span class="readout-val" id="hulse-orbit">100%</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">velocità del tempo</span>
+              <input type="range" id="hulse-speed" min="1" max="100" step="1" value="30">
+              <span class="slider-scale"><i>lento</i><i>veloce</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="hulse-go" class="btn btn-primary" type="button">1974 → oggi</button>
+            <button id="hulse-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Ogni anno l'orbita si restringe di qualche millimetro. Invisibile, ma il
+            battito della pulsar lo tradisce: è la prima prova diretta che le onde
+            gravitazionali esistono davvero.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gpb" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03.4 · Giroscopi in orbita</p>
+        <h2>Lo spaziotempo<br>gira con la Terra</h2>
+        <p class="lede">
+          Nel 2004 Gravity Probe B mise in orbita quattro giroscopi quasi perfetti. Se
+          Einstein aveva ragione, i loro assi dovevano ruotare: 6,6 secondi d'arco all'anno
+          per la curvatura della Terra, e un infinitesimo in più perché la Terra,
+          ruotando, trascina con sé lo spaziotempo.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-gpb" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="gpb-chip">2004–2005 · Stanford</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">effetto geodetico</span>
+              <span class="readout-val" id="gpb-geodetic">6,6″/anno</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">trascinamento (frame-dragging)</span>
+              <span class="readout-val" id="gpb-framedrag">0,039″/anno</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">precessione totale</span>
+              <span class="readout-val" id="gpb-angle">0,0″</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">velocità del tempo</span>
+              <input type="range" id="gpb-speed" min="1" max="100" step="1" value="30">
+              <span class="slider-scale"><i>lento</i><i>veloce</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="gpb-go" class="btn btn-primary" type="button">Avvia la precessione</button>
+            <button id="gpb-reset" class="btn btn-ghost" type="button">Reset</button>
+          </div>
+
+          <p class="aside">
+            L'asse dei giroscopi non punta "dritto": gira perché lo spaziotempo attorno
+            alla Terra è curvo e, vicino all'equatore, trascinato dalla sua rotazione.
+            Le frecce accanto al globo mostrano quel trascinamento, esagerato per vederlo.
+          </p>
         </div>
       </div>
     </section>

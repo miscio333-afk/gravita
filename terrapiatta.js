@@ -849,6 +849,157 @@
     return { update, draw };
   })();
 
+  /* ---------- Esperimento 11 · Il giro che chiude il cerchio ---------- */
+
+  const magellanoSim = (() => {
+    const canvas = document.getElementById("canvas-magellano");
+    const chipEl = document.getElementById("mag-chip");
+    const tappaEl = document.getElementById("mag-tappa");
+    const giroEl = document.getElementById("mag-giro");
+    const speedSlider = document.getElementById("mag-speed");
+    const goBtn = document.getElementById("mag-go");
+    const resetBtn = document.getElementById("mag-reset");
+
+    const TOTAL_KM = 85000;
+    const TAPPE = [
+      { name: "Sevilla · partenza", km: 0 },
+      { name: "Canarie", km: 1300 },
+      { name: "Brasile · Rio de Janeiro", km: 6000 },
+      { name: "Stretto di Magellano", km: 22000 },
+      { name: "Pacifico · traversata", km: 34000 },
+      { name: "Guam · Marianne", km: 50000 },
+      { name: "Filippine · Mactan (1519)", km: 52500 },
+      { name: "Timor (1520)", km: 61000 },
+      { name: "Capo di Buona Speranza", km: 76000 },
+      { name: "Sevilla · ritorno 1522", km: 85000 }
+    ];
+
+    const isVisible = trackVisibility(canvas);
+
+    let running = false;
+    let p = 0;
+    let done = false;
+
+    goBtn.addEventListener("click", () => {
+      if (done) return;
+      running = !running;
+      goBtn.textContent = running ? "Pausa" : "Riprendi";
+    });
+    resetBtn.addEventListener("click", () => {
+      running = false;
+      p = 0;
+      done = false;
+      goBtn.textContent = "Avvia il giro";
+    });
+
+    function update(dt) {
+      if (!running) return;
+      const speed = +speedSlider.value;
+      p += dt * (speed / 100) * 0.12;
+      if (p >= 1) {
+        p = 1;
+        running = false;
+        done = true;
+        goBtn.textContent = "Avvia il giro";
+      }
+    }
+
+    function currentTappa(km) {
+      let last = TAPPE[0];
+      for (const t of TAPPE) if (km >= t.km) last = t;
+      return last;
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const cx = w / 2;
+      const cy = h / 2;
+      const R = Math.min(w, h) * 0.34;
+
+      const bg = ctx.createRadialGradient(cx, cy, R * 0.4, cx, cy, R * 1.6);
+      bg.addColorStop(0, "#0f1a2c");
+      bg.addColorStop(1, "#070c16");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const globe = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.35, R * 0.1, cx, cy, R);
+      globe.addColorStop(0, "#22344d");
+      globe.addColorStop(1, "#0c1422");
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.fillStyle = globe;
+      ctx.fill();
+
+      ctx.strokeStyle = "rgba(127,208,198,0.14)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, R, R * 0.62, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - R);
+      ctx.lineTo(cx, cy + R);
+      ctx.stroke();
+
+      function pt(pf) {
+        const th = pf * Math.PI * 2;
+        const x = cx + Math.sin(th) * R;
+        const y = cy - Math.cos(th) * R * 0.62 + Math.sin(pf * Math.PI * 3) * R * 0.16;
+        return { x, y, front: Math.sin(th) >= 0 };
+      }
+
+      ctx.lineWidth = 2;
+      for (let seg = 0; seg < 2; seg++) {
+        ctx.beginPath();
+        let started = false;
+        for (let i = 0; i <= 120; i++) {
+          const pf = i / 120;
+          const q = pt(pf);
+          const isFront = q.front;
+          if (isFront !== (seg === 0)) { started = false; continue; }
+          ctx.strokeStyle = seg === 0
+            ? "rgba(127,208,198,0.85)"
+            : "rgba(141,149,163,0.25)";
+          if (!started) { ctx.moveTo(q.x, q.y); started = true; }
+          else ctx.lineTo(q.x, q.y);
+        }
+        ctx.stroke();
+      }
+
+      for (const t of TAPPE) {
+        const pf = t.km / TOTAL_KM;
+        const q = pt(pf);
+        if (!q.front) continue;
+        ctx.fillStyle = "rgba(240,180,90,0.6)";
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, 2.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      const q = pt(p);
+      if (q.front || p >= 1) {
+        ctx.fillStyle = "#f0b45a";
+        ctx.shadowColor = "#f0b45a";
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      const km = p * TOTAL_KM;
+      const tappa = currentTappa(km);
+      tappaEl.textContent = `${tappa.name} · ${km.toLocaleString("it-IT")} km`;
+      giroEl.textContent = done ? "un giro completo" : `${Math.round(p * 100)}% del giro`;
+      chipEl.textContent = done
+        ? "ha chiuso il cerchio: la Terra non ha bordi"
+        : running
+          ? "in viaggio intorno al mondo"
+          : "1519 · Magellano parte da Sevilla";
+    }
+
+    return { update, draw };
+  })();
+
   /* ---------- Loop ---------- */
 
   let last = 0;
@@ -866,6 +1017,8 @@
     starsSim.draw();
     roundSim.update(dt);
     roundSim.draw();
+    magellanoSim.update(dt);
+    magellanoSim.draw();
     requestAnimationFrame(loop);
   }
 
