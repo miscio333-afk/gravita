@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravità · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<div class="shell">
+
+  <header class="hero">
+    <p class="eyebrow">Un quaderno di esperimenti · est. 1687</p>
+    <h1 class="hero-title">
+      La gravità esiste.<br>
+      <em>Ma come facciamo<br>a saperlo?</em>
+    </h1>
+    <p class="hero-sub">
+      Una "teoria" non è un'opinione: è il livello più alto di solidità che la scienza conosca.
+      Qui sotto trovi gli esperimenti concreti, riproducibili, dietro una delle scoperte
+      più solide della storia dell'umanità. Nessun dogma: solo fatti da toccare.
+    </p>
+    <div class="hero-actions">
+      <a href="#esperimento-01" class="btn btn-primary">Gli esperimenti</a>
+      <a href="#mistero" class="btn btn-ghost">Il mistero aperto</a>
+    </div>
+    <p class="hero-note">
+      Per chi dubita — ed è giusto dubitare: la scienza vive di dubbi.<br>
+      Questo è il materiale per capire, verificare e spiegare con i fatti.
+    </p>
+  </header>
+
+  <main>
+
+    <section id="esperimento-00" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 00 · Prima di Galileo</p>
+        <h2>Duemila anni di errore,<br>smontati da un pensiero</h2>
+        <p class="lede">
+          Per quasi duemila anni si era creduto ad Aristotele: i corpi pesanti
+          cadono più velocemente di quelli leggeri, e la velocità di caduta è
+          proporzionale al peso. Galileo intuì che era un errore, e che la
+          differenza che osserviamo sulla Terra dipende solo dalla resistenza
+          dell'aria.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>I pesanti cadono più in fretta</h3>
+          <p>
+            Un sasso scende prima di una foglia: sembra evidente. È la teoria
+            che tutti davano per scontata, citando Aristotele.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>La velocità dipende dal peso</h3>
+          <p>
+            Un corpo doppio cade doppiamente veloce. A logica sembrava perfetto:
+            la forza (il peso) raddoppia, quindi deve raddoppiare il moto.
+          </p>
+        </article>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.1 · I piani inclinati</p>
+          <h3>Rallentare la gravità per misurarla</h3>
+          <p class="lede">
+            Non potendo creare il vuoto, Galileo fece rotolare sfere di bronzo
+            levigate lungo rampe di legno, misurando il tempo con un orologio
+            ad acqua. Su una rampa, la gravità è "diluita": più la pendenza è
+            dolce, più il moto è lento e misurabile.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-ramp" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="ramp-chip">a riposo</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">inclinazione</span>
+                <span class="readout-val" id="ramp-angle">30°</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">sfera pesante</span>
+                <span class="readout-val" id="ramp-heavy-t">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">sfera leggera</span>
+                <span class="readout-val" id="ramp-light-t">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">distanza percorsa</span>
+                <span class="readout-val" id="ramp-dist">0,0 cm</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label class="slider">
+                <span class="slider-label">angolo della rampa</span>
+                <input type="range" id="ramp-a" min="10" max="60" step="1" value="30">
+                <span class="slider-scale"><i>dolce</i><i>ripida</i></span>
+              </label>
+            </div>
+            <div class="controls">
+              <button id="ramp-go" class="btn btn-primary" type="button">Lasciale rotolare</button>
+              <button id="ramp-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              Le due sfere hanno peso diverso ma scendono a braccetto:
+              stessa distanza, stesso tempo, stessa accelerazione. Sulla rampa
+              l'aria conta poco, e la massa sparisce dall'equazione.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.2 · L'esperimento ideale</p>
+          <h3>Una contraddizione<br>che crolla da sola</h3>
+          <p class="lede">
+            Galileo non aveva bisogno del vuoto: bastava la logica. Prendi un
+            corpo pesante e uno leggero. Secondo Aristotele, il pesante cade
+            più veloce. Ora li leghi insieme. Cosa deve succedere?
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-thought" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="thought-chip">in attesa</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">il sistema combinato</span>
+                <span class="readout-val" id="thought-combo">pesante + leggero</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">per Aristotele</span>
+                <span class="readout-val" id="thought-arist">più pesante → più veloce</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">ma il pezzo leggero…</span>
+                <span class="readout-val" id="thought-logic">frena il pesante</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button id="thought-tie" class="btn btn-primary" type="button">Legali insieme</button>
+              <button id="thought-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              Il corpo unito pesa più del solo pesante, quindi per Aristotele
+              dovrebbe cadere ancora più veloce. Ma il pezzo leggero, che da
+              solo va più lento, tira indietro quello pesante: dovrebbe andare
+              più lento. Due previsioni opposte per lo stesso sistema:
+              l'unica via d'uscita è che tutti i corpi cadano uguale.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.3 · L'ascensore di Einstein</p>
+          <h3>Una cabina senza finestre<br>non può mentirti</h3>
+          <p class="lede">
+            Einstein riprese l'intuizione di Galileo e la trasformò nella pietra
+            miliare della Relatività Generale (1915). Il suo esperimento mentale
+            è vicinissimo a ciò che gli astronauti hanno vissuto davvero:
+            dentro una cabina chiusa, nessun esperimento può distinguere la
+            gravità da un'accelerazione costante.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-elevator" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="elev-chip">spazio profondo · accelera a 1g</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">accelerazione</span>
+                <span class="readout-val" id="elev-g">9,8 m/s² · 1g</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">piuma e martello</span>
+                <span class="readout-val" id="elev-result">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">tempo di caduta</span>
+                <span class="readout-val" id="elev-time">—</span>
+              </div>
+            </div>
+            <div class="controls controls--wrap">
+              <button id="elev-mode-space" class="btn is-active" type="button">Spazio profondo</button>
+              <button id="elev-mode-earth" class="btn" type="button">Fermato sulla Terra</button>
+            </div>
+            <div class="controls">
+              <button id="elev-drop" class="btn btn-primary" type="button">Lascia cadere piuma e martello</button>
+              <button id="elev-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              L'osservatore, chiuso nella cabina, sente i piedi spinti sul pavimento
+              e vede piuma e martello toccarlo insieme. Meccanica, ottica, elettromagnetica:
+              ogni esperimento dà lo stesso esito nei due casi. È il
+              <strong>principio di equivalenza</strong>: gravità e accelerazione
+              uniforme sono indistinguibili.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards cards--three reveal">
+        <article class="card">
+          <span class="card-num">γ</span>
+          <h3>La gravità è geometria</h3>
+          <p>
+            Galileo capì <em>come</em> cadono i corpi; Einstein spiegò
+            <em>perché</em>. La massa della Terra, della Luna, di ogni astro
+            curva lo spazio-tempo attorno a sé: non c'è una forza invisibile
+            che tira, c'è un mondo deformato.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">γ</span>
+          <h3>Le geodetiche</h3>
+          <p>
+            Martello e piuma non vengono "attirati": seguono il cammino più
+            dritto possibile — la <em>geodetica</em> — nello spazio curvo dalla
+            Luna. È la traiettoria più naturale, non un incantesimo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">γ</span>
+          <h3>Perché cadono uguale</h3>
+          <p>
+            La deformazione dello spazio è la stessa per entrambi gli oggetti:
+            non dipende dalla loro massa. Per questo, e solo per questo,
+            la piuma e il martello toccano il suolo nello stesso istante.
+          </p>
+        </article>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.4 · Le lastre di Eddington</p>
+          <h3>La luce si piega,<br>e il mondo lo scopre</h3>
+          <p class="lede">
+            29 maggio 1919. Arthur Eddington guida due spedizioni — a
+            Príncipe, al largo dell'Africa occidentale, e a Sobral, in Brasile —
+            per fotografare le stelle delle Iadi durante un'eclissi totale di Sole.
+            Einstein prevede che la luce, passando accanto al Sole, si pieghi del
+            doppio di quanto previsto da Newton: 1,75 secondi d'arco contro 0,87.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-eddington" class="lab-canvas"></canvas>
+            <div class="lab-overlay">
+              <span class="chip">Príncipe · Africa</span>
+              <span class="chip">Sobral · Brasile</span>
+            </div>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="edding-chip">eclissi · giugno 1919</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">deflessione prevista</span>
+                <span class="readout-val" id="edding-expected">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">deflessione misurata</span>
+                <span class="readout-val" id="edding-measured">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">esito</span>
+                <span class="readout-val" id="edding-outcome">—</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label class="slider">
+                <span class="slider-label">confronto delle lastre</span>
+                <input type="range" id="edding-slider" min="0" max="100" step="1" value="0">
+                <span class="slider-scale"><i>eclissi</i><i>notturno</i></span>
+              </label>
+            </div>
+            <div class="controls controls--wrap">
+              <button id="edding-newton" class="btn" type="button">Newton · 0,87″</button>
+              <button id="edding-einstein" class="btn is-active" type="button">Einstein · 1,75″</button>
+            </div>
+            <div class="controls">
+              <button id="edding-measure" class="btn btn-primary" type="button">Misura le lastre</button>
+              <button id="edding-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              In pieno giorno le stelle sono invisibili: per questo servirono i
+              pochi minuti di buio dell'eclissi. Mesi dopo, le stesse lastre
+              notturne mostrarono le stelle nella loro posizione "vera":
+              sovrapponendo le due fotografie, lo spostamento era lì.
+              Trascina il cursore per rivelarlo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="press reveal">
+        <p class="press-quote">
+          "Rivoluzione nella scienza. Nuova teoria dell'universo.<br>
+          Le idee di Newton demolite."
+        </p>
+        <p class="press-byline">The Times, Londra · 7 novembre 1919</p>
+      </div>
+
+      <div class="cluster-intro reveal">
+        <p class="eyebrow">La prova moderna · Una fiducia costruita in secoli</p>
+        <p>
+          Da allora la teoria di Galileo e di Einstein è stata messa alla prova
+          ancora e ancora, con esperimenti sempre più precisi — sulla Terra e
+          nello spazio. Ecco tre delle verifiche più straordinarie.
+        </p>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.5 · La camera a vuoto</p>
+          <h3>Piuma d'oca<br>e palle da bowling</h3>
+          <p class="lede">
+            Sulla Terra, senza aria, vale la stessa regola vista sulla Luna.
+            Nella camera a vuoto più grande del mondo — il NASA Space Power
+            Facility, in Ohio — una piuma d'oca e delle pesanti palle da bowling
+            toccano il suolo nello stesso istante. Provalo tu, con o senza aria.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-vacuum" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="vacuum-chip">con aria</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">palla da bowling</span>
+                <span class="readout-val" id="vacuum-time-ball">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">piuma d'oca</span>
+                <span class="readout-val" id="vacuum-time-feather">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">esito</span>
+                <span class="readout-val" id="vacuum-outcome">—</span>
+              </div>
+            </div>
+            <div class="controls controls--wrap">
+              <button id="vacuum-air" class="btn is-active" type="button">Con aria</button>
+              <button id="vacuum-vacuum" class="btn" type="button">Vuoto</button>
+            </div>
+            <div class="controls">
+              <button id="vacuum-drop" class="btn btn-primary" type="button">Lascia cadere</button>
+              <button id="vacuum-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              Il video dell'esperimento, reso celebre dal fisico Brian Cox, ha
+              eliminato ogni dubbio residuo legato alle condizioni lunari: la
+              caduta simultanea non è un privilegio della Luna, è la legge stessa
+              della gravità.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.6 · MICROSCOPE in orbita</p>
+          <h3>Quindici cifre decimali,<br>e nessuna differenza</h3>
+          <p class="lede">
+            Il satellite francese MICROSCOPE ha portato la prova nello spazio
+            (2016–2018): due cilindri, uno di titanio e uno di una lega di
+            platino e rodio, fluttuano in caduta libera continua mentre il
+            satellite orbita intorno alla Terra. La differenza tra i due?
+            Nessuna — fino alla quindicesima cifra decimale.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-microscope" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="micro-chip">2016–2018 · CNES</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">differenza relativa</span>
+                <span class="readout-val" id="micro-precision">≤ 10⁻³</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">esito</span>
+                <span class="readout-val" id="micro-outcome">ancora identici</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label class="slider">
+                <span class="slider-label">livello di precisione</span>
+                <input type="range" id="micro-slider" min="0" max="4" step="1" value="0">
+                <span class="slider-scale"><i>10⁻³</i><i>10⁻¹⁵</i></span>
+              </label>
+            </div>
+            <p class="aside">
+              A ogni passo il rumore strumentale si riduce e la misura diventa
+              più severa — ma i due cilindri restano perfettamente uguali. È il
+              test più preciso mai eseguito sul Principio di Equivalenza:
+              Einstein confermato con precisione di 1 parte su 10¹⁵.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 00.7 · Il laser che misura la Luna</p>
+          <h3>Una distanza misurata<br>in millimetri</h3>
+          <p class="lede">
+            Dagli specchi lasciati dagli astronauti delle missioni Apollo, un
+            impulso di luce impiega circa 2,5 secondi per l'andata e il ritorno.
+            Da oltre 50 anni il Lunar Laser Ranging misura così la distanza
+            Terra–Luna con la precisione di pochi millimetri.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-laser" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="laser-chip">Apollo 11 · 14 · 15</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">andata e ritorno</span>
+                <span class="readout-val" id="laser-time">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">distanza Terra–Luna</span>
+                <span class="readout-val" id="laser-distance">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">impulsi sparati</span>
+                <span class="readout-val" id="laser-count">0</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button id="laser-fire" class="btn btn-primary" type="button">Spara un impulso</button>
+              <button id="laser-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              Misurando la Luna, gli scienziati hanno verificato anche un punto
+              sottile: la Terra e la Luna "cadono" verso il Sole con la stessa
+              identica accelerazione. Newton ne prevedeva una minuscola
+              differenza (l'effetto Nordtvedt); Einstein diceva di no. La misura
+              ha dato ragione a Einstein.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline reveal">
+        <p class="eyebrow">L'eredità · Una linea che arriva alla Luna</p>
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1604</span>
+            <h4>Galileo</h4>
+            <p>La legge della caduta dei gravi: nel vuoto, stessa accelerazione per tutti.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1687</span>
+            <h4>Newton</h4>
+            <p>La gravitazione universale: la stessa forza governa la mela e i pianeti.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1915</span>
+            <h4>Einstein</h4>
+            <p>Il principio di equivalenza: la caduta diventa il cuore della Relatività Generale.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1919</span>
+            <h4>Eddington</h4>
+            <p>La luce di stelle lontane si piega davvero passando accanto al Sole.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1969</span>
+            <h4>Laser Ranging</h4>
+            <p>Gli specchi di Apollo misurano la distanza Terra–Luna in millimetri.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1971</span>
+            <h4>Apollo 15</h4>
+            <p>Sulla Luna, martello e piuma cadono insieme. <a href="#esperimento-01">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2015</span>
+            <h4>GW150914</h4>
+            <p>LIGO ascolta per la prima volta la fusione di due buchi neri.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2016</span>
+            <h4>MICROSCOPE</h4>
+            <p>In orbita, il Principio di Equivalenza è confermato a 1 parte su 10¹⁵.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <h4>Einstein Telescope</h4>
+            <p>La terza generazione di rivelatori si prepara ad ascoltare l'universo. <a href="#esperimento-05">La frontiera</a>.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>L'esperimento mentale di Galileo, passo per passo</summary>
+          <p>
+            Chiama A il corpo pesante e B quello leggero. Secondo Aristotele,
+            A cade più veloce di B. Ora legali insieme e chiama il sistema A+B.
+            Il sistema pesa più di A da solo, quindi per Aristotele dovrebbe
+            cadere più veloce di A. Ma c'è un altro modo di guardarlo: B, che da
+            solo tenderebbe a cadere più lento, è attaccato ad A e lo "tira
+            indietro"; quindi A+B dovrebbe cadere più lento di A. La stessa
+            ipotesi produce due conclusioni opposte: è impossibile. L'unica
+            soluzione logica è che tutti i corpi, nel vuoto, cadano alla stessa
+            velocità.
+          </p>
+        </details>
+        <details>
+          <summary>Einstein: la caduta diventa un principio</summary>
+          <p>
+            La costanza della caduta colpì Einstein più di chiunque altro. Nella
+            Relatività Generale (1915) non è che la gravità "tiri": è che massa
+            ed energia curvano lo spazio-tempo, e i corpi semplicemente seguono
+            la via più diretta in quello spazio curvo. La gravità non è più una
+            forza tra corpi: è la geometria del mondo. E il fatto che tutti
+            cadano allo stesso modo — l'intuizione di Galileo — diventa la
+            definizione stessa della gravità: il <em>principio di equivalenza</em>.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="esperimento-01" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · La prova del 1971</p>
+        <h2>Nel vuoto, una piuma pesa quanto un martello</h2>
+        <p class="lede">
+          2 agosto 1971. Sulla Luna, l'astronauta David Scott lascia cadere insieme un
+          martello da geologo in alluminio (circa 1,3 kg) e una piuma di falco.
+          Arrivano al suolo nello stesso istante, confermando che in assenza di atmosfera
+          e resistenza dell'aria la gravità accelera ogni corpo in modo identico,
+          indipendentemente dalla massa.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-fall" class="lab-canvas"></canvas>
+          <div class="lab-overlay">
+            <span class="chip" id="fall-status">Nel vuoto</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">tempo trascorso</span>
+              <span class="readout-val" id="fall-time">0.00 s</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">martello</span>
+              <span class="readout-val" id="fall-hammer-t">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">piuma</span>
+              <span class="readout-val" id="fall-feather-t">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">altezza iniziale</span>
+              <span class="readout-val">9,8 m</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="fall-toggle" class="btn btn-primary" type="button">Inserisci l'aria</button>
+            <button id="fall-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside" id="fall-aside">
+            Nel vuoto non c'è nulla che freni la piuma. Con l'aria, invece,
+            la resistenza rallenta ciò che è leggero e grande. Guarda la differenza.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="esperimento-02" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · Pozzo di gravità</p>
+        <h2>L'orbita è una caduta<br>che non finisce mai</h2>
+        <p class="lede">
+          Un satellite non è "sospeso": cade continuamente verso la Terra, ma la sua velocità
+          laterale è tale che il terreno si incurva via sotto di lui. Gioca con velocità e massa:
+          troppo lento, precipita. Troppo veloce, fugge per sempre.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-well" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="well-state">in attesa</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">velocità iniziale</span>
+              <span class="readout-val" id="well-v-out">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">orbita circolare richiesta</span>
+              <span class="readout-val" id="well-vcirc">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">massa centrale</span>
+              <span class="readout-val" id="well-mass-out">1.0 ×</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">velocità</span>
+              <input type="range" id="well-v" min="0.3" max="1.8" step="0.01" value="1">
+              <span class="slider-scale">
+                <i>caduta</i><i>circolare</i><i>fuga</i>
+              </span>
+            </label>
+            <label class="slider">
+              <span class="slider-label">massa centrale</span>
+              <input type="range" id="well-mass" min="0.5" max="2" step="0.1" value="1">
+              <span class="slider-scale">
+                <i>0.5×</i><i>1×</i><i>2×</i>
+              </span>
+            </label>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button class="btn btn-primary preset" data-preset="caduta" type="button">Fallo cadere</button>
+            <button class="btn preset" data-preset="circolare" type="button">Circolare</button>
+            <button class="btn preset" data-preset="ellittica" type="button">Ellittica</button>
+            <button class="btn preset" data-preset="fuga" type="button">Fai fuggire</button>
+            <button id="well-reset" class="btn btn-ghost" type="button">Reset</button>
+          </div>
+
+          <p class="aside">
+            L'orbita circolare richiesta cresce con la massa centrale e cala con la distanza:
+            è per questo che Mercurio, più vicino al Sole, corre più veloce di Nettuno.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="vita" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Gravità, 24 ore su 24</p>
+        <h2>La usi ogni giorno<br>senza accorgertene</h2>
+        <p class="lede">
+          La gravità non è un argomento da manuale: è dentro il navigatore, le maree,
+          persino nella forma della Terra. Quattro cartoline dal mondo reale.
+        </p>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 03.01 · Il GPS</p>
+          <h3>38 microsecondi che valgono 10 chilometri</h3>
+          <p class="lede">
+            Gli orologi dei satelliti corrono circa 38 microsecondi al giorno più veloci
+            che sulla Terra. Senza correggere questa dilatazione relativistica, in un solo
+            giorno il navigatore ti sbaglierebbe di circa <strong>10 chilometri</strong>.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-gps" class="lab-canvas"></canvas>
+            <div class="lab-overlay">
+              <span class="chip" id="gps-chip">correzione attiva</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">giorno simulato</span>
+                <span class="readout-val" id="gps-day">00:00</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">errore di posizione</span>
+                <span class="readout-val" id="gps-error">0.0 km</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">orologio satellite</span>
+                <span class="readout-val" id="gps-sat">0.0 µs</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button id="gps-toggle" class="btn btn-primary" type="button">Spegni la correzione</button>
+              <button id="gps-reset" class="btn btn-ghost" type="button">Nuovo giorno</button>
+            </div>
+            <canvas id="chart-gps" class="mini-chart" aria-label="Errore del GPS nel tempo"></canvas>
+            <p class="aside">
+              Spento il fix relativistico, l'errore non resta piccolo: cresce di circa
+              0,4 km all'ora, fino a dieci chilometri a fine giornata. Il GPS moderno
+              applica la correzione due volte al secondo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 03.02 · Le maree</p>
+          <h3>La gravità che respira</h3>
+          <p class="lede">
+            La Luna e, in misura minore, il Sole "tirano" gli oceani. Ogni sei ore e dodici
+            minuti l'acqua sale e scende lungo tutte le coste del pianeta:
+            è la gravità che respira.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-tide" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="tide-chip">marea: alta</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">ora simulata</span>
+                <span class="readout-val" id="tide-clock">00:00</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">livello acqua</span>
+                <span class="readout-val" id="tide-level">0.0 m</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">prossima alta marea</span>
+                <span class="readout-val" id="tide-next">—</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button id="tide-sun" class="btn" type="button">Sole: off</button>
+            </div>
+            <canvas id="chart-tide" class="mini-chart" aria-label="Livello delle maree nelle ultime 24 ore"></canvas>
+            <p class="aside">
+              Ogni 12 ore e 25 minuti ci sono due alte e due basse maree: il "giorno lunare"
+              dura 24 ore e 50 minuti. Attiva il Sole per vedere l'ampiezza crescere
+              quando i due astri si allineano.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 03.03 · La Terra è sferica</p>
+          <h3>Perché tutto diventa rotondo</h3>
+          <p class="lede">
+            Ogni corpo abbastanza grande si comprime in una sfera, perché la gravità
+            tira tutto verso il centro in modo uguale. I pianeti, le stelle e i Soli
+            sono rotondi per questo.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <div class="split">
+            <figure class="lab-canvas-wrap lab-canvas-wrap--half">
+              <canvas id="canvas-sphere-small" class="lab-canvas"></canvas>
+              <div class="lab-overlay"><span class="chip">asteroide</span></div>
+            </figure>
+            <figure class="lab-canvas-wrap lab-canvas-wrap--half">
+              <canvas id="canvas-sphere-big" class="lab-canvas"></canvas>
+              <div class="lab-overlay"><span class="chip">pianeta</span></div>
+            </figure>
+          </div>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">sfericità asteroide</span>
+                <span class="readout-val" id="sphere-small-pct">0%</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">sfericità pianeta</span>
+                <span class="readout-val" id="sphere-big-pct">0%</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label class="slider">
+                <span class="slider-label">gravità</span>
+                <input type="range" id="sphere-g" min="0" max="100" step="1" value="0">
+                <span class="slider-scale"><i>polvere</i><i>pianeta</i></span>
+              </label>
+            </div>
+            <div class="controls">
+              <button id="sphere-go" class="btn btn-primary" type="button">Accendi la gravità</button>
+              <button id="sphere-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+            </div>
+            <p class="aside">
+              La gravità attira ogni granello verso il centro: un corpo grande ha abbastanza
+              forza per schiacciare le sue irregolarità. Un asteroide piccolo no:
+              le rocce reggono, e lui resta una patata.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="experiment-block reveal">
+        <div class="block-head">
+          <p class="eyebrow">Esperimento 03.04 · Le sonde spaziali</p>
+          <h3>Un tiro al bersaglio di milioni di km</h3>
+          <p class="lede">
+            Ogni sonda verso Marte o Giove è un tiro al bersaglio di centinaia di milioni
+            di chilometri, calcolato con le equazioni della gravità.
+            Il fatto che arrivino è una verifica continua.
+          </p>
+        </div>
+        <div class="lab-grid">
+          <figure class="lab-canvas-wrap">
+            <canvas id="canvas-probe" class="lab-canvas"></canvas>
+            <div class="lab-overlay lab-overlay--bottom">
+              <span class="chip" id="probe-chip">in attesa</span>
+            </div>
+          </figure>
+          <div class="lab-panel">
+            <div class="readout">
+              <div class="readout-row">
+                <span class="readout-key">durata viaggio</span>
+                <span class="readout-val" id="probe-dur">—</span>
+              </div>
+              <div class="readout-row">
+                <span class="readout-key">esito</span>
+                <span class="readout-val" id="probe-out">—</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label class="slider">
+                <span class="slider-label">fase di lancio</span>
+                <input type="range" id="probe-phase" min="-60" max="60" step="1" value="0">
+                <span class="slider-scale"><i>anticipo</i><i>preciso</i><i>ritardo</i></span>
+              </label>
+            </div>
+            <div class="controls">
+              <button id="probe-launch" class="btn btn-primary" type="button">Lancia la sonda</button>
+              <button id="probe-guide" class="btn" type="button">Guida: off</button>
+            </div>
+            <p class="aside">
+              La sonda segue un'ellisse di trasferimento (Hohmann) che parte dall'orbita
+              della Terra e tocca quella di Marte. Marte però non sta fermo:
+              bisogna partire quando è già avanti rispetto a noi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="esperimento-04" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · Onde gravitazionali</p>
+        <h2>Ascoltare il cosmo,<br>non solo guardarlo</h2>
+        <p class="lede">
+          Il 14 settembre 2015 LIGO ha rilevato per la prima volta le onde
+          gravitazionali: increspature dello spazio-tempo prodotte dalla fusione
+          di due buchi neri a 1,3 miliardi di anni luce da noi. Era l'ultima
+          grande previsione di Einstein a essere confermata — e da quel giorno
+          l'astronomia ha imparato ad ascoltare.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-gw" class="lab-canvas"></canvas>
+          <div class="lab-overlay">
+            <span class="chip">LIGO · Hanford + Livingston</span>
+            <span class="chip">Virgo · Cascina (Pisa)</span>
+          </div>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="gw-chip">in attesa</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">frequenza del segnale</span>
+              <span class="readout-val" id="gw-freq">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">deformazione dello spazio</span>
+              <span class="readout-val" id="gw-strain">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">variazione dei bracci</span>
+              <span class="readout-val" id="gw-length">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">energia sprigionata</span>
+              <span class="readout-val" id="gw-energy">—</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="gw-run" class="btn btn-primary" type="button">Lascia collidere due buchi neri</button>
+            <button id="gw-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Un laser viene diviso in due e viaggia lungo due tubi a vuoto lunghi
+            fino a 4 chilometri, perpendicolari tra loro. I due raggi, riflessi da
+            specchi sospesi, tornano al vertice annullandosi a vicenda. Quando
+            un'onda gravitazionale attraversa lo strumento, allunga un braccio e
+            accorcia l'altro di meno di un millesimo del diametro di un protone —
+            e il buio improvvisamente si accende.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards cards--three reveal">
+        <article class="card">
+          <span class="card-num">λ</span>
+          <h3>Cosa sono</h3>
+          <p>
+            Lo spazio-tempo è come un telo elastico: i corpi massicci lo
+            deformano. Quando due buchi neri si fondono, creano increspature che
+            si propagano alla velocità della luce, distorcendo per un attimo le
+            distanze stesse dell'universo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">λ</span>
+          <h3>L'annuncio del 2015</h3>
+          <p>
+            GW150914 nasce da due buchi neri di circa 36 e 29 masse solari.
+            Nella fusione, una massa pari a circa 3 Soli si è trasformata in onde:
+            per una frazione di secondo, più energia di tutte le stelle
+            dell'universo osservabile insieme.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">λ</span>
+          <h3>Perché è rivoluzionaria</h3>
+          <p>
+            Prima guardavamo solo la luce — ma i buchi neri sono oscuri. Le onde
+            gravitazionali ci permettono di studiare i fenomeni più violenti
+            dell'universo, che prima erano del tutto invisibili.
+          </p>
+        </article>
+      </div>
+
+      <div class="press reveal">
+        <p class="press-quote">
+          "La scoperta delle onde gravitazionali — il coronamento del lavoro di
+          Einstein, e l'inizio di un nuovo modo di osservare l'universo."
+        </p>
+        <p class="press-byline">Premio Nobel per la Fisica 2017 · Weiss, Barish e Thorne</p>
+      </div>
+    </section>
+
+    <section id="esperimento-05" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · Einstein Telescope</p>
+        <h2>La frontiera del futuro:<br>un universo mille volte più grande</h2>
+        <p class="lede">
+          L'Einstein Telescope è il rivelatore di onde gravitazionali di terza
+          generazione che l'Europa sta costruendo: aprirà una finestra senza
+          precedenti sul cosmo, osservando un volume di universo mille volte
+          maggiore rispetto a LIGO e Virgo. La decisione finale sulla
+          localizzazione è attesa per dicembre 2026.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-et" class="lab-canvas"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="et-chip">in attesa della decisione · dicembre 2026</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">volume osservabile</span>
+              <span class="readout-val" id="et-volume">×1</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">sorgenti all'anno</span>
+              <span class="readout-val" id="et-sources">~100</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">configurazione</span>
+              <span class="readout-val" id="et-layout">LIGO / Virgo · oggi</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">orizzonte di sensibilità</span>
+              <input type="range" id="et-slider" min="0" max="100" step="1" value="0">
+              <span class="slider-scale"><i>oggi</i><i>ET · 2026</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            Trascina il cursore per viaggiare nel futuro: i due osservatori
+            gemelli — a Sos Enattos, in Sardegna, e in Lusazia, in Germania —
+            lavorano in tandem a oltre 1.200 chilometri di distanza (la
+            configurazione "2L"). La loro sensibilità raggiungerà perfino
+            l'eco della gravità del Big Bang.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards cards--three reveal">
+        <article class="card">
+          <span class="card-num">▲</span>
+          <h3>Perché la Sardegna</h3>
+          <p>
+            L'ex miniera di Sos Enattos, a Lula (Nuoro), è tra i siti più
+            silenziosi al mondo: una placca tettonica stabile, senza vulcanismo
+            né terremoti, una bassissima densità di popolazione e niente
+            autostrade. E un granito perfetto per scavare le gallerie che
+            schermano lo strumento.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">▲</span>
+          <h3>La svolta "2L"</h3>
+          <p>
+            Da un unico triangolo da 10 km a due "L" gemelle: l'Italia e la
+            Germania hanno firmato il Memorandum d'Intesa per costruire un
+            osservatorio a Sos Enattos e uno in Lusazia. A luglio 2026 è stato
+            inaugurato il cantiere dell'ET-SUnLab, finanziato con circa
+            20 milioni di euro.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">▲</span>
+          <h3>L'impatto e la comunità</h3>
+          <p>
+            Reti telematiche PNRR con cavi sottomarini, 12 anni di lavori e oltre
+            un miliardo di euro già opzionato per l'isola. E quando, ad agosto
+            2026, due ricercatori hanno subito atti intimidatori sul territorio,
+            la comunità e le istituzioni di Lula hanno risposto con compattezza:
+            solidarietà totale, sostegno massimo alla scienza.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="mistero" class="experiment experiment--dark">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il mistero · Cosa non sappiamo</p>
+        <h2>I dubbi<br>sono il punto più interessante</h2>
+        <p class="lede">
+          Non sapere tutto non prova che la gravità non esista: prova che manca un pezzo
+          del puzzle. Ed è proprio lì, ai margini, che la scienza lavora più duramente.
+        </p>
+      </div>
+
+      <div class="cards cards--dark reveal">
+        <article class="card">
+          <span class="card-num">?</span>
+          <h3>Il gravitone</h3>
+          <p>
+            Per la fisica quantistica, la gravità dovrebbe essere trasmessa da una particella.
+            Finora nessuno l'ha mai osservata. Le altre tre forze hanno il loro messaggero:
+            questa no.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">?</span>
+          <h3>L'unificazione</h3>
+          <p>
+            Elettromagnetismo, forza nucleare forte e debole sono unificate in una sola teoria.
+            La gravità resiste ancora. Nessuno sa perché sia così testarda.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">?</span>
+          <h3>La materia oscura</h3>
+          <p>
+            Le galassie ruotano troppo in fretta per la sola materia che vediamo.
+            C'è qualcosa che non vediamo, e la gravità è la nostra lente per guardarlo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">?</span>
+          <h3>Le singolarità</h3>
+          <p>
+            Nel cuore dei buchi neri e all'inizio del tempo, le nostre equazioni si rompono.
+            È il confine dove le idee migliori finiscono, e da cui ripartono.
+          </p>
+        </article>
+      </div>
+
+      <p class="closing reveal">
+        È più probabile che manchi un pezzo del puzzle,<br>
+        piuttosto che non esista un puzzle.
+      </p>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai spiegarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella:
+          solo la verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
