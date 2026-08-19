@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Luna · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "☾"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">☾</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="#top">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1969</p>
+    <h1 class="hero-title">
+      Siamo andati<br>sulla Luna?<br>
+      <em>Un sospetto moderno,<br>verificabile coi fatti.</em>
+    </h1>
+    <p class="hero-sub">
+      Anche su questo sono sorti dei dubbi — ed è giusto che sia così, perché la
+      scienza vive di dubbi. Ma un dubbio non si risolve con un'opinione: si
+      risolve con esperimenti che chiunque può ripetere. Qui sotto, le tracce
+      fisiche che il programma Apollo ha lasciato — e che stanno ancora lì,
+      misurabili oggi.
+    </p>
+    <div class="hero-actions">
+      <a href="#laser" class="btn btn-primary">Il raggio che non mente</a>
+      <a href="#lro" class="btn btn-ghost">L'occhio da 50 cm</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>i sospetti più diffusi</h2>
+        <p class="lede">
+          Ogni obiezione seria merita una risposta seria. Nessuna di queste
+          regge al confronto con una misura.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Le stelle non si vedono</h3>
+          <p>
+            Nelle foto del 1969 il cielo è nero, senza stelle: sembra un set.
+            È l'esposizione: per riprendere il paesaggio lunare, illuminatissimo,
+            servono tempi cortissimi, che cancellano le stelle. Un fotografo
+            notturno le vedrebbe.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>La bandiera che sventola</h3>
+          <p>
+            La bandiera sembra muoversi nel vento. Ma ha un'asta orizzontale
+            rigida che la tiene spiegata, e senza aria il movimento non si
+            smorza: ondeggia a lungo, come un pendolo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Le radiazioni mortali</h3>
+          <p>
+            Le fasce di Van Allen ucciderebbero chi le attraversa. Apollo le
+            attraversa in pochi minuti, lungo un percorso radente e con
+            schermatura: la dose ricevuta è paragonabile a una TAC.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Il grano della pellicola</h3>
+          <p>
+            Le imperfezioni delle immagini indicherebbero un set. Sono pellicole
+            Kodak reali del 1969, portate sulla Luna e sviluppate al rientro:
+            sono proprio le tracce fisiche del viaggio.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="laser" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · Laser Ranging, 1969 → oggi</p>
+        <h2>Il raggio che non mente</h2>
+        <p class="lede">
+          Il 21 luglio 1969 gli astronauti di Apollo 11 lasciarono su Tranquility
+          Base uno specchio grande come una valigia. Oggi, più di 50 anni dopo,
+          osservatori di tutto il mondo ci sparano ancora raggi laser: la luce
+          parte, rimbalza sullo specchio e torna, e il tempo che impiega misura
+          la distanza Terra–Luna in millimetri.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-llr" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="llr-chip">pronto a sparare</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">distanza Terra–Luna</span>
+              <span class="readout-val" id="llr-dist">384.400 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">andata e ritorno</span>
+              <span class="readout-val" id="llr-time">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">recessione della Luna</span>
+              <span class="readout-val" id="llr-recess">3,8 cm/anno</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">distanza della Luna</span>
+              <input type="range" id="llr-slider" min="356500" max="406700" step="100" value="384400">
+              <span class="slider-scale"><i>perigeo · 356.500</i><i>apogeo · 406.700</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="llr-fire" class="btn btn-primary" type="button">Invia il raggio</button>
+            <button id="llr-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Lo specchio è fatto di 100 prismi d'angolo: qualsiasi luce lo colpisca
+            torna esattamente da dove è venuta. Con un laser basta misurare il
+            tempo di ritorno, ~2,5 secondi, e la distanza è nota: oggi in
+            millimetri. Dalle misure sappiamo anche che la Luna si allontana di
+            3,8 cm all'anno — un dato usato ancora oggi per i test di gravità.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="feather" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · Apollo 15, 2 agosto 1971</p>
+        <h2>Piuma e martello cadono insieme</h2>
+        <p class="lede">
+          Al termine dell'ultima passeggiata di Apollo 15, il comandante David
+          Scott tenne in una mano un martello da geologo (1,32 kg) e nell'altra
+          una piuma di falco (0,03 kg), e li lasciò cadere insieme da circa
+          1,2 m. Nel vuoto della Luna, caddero insieme: come Galileo aveva
+          previsto nel 1638.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-feather" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="feather-chip">Sulla Luna: cadono insieme</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">martello · tempo di caduta</span>
+              <span class="readout-val" id="feather-time-h">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">piuma · tempo di caduta</span>
+              <span class="readout-val" id="feather-time-f">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">altezza</span>
+              <span class="readout-val" id="feather-height">1,2 m</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="feather-moon" class="btn is-active" type="button">Luna · vuoto</button>
+            <button id="feather-earth" class="btn" type="button">Terra · con aria</button>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">altezza di caduta</span>
+              <input type="range" id="feather-slider" min="0.2" max="2" step="0.1" value="1.2">
+              <span class="slider-scale"><i>20 cm</i><i>2 m</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="feather-drop" class="btn btn-primary" type="button">Lascia cadere</button>
+            <button id="feather-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Sulla <strong>Terra</strong>, l'aria frena la piuma: cadono in tempi
+            molto diversi. Sulla <strong>Luna</strong>, senza atmosfera,
+            l'unica differenza tra i due corpi è l'inerzia — e la caduta è
+            identica. Cambia luogo con i bottoni, poi lascia cadere: il martello
+            arriva in ~0,5 s sulla Terra, la piuma molto più tardi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rocks" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Le rocce lunari, 1969–1972</p>
+        <h2>Il laboratorio da 382 kg</h2>
+        <p class="lede">
+          Le missioni Apollo riportarono sulla Terra 382 kg di rocce lunari,
+          studiate da migliaia di scienziati in tutto il mondo. Dentro ogni
+          sasso c'è un orologio: il potassio-40 decade in argon-40 con una
+          vita media nota. Leggendo quanto argon si è accumulato, la roccia
+          stessa dice la sua età.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-rocks" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="rocks-chip">scegli una roccia</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">tempo trascorso</span>
+              <span class="readout-val" id="rocks-age">0,00 Ga</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">argon-40 prodotto</span>
+              <span class="readout-val" id="rocks-ar40">0 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">campioni riportati</span>
+              <span class="readout-val" id="rocks-total">382 kg</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="rocks-60025" class="btn is-active" type="button">Anortosite 60025</button>
+            <button id="rocks-basalt" class="btn" type="button">Basalto dei mari</button>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">tempo trascorso</span>
+              <input type="range" id="rocks-slider" min="0" max="46" step="1" value="0">
+              <span class="slider-scale"><i>adesso</i><i>4,6 miliardi di anni</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="rocks-run" class="btn btn-primary" type="button">Avvia l'orologio</button>
+            <button id="rocks-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            L'anortosite <strong>60025</strong>, raccolta da Apollo 16, ha circa
+            4,44 miliardi di anni: è tra le rocce più antiche del sistema solare.
+            Il <strong>basalto</strong> dei mari lunari è più giovane, ~3,4
+            miliardi di anni. Muovi il cursore: quando il tempo raggiunge l'età
+            reale del campione, la misura coincide.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="seismo" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · Sismometri ALSEP, 1969–1977</p>
+        <h2>La Luna trema</h2>
+        <p class="lede">
+          Dal 1969 al 1977 quattro stazioni sismiche — Apollo 12, 14, 15 e 16 —
+          hanno ascoltato la Luna. Quando lo stadio S-IVB di una missione
+          precipitava sulla superficie per un impatto controllato, la Luna
+          suonava come una campana per più di mezz'ora.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-seismo" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="seismo-chip">in ascolto</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">evento</span>
+              <span class="readout-val" id="seismo-event">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">durata del rintocco</span>
+              <span class="readout-val" id="seismo-dur">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">profondità</span>
+              <span class="readout-val" id="seismo-depth">—</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="seismo-sivb" class="btn" type="button">Impatto S-IVB</button>
+            <button id="seismo-meteor" class="btn" type="button">Meteorite</button>
+            <button id="seismo-tide" class="btn" type="button">Sismicità di marea</button>
+          </div>
+
+          <div class="controls">
+            <button id="seismo-reset" class="btn btn-ghost" type="button">Torna in ascolto</button>
+          </div>
+
+          <p class="aside">
+            Sulla Terra, un terremoto smorza in pochi secondi perché acqua e
+            atmosfera assorbono l'energia. Sulla Luna, senza nulla che smorzi,
+            la vibrazione risuona per minuti: un impatto S-IVB rimbalzò nei
+            sismografi per oltre 30 minuti. Più di 13.000 eventi registrati,
+            tra cui sismi profondi ogni mese, sincronizzati con le maree.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lro" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · LRO / LROC, 2009 → oggi</p>
+        <h2>L'occhio da 50 cm</h2>
+        <p class="lede">
+          Nel 2009 la sonda LRO della NASA ha fotografato i siti di Apollo con
+          una risoluzione di mezzo metro per pixel. Si vedono lo stadio di
+          discesa, le piste dei piedi e le tracce del rover: non un set, ma un
+          cantiere rimasto lì dal 1971.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-lro" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="lro-chip">Apollo 15 · Hadley</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">risoluzione</span>
+              <span class="readout-val" id="lro-res">0,5 m/px</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">scala attuale</span>
+              <span class="readout-val" id="lro-scale">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">orbita di LRO</span>
+              <span class="readout-val" id="lro-alt">~50 km</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="lro-15" class="btn is-active" type="button">Apollo 15 · Hadley</button>
+            <button id="lro-17" class="btn" type="button">Apollo 17 · Taurus–Littrow</button>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">zoom</span>
+              <input type="range" id="lro-slider" min="0" max="100" step="1" value="0">
+              <span class="slider-scale"><i>vista ampia</i><i>max zoom</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            La fotocamera LROC ritrae la superficie da ~50 km di quota. In
+            questa simulazione lo zoom arriva fino a 0,5 m/px: si distinguono
+            il modulo di discesa, le piste dei piedi e, per Apollo 15, le tracce
+            del rover. Conferme indipendenti: la giapponese Kaguya (2007) e
+            l'indiana Chandrayaan-1 (2009) hanno ripreso il sito di Apollo 15.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="doppler" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Telemetria radio, 1969</p>
+        <h2>Il segnale che non mente</h2>
+        <p class="lede">
+          Gli astronauti non sono mai stati fuori contatto. Le antenne della
+          Terra li hanno inseguiti in ogni istante del viaggio, misurando la
+          frequenza del segnale radio (banda S, ~2,2 GHz). L'effetto Doppler
+          dice quanto è veloce la nave: una misura indipendente, impossibile da
+          falsificare in un set.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-doppler" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="doppler-chip">a riposo a Terra</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">distanza dalla Terra</span>
+              <span class="readout-val" id="doppler-dist">0 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">spostamento Doppler (banda S)</span>
+              <span class="readout-val" id="doppler-vel">+0,0 kHz</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">ritardo voce (andata e ritorno)</span>
+              <span class="readout-val" id="doppler-delay">0,0 s</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">momento del viaggio</span>
+              <input type="range" id="doppler-slider" min="0" max="100" step="1" value="0">
+              <span class="slider-scale"><i>partenza</i><i>allunaggio</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="doppler-call" class="btn btn-primary" type="button">Trasmette</button>
+            <button id="doppler-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Muovi il cursore lungo il viaggio: la distanza cresce fino a
+            384.400 km, la velocità radiale cala fino allo zero dell'allunaggio
+            e il <em>ritardo voce</em> cresce fino a ~2,6 secondi per un
+            messaggio che va e torna. Nel 1969, quando Armstrong disse
+            "Houston, qui Tranquility Base", la risposta di Houston impiegò
+            davvero più di due secondi ad arrivargli.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "That's one small step for [a] man, one giant leap for mankind."
+      </p>
+      <p class="press-byline">Neil Armstrong · Apollo 11 · Tranquility Base · 21 luglio 1969</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Una linea che arriva alla Luna</p>
+        <h2>Dai telescopi alle impronte</h2>
+        <p class="lede">
+          La Luna è il luogo più lontano in cui esseri umani abbiano messo
+          piede — e anche quello più fotografato da lì in poi.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1610</span>
+            <h4>Galileo</h4>
+            <p>Il Sidereus Nuncius: la Luna è un mondo di monti, valli e crateri, non una sfera perfetta.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1959</span>
+            <h4>Luna 2</h4>
+            <p>La prima sonda, sovietica, raggiunge la superficie lunare.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1968</span>
+            <h4>Apollo 8</h4>
+            <p>Il primo equipaggio umano raggiunge la Luna: la foto "Earthrise" cambia il nostro sguardo.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1969</span>
+            <h4>Apollo 11</h4>
+            <p>Armstrong e Aldrin camminano su Tranquility Base; 21,6 kg di rocce tornano con loro.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1969</span>
+            <h4>Laser Ranging</h4>
+            <p>Un mese dopo, lo specchio di Apollo 11 riflette il primo laser: la distanza si misura in millimetri. <a href="#laser">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1971</span>
+            <h4>Apollo 15</h4>
+            <p>Martello e piuma cadono insieme, in diretta. <a href="#feather">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1972</span>
+            <h4>Apollo 17</h4>
+            <p>Ultima missione: chiude il programma con 382 kg totali di rocce lunari.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2009</span>
+            <h4>LRO</h4>
+            <p>La fotocamera da 0,5 m/px fotografa i siti di Apollo dall'orbita. <a href="#lro">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <h4>Artemis</h4>
+            <p>La nuova generazione di missioni torna verso la Luna.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Perché nelle foto non si vedono le stelle?</summary>
+          <p>
+            Per fotografare il paesaggio lunare, illuminato da un sole senza
+            atmosfera, servono tempi di posa cortissimi e aperture piccole.
+            Le stelle, debolissime, richiedono il contrario: secondi di posa.
+            Nello stesso istante non puoi avere entrambe le cose. Non è un
+            mistero: è fotografia. Prova a fotografare una strada di notte
+            illuminata: il cielo esce nero.
+          </p>
+        </details>
+        <details>
+          <summary>Come hanno fatto a sopravvivere alle fasce di Van Allen?</summary>
+          <p>
+            Le fasce di Van Allen intrappolano particelle cariche, ma si
+            attraversano in pochi minuti, lungo una traiettoria radente alle
+            zone più dense e con la schermatura della navicella. La dose
+            ricevuta dagli equipaggi di Apollo è dell'ordine di qualche
+            millisievert: paragonabile a una TAC o a un lungo volo
+            intercontinentale. Non è lontanamente letale.
+          </p>
+        </details>
+        <details>
+          <summary>La bandiera sembra sventolare: non c'è vento?</summary>
+          <p>
+            La bandiera è tenuta spiegata da un'asta orizzontale rigida: la sua
+            forma "a onda" è quella del tessuto appeso al tubo. Quando gli
+            astronauti la piantarono, la scossero per conficcare l'asta, e senza
+            aria il movimento non si smorza: continua a oscillare, come un
+            pendolo. In più, al decollo del modulo lunare, i gas di scarico la
+            agitarono di nuovo. Non è vento: è inerzia.
+          </p>
+        </details>
+        <details>
+          <summary>E i sovietici? Se fosse stata una messa in scena, non l'avrebbero detto?</summary>
+          <p>
+            I sovietici seguivano Apollo con i propri radar e radio-osservatori,
+            e non denunciarono alcuna falsificazione: sapevano bene che era
+            vero, perché lo stavano misurando. Dalla loro parte c'era la sonda
+            Luna 15, lanciata per riportare campioni prima degli americani
+            (si schiantò il 21 luglio 1969). E dopo il 2009 la Luna è stata
+            fotografata dai siti di Apollo da sonde giapponesi (Kaguya), indiane
+            (Chandrayaan-1) e cinesi (Chang'e-2): nessuna ha trovato altro che
+            le tracce reali.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai spiegarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo la
+          verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="luna.js"></script>
+</body>
+</html>
