@@ -158,45 +158,161 @@
       </div>
     </section>
 
-    <section id="perche" class="experiment">
+    <section id="verifica-eclissi" class="experiment">
       <div class="section-head reveal">
-        <p class="eyebrow">Tre verifiche che non hanno bisogno di noi</p>
-        <h2>La forma che si vede<br>da sola</h2>
+        <p class="eyebrow">Esperimento 08 · L'eclissi di Luna</p>
+        <h2>L'ombra è sempre<br>un cerchio</h2>
         <p class="lede">
-          Oltre ai due esperimenti, ci sono tre osservazioni che chiunque può
-          ripetere — e che nessun modello di Terra piatta riesce a spiegare.
+          Quando la Terra si frappone tra il Sole e la Luna, l'ombra che proietta
+          sul nostro satellite è sempre un cerchio. Solo una sfera produce un'ombra
+          circolare in ogni orientamento: un disco piatto, ruotato, la avrebbe ellittica.
         </p>
       </div>
 
-      <div class="cards cards--three reveal">
-        <article class="card">
-          <span class="card-num">●</span>
-          <h3>L'eclissi di Luna</h3>
-          <p>
-            Quando la Terra si frappone tra il Sole e la Luna, l'ombra che proietta
-            sul nostro satellite è sempre un cerchio. Solo una sfera produce un'ombra
-            circolare in ogni orientamento: un disco piatto, ruotato, la avrebbe ellittica.
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-eclipse" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="eclipse-chip">un cerchio, in ogni orientamento</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">ombra sulla Luna</span>
+              <span class="readout-val" id="eclipse-shape">circolare</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">inclinazione</span>
+              <span class="readout-val" id="eclipse-tiltval">0°</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="eclipse-sphere" class="btn is-active" type="button">Terra sferica</button>
+            <button id="eclipse-disk" class="btn" type="button">Terra piatta · disco</button>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">inclinazione</span>
+              <input type="range" id="eclipse-tilt" min="0" max="80" step="1" value="0">
+              <span class="slider-scale"><i>allineato</i><i>inclinato</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            Inclina la Terra con la <strong>Terra sferica</strong> attiva: qualunque
+            orientamento scegli, l'ombra sul nostro satellite resta un cerchio perfetto.
+            Ora passa a <strong>Terra piatta</strong> e inclina il disco: l'ombra si
+            schiaccia in un'ellisse. È il motivo per cui l'eclissi di Luna, osservata
+            per millenni, dice che la Terra è una sfera.
           </p>
-        </article>
-        <article class="card">
-          <span class="card-num">✦</span>
-          <h3>Le stelle cambiano con la latitudine</h3>
-          <p>
-            Viaggia verso nord e la Stella Polare si alza; verso sud sprofonda sotto
-            l'orizzonte e compaiono costellazioni nuove. È la geometria di una sfera
-            che ruota sotto una volta fissa: su un piano, il cielo non cambierebbe.
+        </div>
+      </div>
+    </section>
+
+    <section id="verifica-stelle" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 09 · Le stelle cambiano con la latitudine</p>
+        <h2>Viaggia,<br>e il cielo cambia</h2>
+        <p class="lede">
+          Viaggia verso nord e la Stella Polare si alza; verso sud sprofonda sotto
+          l'orizzonte e compaiono costellazioni nuove. È la geometria di una sfera
+          che ruota sotto una volta fissa: su un piano, il cielo non cambierebbe.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-stars" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="stars-chip">verso nord sale · verso sud sprofonda</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">latitudine</span>
+              <span class="readout-val" id="stars-lat">45° N</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">Stella Polare</span>
+              <span class="readout-val" id="stars-polaris">alta nel cielo</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">latitudine</span>
+              <input type="range" id="stars-lat-slider" min="-90" max="90" step="1" value="45">
+              <span class="slider-scale"><i>sud −90°</i><i>nord +90°</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            Trascina la latitudine: a nord la Stella Polare sale alta nel cielo e le
+            costellazioni boreali diventano visibili; a sud la Polare sprofonda sotto
+            l'orizzonte e il cielo fa emergere la Croce del Sud. Su un piano, invece,
+            il cielo resterebbe identico ovunque.
           </p>
-        </article>
-        <article class="card">
-          <span class="card-num">g</span>
-          <h3>E perché è tonda?</h3>
-          <p>
-            Per lo stesso motivo per cui è tonda una goccia: la gravità tira ogni
-            cosa verso il centro. Qualunque irregolarità più alta di qualche chilometro
-            collasserebbe su sé stessa. La sfera è la forma che la gravità costruisce —
-            e questo quaderno è pieno di esperimenti che la misurano.
+        </div>
+      </div>
+    </section>
+
+    <section id="verifica-tonda" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 10 · E perché è tonda?</p>
+        <h2>La gravità<br>costruisce la sfera</h2>
+        <p class="lede">
+          Per lo stesso motivo per cui è tonda una goccia: la gravità tira ogni
+          cosa verso il centro. Qualunque irregolarità più alta di qualche chilometro
+          collasserebbe su sé stessa. La sfera è la forma che la gravità costruisce.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-round" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="round-chip">la sfera è la forma che la gravità costruisce</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">rilievo</span>
+              <span class="readout-val" id="round-relief">8 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">stato</span>
+              <span class="readout-val" id="round-state">irregolare</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">rilievo iniziale</span>
+              <input type="range" id="round-height" min="0" max="12" step="1" value="8">
+              <span class="slider-scale"><i>pianeggiante</i><i>12 km</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="round-collapse" class="btn btn-primary" type="button">Lascia crollare</button>
+            <button id="round-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Qualunque rilievo più alto di qualche chilometro non può reggersi:
+            la gravità lo tira verso il centro e il materiale fluisce finché la
+            superficie torna liscia e sferica. Ecco perché l'Everest, 9 chilometri,
+            è il tetto che un pianeta solido può permettersi.
           </p>
-        </article>
+        </div>
       </div>
 
       <p class="closing reveal">

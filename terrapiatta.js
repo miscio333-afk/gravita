@@ -441,6 +441,414 @@
     return { update() {}, draw };
   })();
 
+  /* ---------- Esperimento 08 · L'eclissi di Luna ---------- */
+
+  const eclipseSim = (() => {
+    const canvas = document.getElementById("canvas-eclipse");
+    const chipEl = document.getElementById("eclipse-chip");
+    const shapeEl = document.getElementById("eclipse-shape");
+    const tiltEl = document.getElementById("eclipse-tiltval");
+    const slider = document.getElementById("eclipse-tilt");
+    const sphereBtn = document.getElementById("eclipse-sphere");
+    const diskBtn = document.getElementById("eclipse-disk");
+
+    let mode = "sphere";
+    let tilt = 0;
+    const isVisible = trackVisibility(canvas);
+
+    sphereBtn.addEventListener("click", () => {
+      mode = "sphere";
+      sphereBtn.classList.add("is-active");
+      diskBtn.classList.remove("is-active");
+    });
+    diskBtn.addEventListener("click", () => {
+      mode = "disk";
+      diskBtn.classList.add("is-active");
+      sphereBtn.classList.remove("is-active");
+    });
+    slider.addEventListener("input", () => { tilt = +slider.value; });
+
+    const bgStars = [];
+    for (let i = 0; i < 26; i++) {
+      bgStars.push({
+        x: Math.random(),
+        y: Math.random(),
+        r: Math.random() * 1.2 + 0.2,
+        amber: Math.random() > 0.88
+      });
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const tiltRad = (tilt * Math.PI) / 180;
+      const rEarth = Math.max(26, w * 0.085);
+      const rMoon = rEarth * 0.62;
+
+      const sky = ctx.createLinearGradient(0, 0, 0, h);
+      sky.addColorStop(0, "#0a0f1c");
+      sky.addColorStop(1, "#131c2e");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, h);
+
+      for (const s of bgStars) {
+        ctx.globalAlpha = 0.3 + s.r * 0.2;
+        ctx.fillStyle = s.amber ? "#f0b45a" : "#d9d6c8";
+        ctx.beginPath();
+        ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      const sun = { x: w * 0.15, y: h * 0.5 };
+      const glow = ctx.createRadialGradient(sun.x, sun.y, 4, sun.x, sun.y, rEarth * 2.2);
+      glow.addColorStop(0, "rgba(240,180,90,0.55)");
+      glow.addColorStop(1, "rgba(240,180,90,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(sun.x - rEarth * 2.2, sun.y - rEarth * 2.2, rEarth * 4.4, rEarth * 4.4);
+      ctx.beginPath();
+      ctx.arc(sun.x, sun.y, rEarth * 0.42, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(240,180,90,0.92)";
+      ctx.fill();
+
+      ctx.strokeStyle = "rgba(240,180,90,0.18)";
+      ctx.lineWidth = 1.4;
+      for (let i = -1; i <= 1; i++) {
+        const y = sun.y + i * rEarth * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(sun.x + rEarth * 0.5, y);
+        ctx.lineTo(w * 0.42, y + (w * 0.27) * (i * 0.06));
+        ctx.stroke();
+      }
+
+      const ec = { x: w * 0.5, y: h * 0.5 };
+      const rx = mode === "sphere" ? rEarth : rEarth * Math.cos(tiltRad);
+      const ry = rEarth;
+
+      const earthGrad = ctx.createRadialGradient(ec.x - rx * 0.3, ec.y - ry * 0.35, ry * 0.1, ec.x, ec.y, ry);
+      earthGrad.addColorStop(0, "#3a4a63");
+      earthGrad.addColorStop(1, "#0c131f");
+      ctx.beginPath();
+      ctx.ellipse(ec.x, ec.y, Math.max(1, rx), ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = earthGrad;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(127,208,198,0.4)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      if (mode === "disk") {
+        ctx.beginPath();
+        ctx.ellipse(ec.x, ec.y, Math.max(1, rx), ry, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(240,180,90,0.55)";
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      const mc = { x: w * 0.82, y: h * 0.5 };
+      const moonGrad = ctx.createRadialGradient(mc.x - rMoon * 0.3, mc.y - rMoon * 0.3, rMoon * 0.1, mc.x, mc.y, rMoon);
+      moonGrad.addColorStop(0, "#2a3450");
+      moonGrad.addColorStop(1, "#141b2c");
+      ctx.beginPath();
+      ctx.arc(mc.x, mc.y, rMoon, 0, Math.PI * 2);
+      ctx.fillStyle = moonGrad;
+      ctx.fill();
+
+      const srx = Math.max(1, rx * 0.72);
+      const sry = ry * 0.72;
+      const shadow = ctx.createRadialGradient(mc.x, mc.y, sry * 0.2, mc.x, mc.y, Math.max(srx, sry));
+      shadow.addColorStop(0, "rgba(3,6,12,0.92)");
+      shadow.addColorStop(1, "rgba(3,6,12,0.55)");
+      ctx.beginPath();
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(mc.x, mc.y, rMoon, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.beginPath();
+      ctx.ellipse(mc.x, mc.y, srx, sry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = shadow;
+      ctx.fill();
+      ctx.restore();
+      ctx.strokeStyle = "rgba(127,208,198,0.35)";
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      ctx.font = "400 11px 'IBM Plex Mono', monospace";
+      ctx.fillStyle = "rgba(217,214,200,0.8)";
+      ctx.fillText("Sole", sun.x - 13, sun.y + rEarth * 0.7);
+      ctx.fillText("Terra", ec.x - 17, ec.y + ry + 18);
+      ctx.fillText("Luna", mc.x - 15, mc.y + rMoon + 16);
+
+      const ellittica = mode === "disk" && tilt > 5;
+      shapeEl.textContent = ellittica ? "ellittica" : "circolare";
+      tiltEl.textContent = `${tilt}°`;
+      chipEl.textContent = mode === "sphere"
+        ? "un cerchio, in ogni orientamento"
+        : ellittica
+          ? "un'ellisse quando è inclinato"
+          : "un cerchio, finché è allineato";
+    }
+
+    function update() {}
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 09 · Le stelle cambiano con la latitudine ---------- */
+
+  const starsSim = (() => {
+    const canvas = document.getElementById("canvas-stars");
+    const chipEl = document.getElementById("stars-chip");
+    const latEl = document.getElementById("stars-lat");
+    const polarisEl = document.getElementById("stars-polaris");
+    const slider = document.getElementById("stars-lat-slider");
+
+    const isVisible = trackVisibility(canvas);
+
+    const CLUSTERS = [
+      { name: "Orsa Maggiore", dec: 55, x: 0.30, r: 1.8,
+        dots: [[-15, -6], [-7, -8], [-1, -12], [8, -8], [13, -2], [8, 3], [-1, 3]] },
+      { name: "Cassiopea", dec: 60, x: 0.72, r: 1.7,
+        dots: [[-13, 0], [-5, -9], [0, 3], [7, -7], [13, 1]] },
+      { name: "Vega", dec: 39, x: 0.55, r: 2.3, dots: [[0, 0]] },
+      { name: "Croce del Sud", dec: -60, x: 0.40, r: 1.9,
+        dots: [[0, -12], [0, 12], [-9, 0], [9, 0], [0, 0]] },
+      { name: "Canopo", dec: -52, x: 0.66, r: 2.5, dots: [[0, 0]] }
+    ];
+
+    const randStars = [];
+    for (let i = 0; i < 40; i++) {
+      randStars.push({
+        dec: Math.round(lerp(-70, 70, Math.random())),
+        x: Math.random() * 0.88 + 0.06,
+        dx: (Math.random() - 0.5) * 90,
+        dy: (Math.random() - 0.5) * 40,
+        r: Math.random() * 1.3 + 0.3,
+        amber: Math.random() > 0.9
+      });
+    }
+
+    function altitude(phi, dec) { return 90 - Math.abs(phi - dec); }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const phi = +slider.value;
+      const horizonY = h * 0.6;
+      const topPad = h * 0.06;
+      const band = horizonY - topPad;
+
+      const sky = ctx.createLinearGradient(0, 0, 0, horizonY);
+      sky.addColorStop(0, "#070c16");
+      sky.addColorStop(1, "#131d31");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, horizonY);
+
+      const yOf = alt => horizonY - clamp(alt / 90, -1, 1) * band;
+
+      function drawDot(x, y, r, amber, alpha) {
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = amber ? "#f0b45a" : "#d9d6c8";
+        if (amber) {
+          ctx.shadowColor = "#f0b45a";
+          ctx.shadowBlur = 6;
+        }
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+      }
+
+      for (const s of randStars) {
+        const alt = altitude(phi, s.dec);
+        if (alt < 0.5) continue;
+        drawDot(clamp(s.x * w + s.dx, 4, w - 4), yOf(alt) + s.dy, s.r, s.amber, 0.5);
+      }
+
+      for (const c of CLUSTERS) {
+        const alt = altitude(phi, c.dec);
+        if (alt < 3) continue;
+        const cx = c.x * w;
+        const cy = yOf(alt);
+        for (const [dx, dy] of c.dots) {
+          drawDot(cx + dx, cy + dy, c.r, false, 0.95);
+        }
+        if (alt > 6) {
+          ctx.font = "400 10px 'IBM Plex Mono', monospace";
+          ctx.fillStyle = "rgba(217,214,200,0.55)";
+          ctx.fillText(c.name, cx - 34, cy - 22);
+        }
+      }
+
+      const polarisAlt = altitude(phi, 90);
+      const px = w * 0.5;
+      const py = yOf(polarisAlt);
+      if (polarisAlt >= 1) {
+        drawDot(px, py, 3.4, true, 1);
+        ctx.font = "500 11px 'IBM Plex Mono', monospace";
+        ctx.fillStyle = "#f0b45a";
+        ctx.fillText("Stella Polare", px + 10, py - 8);
+        ctx.fillText("· nord", px + 10, py + 6);
+      }
+
+      const ground = ctx.createLinearGradient(0, horizonY, 0, h);
+      ground.addColorStop(0, "#101a28");
+      ground.addColorStop(1, "#070b12");
+      ctx.fillStyle = ground;
+      ctx.fillRect(0, horizonY, w, h - horizonY);
+      ctx.fillStyle = "rgba(127,208,198,0.25)";
+      ctx.fillRect(0, horizonY, w, 1.2);
+      ctx.fillStyle = "rgba(127,208,198,0.08)";
+      ctx.fillRect(0, horizonY + 6, w, 1);
+
+      latEl.textContent = phi === 0 ? "0° · equatore" : `${Math.abs(phi)}° ${phi > 0 ? "N" : "S"}`;
+      polarisEl.textContent = polarisAlt >= 15
+        ? "alta nel cielo"
+        : polarisAlt > 0
+          ? "bassa sull'orizzonte"
+          : "sotto l'orizzonte";
+      chipEl.textContent = polarisAlt >= 15
+        ? "la Polare è alta: siamo a nord"
+        : polarisAlt > 0
+          ? "la Polare è bassa sull'orizzonte"
+          : "la Polare è sotto l'orizzonte";
+    }
+
+    function update() {}
+
+    return { update, draw };
+  })();
+
+  /* ---------- Esperimento 10 · E perché è tonda? ---------- */
+
+  const roundSim = (() => {
+    const canvas = document.getElementById("canvas-round");
+    const chipEl = document.getElementById("round-chip");
+    const reliefEl = document.getElementById("round-relief");
+    const stateEl = document.getElementById("round-state");
+    const slider = document.getElementById("round-height");
+    const collapseBtn = document.getElementById("round-collapse");
+    const resetBtn = document.getElementById("round-reset");
+
+    const DUR = 1.9;
+    let relief = +slider.value;
+    let collapsing = false;
+    let p = 0;
+    const isVisible = trackVisibility(canvas);
+
+    const particles = [];
+    for (let i = 0; i < 14; i++) {
+      particles.push({ i, side: i % 2 === 0 ? -1 : 1, lag: (i % 7) / 7 });
+    }
+
+    collapseBtn.addEventListener("click", () => {
+      if (!collapsing) { collapsing = true; p = 0; }
+    });
+    resetBtn.addEventListener("click", () => {
+      collapsing = false;
+      p = 0;
+      relief = +slider.value;
+    });
+    slider.addEventListener("input", () => {
+      if (!collapsing || p >= 1) {
+        collapsing = false;
+        p = 0;
+        relief = +slider.value;
+      }
+    });
+
+    function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function update(dt) {
+      if (collapsing) {
+        p = Math.min(1, p + dt / DUR);
+        if (p >= 1) collapsing = false;
+      }
+    }
+
+    function draw() {
+      const { ctx, w, h } = sizeCanvas(canvas);
+      const cx = w * 0.5;
+      const cy = h * 0.64;
+      const r = Math.max(60, h * 0.26);
+
+      const sky = ctx.createLinearGradient(0, 0, 0, cy - r);
+      sky.addColorStop(0, "#0a0f1c");
+      sky.addColorStop(1, "#141e30");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, h);
+
+      const reliefNow = collapsing || p >= 1 ? relief * (1 - ease(p)) : relief;
+      const reliefPx = (reliefNow / 12) * r * 0.5;
+
+      const planetGrad = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.15, cx, cy, r);
+      planetGrad.addColorStop(0, "#2b3a52");
+      planetGrad.addColorStop(1, "#0a111d");
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = planetGrad;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(127,208,198,0.45)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const topY = cy - r;
+      const peakY = topY - reliefPx;
+      const bw = r * 0.3;
+
+      if (reliefPx > 0.5) {
+        ctx.beginPath();
+        ctx.moveTo(cx - bw, topY + 3);
+        ctx.quadraticCurveTo(cx - bw * 0.4, topY + 4, cx, peakY);
+        ctx.quadraticCurveTo(cx + bw * 0.4, topY + 4, cx + bw, topY + 3);
+        ctx.closePath();
+        ctx.fillStyle = "#42516e";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(232,226,210,0.35)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      if (collapsing || p >= 1) {
+        for (const pt of particles) {
+          const pp = (ease(p) + pt.lag) % 1;
+          const px = cx + pt.side * bw * pp;
+          const py = topY + (peakY - topY) * (1 - pp) * 0.9 + (pt.side > 0 ? topY + 3 : topY + 3) * 0 + pp * 4;
+          ctx.globalAlpha = 0.9 * (1 - pp);
+          ctx.fillStyle = pt.side > 0 ? "#f0b45a" : "#7fd0c6";
+          ctx.beginPath();
+          ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      if (reliefPx <= 0.5 && !collapsing) {
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(240,180,90,0.6)";
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      reliefEl.textContent = `${reliefNow.toFixed(0)} km`;
+      stateEl.textContent = collapsing
+        ? "collassando"
+        : p >= 1
+          ? "sferica"
+          : "irregolare";
+      chipEl.textContent = collapsing
+        ? "il materiale fluisce verso il centro"
+        : p >= 1
+          ? "perfettamente sferica"
+          : "la gravità tirerà tutto verso il centro";
+    }
+
+    return { update, draw };
+  })();
+
   /* ---------- Loop ---------- */
 
   let last = 0;
@@ -452,6 +860,12 @@
     shipSim.draw();
     eratoSim.update(dt);
     eratoSim.draw();
+    eclipseSim.update(dt);
+    eclipseSim.draw();
+    starsSim.update(dt);
+    starsSim.draw();
+    roundSim.update(dt);
+    roundSim.draw();
     requestAnimationFrame(loop);
   }
 
