@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Scie nel Cielo · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "✈"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">✈</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="#top">Scie</a>
+    <a class="navbar-link" href="luna.html">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1996</p>
+    <h1 class="hero-title">
+      Le scie nel cielo<br>sono chimiche?<br>
+      <em>Una credenza diffusa,<br>verificabile coi fatti.</em>
+    </h1>
+    <p class="hero-sub">
+      Ogni giorno qualcuno alza gli occhi e vede linee bianche che non svaniscono,
+      e si chiede cosa contengano. È una domanda giusta — e ha una risposta che
+      si misura. Niente irrorazioni segrete: solo la fisica dei motori, l'umidità
+      dell'alta atmosfera e aerei che puoi seguire tu stesso, in tempo reale.
+    </p>
+    <div class="hero-actions">
+      <a href="#sa" class="btn btn-primary">La soglia del cielo</a>
+      <a href="#adsb" class="btn btn-ghost">Le rotte reali</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>i sospetti più diffusi</h2>
+        <p class="lede">
+          Ogni obiezione seria merita una risposta seria. Nessuna di queste
+          regge al confronto con una misura.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Le scie che durano ore</h3>
+          <p>
+            Sembrano diverse, quindi conterrebbero sostanze. Ma la durata non
+            dipende dal contenuto: dipende dall'umidità dell'aria a quella
+            quota. In aria satura di ghiaccio, una normale scia di vapore
+            resta ore e si allarga in cirri.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Le griglie nel cielo</h3>
+          <p>
+            Sembrano irrorazioni coordinate. Sono le rotte del traffico aereo:
+            corridoi fissi, ben definiti, che si incrociano a 10 km di quota.
+            Ogni aereo è tracciato dai radar ADS-B: puoi vederlo dal telefono.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Il programma segreto</h3>
+          <p>
+            Nessuna prova: in uno studio del 2016, 76 scienziati su 77 non ne
+            hanno trovata alcuna. Il paper USAF del 1996 citato come "prova" è
+            un esercizio dichiaratamente fittizio, non una pratica operativa.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>Il cloud seeding</h3>
+          <p>
+            Esiste davvero — ma è un'altra cosa: locale, regolato, applicato a
+            nuvole esistenti per aumentare la pioggia. Non lascia griglie di
+            scie in crociera: è qui sotto, misurabile nell'esperimento 06.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sa" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · Criterio di Schmidt–Appleman, 1941–1953</p>
+        <h2>Quando nasce una scia</h2>
+        <p class="lede">
+          La scia di condensazione è l'unica cosa "spruzzata" da un aereo:
+          vapore acqueo prodotto dai motori. Il meteorologo Schmidt (1941) e il
+          ricercatore Appleman (1953) hanno scritto le condizioni esatte perché
+          quel vapore diventi visibile. C'è una temperatura di soglia: sopra,
+          niente scia.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-sa" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="sa-chip">in attesa del decollo</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">temperatura a quota</span>
+              <span class="readout-val" id="sa-temp">−55,0 °C</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">umidità relativa</span>
+              <span class="readout-val" id="sa-rh">40 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">soglia Schmidt–Appleman</span>
+              <span class="readout-val" id="sa-thresh">−42 °C</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">temperatura a quota</span>
+              <input type="range" id="sa-temp-slider" min="-70" max="-20" step="1" value="-55">
+              <span class="slider-scale"><i>−70 °C</i><i>−20 °C</i></span>
+            </label>
+            <label class="slider">
+              <span class="slider-label">umidità relativa</span>
+              <input type="range" id="sa-rh-slider" min="0" max="100" step="1" value="40">
+              <span class="slider-scale"><i>aria secca</i><i>aria umida</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="sa-go" class="btn btn-primary" type="button">Decolla</button>
+            <button id="sa-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            I motori emettono vapore acqueo caldo; in quota l'aria è freddissima
+            e il vapore si condensa in microcristalli di ghiaccio attorno alle
+            particelle di scarico. È il fiato visibile d'inverno. Se la
+            temperatura è sopra la soglia (~−40 °C), il fenomeno non avviene:
+            per questo non tutti gli aerei lasciano scie.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pers" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · Persistenza e cirri, Burkhardt &amp; Kärcher 2011</p>
+        <h2>Perché alcune scie durano ore</h2>
+        <p class="lede">
+          La durata non dipende da cosa c'è dentro la scia: dipende da quanto è
+          umida l'aria a quella quota. In aria secca i cristalli evaporano in
+          secondi; in aria satura di ghiaccio la scia persiste, si allarga col
+          vento e diventa un cirro che può durare ore.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-pers" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="pers-chip">pronto al time-lapse</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">durata prevista</span>
+              <span class="readout-val" id="pers-dur">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">larghezza finale</span>
+              <span class="readout-val" id="pers-width">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">umidità relativa</span>
+              <span class="readout-val" id="pers-rh">60 %</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">umidità relativa a quota</span>
+              <input type="range" id="pers-slider" min="0" max="100" step="1" value="60">
+              <span class="slider-scale"><i>secca · 10 %</i><i>saturo · 100 %</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="pers-run" class="btn btn-primary" type="button">Avvia il time-lapse</button>
+            <button id="pers-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Nel 2011, Burkhardt e Kärcher hanno stimato che le scie che
+            persistono e si allargano aumentano la copertura nuvolosa del
+            6–10% alle medie latitudini dell'emisfero nord: un effetto reale
+            sul clima, ma a base di semplice vapore. Muovi l'umidità e osserva
+            la scia evaporare, restare o gonfiarsi in un cirro.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="adsb" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Registro voli ADS-B, oggi</p>
+        <h2>Le rotte reali: ogni linea è un aereo</h2>
+        <p class="lede">
+          Le "griglie" nel cielo non sono irrorazioni coordinate: sono i
+          corridoi del traffico aereo, le autostrade del cielo. Ogni aereo
+          trasmette posizione e rotta via ADS-B; i dati sono pubblici e li
+          puoi leggere dal tuo telefono. Qui sotto, un frammento di quel
+          registro.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-adsb" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="adsb-chip">rotte aeree reali</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">voli nel frame</span>
+              <span class="readout-val" id="adsb-flights">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">aereo selezionato</span>
+              <span class="readout-val" id="adsb-call">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">quota / ora locale</span>
+              <span class="readout-val" id="adsb-alt">—</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="adsb-data" class="btn" type="button">Mostra dati volo</button>
+            <button id="adsb-next" class="btn" type="button">Prossimo aereo</button>
+          </div>
+
+          <p class="aside">
+            Le rotte si incrociano perché gli aerei seguono corridoi fissi, a
+            quote di crociera tra 9 e 12 km. In aria fredda e umida, ogni volo
+            lascia la sua scia e il cielo si copre di una griglia: non un
+            disegno segreto, ma il traffico che puoi identificare su
+            flightradar o ADS-B Exchange.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="spray" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · Irroratori e jet, le quote reali</p>
+        <h2>Spruzzo agricolo e scia: un abisso di quota</h2>
+        <p class="lede">
+          Se un aereo "spruzza" qualcosa, è un irroratore agricolo — che vola
+          a 300 metri sui campi e rilascia sostanze liquide visibili. Un jet in
+          crociera vola 35 volte più in alto e rilascia solo vapore acqueo.
+          Le due cose non sono confrontabili, e la quota lo dimostra.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-spray" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="spray-chip">Jet di linea · 10,5 km</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">quota</span>
+              <span class="readout-val" id="spray-alt">10.500 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">velocità</span>
+              <span class="readout-val" id="spray-speed">~900 km/h</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">rilascio</span>
+              <span class="readout-val" id="spray-rel">vapore acqueo</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="spray-agro" class="btn" type="button">Irroratore agricolo · 300 m</button>
+            <button id="spray-jet" class="btn is-active" type="button">Jet di linea · 10,5 km</button>
+          </div>
+
+          <p class="aside">
+            L'irroratore agricolo vola a bassa quota e rilascia una nube
+            liquida visibile: pesticidi o fertilizzanti, regolati e tracciati.
+            Il jet di crociera lascia una linea bianca sottile: cristalli di
+            ghiaccio da vapore. Una cosa è agricoltura, l'altra è meteorologia
+            — e i due velivoli non si incontrano mai alla stessa altitudine.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="modis" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · Dati satellite MODIS, 2006–2008</p>
+        <h2>Il cielo visto da sopra</h2>
+        <p class="lede">
+          I satelliti MODIS della NASA (Terra e Aqua) individuano le scie
+          lineari con algoritmi automatici. Dai dati si misura che la
+          copertura media di scie sull'emisfero nord è attorno allo 0,13% —
+          e che i contrail-cirri crescono di circa l'1% per decennio, legati
+          al traffico aereo, non a irrorazioni.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-modis" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="modis-chip">scan in attesa</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">copertura di scie lineari</span>
+              <span class="readout-val" id="modis-cov">0,00 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">media emisfero nord</span>
+              <span class="readout-val" id="modis-avg">0,13 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">aumento per decennio</span>
+              <span class="readout-val" id="modis-inc">~1 %</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">intensità del traffico</span>
+              <input type="range" id="modis-slider" min="0" max="100" step="1" value="30">
+              <span class="slider-scale"><i>pochi voli</i><i>corridoi pieni</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="modis-scan" class="btn btn-primary" type="button">Nuova scansione</button>
+            <button id="modis-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Più aerei, più scie: la copertura cresce col traffico (tra ~0,07%
+            e ~0,40% a seconda della regione). Le stime di Duda &amp; Minnis su
+            dati MODIS sono circa 4 volte inferiori alle prime stime: misure
+            più precise, non irrorazioni più nascoste.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="seed" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Cloud seeding, dal 1946</p>
+        <h2>Il cloud seeding esiste: è un'altra cosa</h2>
+        <p class="lede">
+          Sì, si "irrorano" nuvole — ma non si spruzza nulla da jet in
+          crociera. Il cloud seeding aggiunge ghiaccio secco o argento ioduro
+          a nuvole esistenti per favorire la pioggia. È locale, regolato
+          (negli USA: Weather Modification Reporting Act) e si misura in
+          grammi per chilometro, non in griglie su tutto il cielo.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-seed" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="seed-chip">nuvola naturale</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">argento ioduro rilasciato</span>
+              <span class="readout-val" id="seed-amount">0 g/km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">stima precipitazioni</span>
+              <span class="readout-val" id="seed-rain">+0 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">regolamento</span>
+              <span class="readout-val" id="seed-reg">WMRA · NOAA</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="seed-run" class="btn btn-primary" type="button">Esegui il seeding</button>
+            <button id="seed-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Scoperto al GE Lab nel 1946, sperimentato anche su uragani nel
+            Project Stormfury (1961–1971, effetti dentro la variabilità
+            naturale), oggi il seeding è usato per la neve e l'acqua: la
+            California stima un +4% annuo di precipitazioni dai suoi
+            programmi. Si applica a singole nubi, con permessi e report — non
+            in crociera a 10 km.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "76 scienziati su 77 (98,7%) hanno dichiarato di non aver mai
+        incontrato prove di un programma segreto e su larga scala di
+        irrorazione atmosferica."
+      </p>
+      <p class="press-byline">Studio peer-reviewed · Environmental Research Letters · 2016</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Un secolo di cielo osservato</p>
+        <h2>Dai motori alle nuvole</h2>
+        <p class="lede">
+          Le scie sono studiate da oltre un secolo. La fisica che le spiega è
+          ben nota; la credenza nasce nel 1996 e si misura con gli stessi
+          strumenti che usano i piloti.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1919</span>
+            <h4>Prime osservazioni</h4>
+            <p>Le scie di condensazione sono documentate e studiate già un secolo fa.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1941</span>
+            <h4>Schmidt</h4>
+            <p>Il meteorologo formalizza il criterio termodinamico della formazione delle scie.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1946</span>
+            <h4>Cloud seeding</h4>
+            <p>Al GE Lab nasce l'irrorazione di ghiaccio secco nelle nuvole.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1953</span>
+            <h4>Appleman</h4>
+            <p>Il criterio diventa lo Schmidt–Appleman, usato ancora oggi dall'aviazione. <a href="#sa">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1961–71</span>
+            <h4>Project Stormfury</h4>
+            <p>Seeding di argento ioduro su uragani: effetti dentro la variabilità naturale.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1996</span>
+            <h4>Il paper fittizio</h4>
+            <p>"Owning the Weather in 2025", esercizio dichiaratamente ipotetico, darà benzina alla teoria.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1999</span>
+            <h4>La diffusione</h4>
+            <p>Art Bell la porta in radio: nasce il termine "chemtrail".</p>
+          </li>
+          <li>
+            <span class="timeline-year">2000</span>
+            <h4>Il fact sheet</h4>
+            <p>NASA, EPA, FAA e NOAA spiegano al pubblico la fisica delle scie.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2011</span>
+            <h4>I contrail-cirri</h4>
+            <p>Burkhardt &amp; Kärcher: le scie persistenti aumentano la copertura nuvolosa del 6–10% nell'emisfero nord. <a href="#pers">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2016</span>
+            <h4>Il consenso</h4>
+            <p>76 esperti su 77: nessuna prova di un programma segreto di irrorazione.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <h4>La mitigazione</h4>
+            <p>Compagnie e ricercatori testano rotte che riducono le scie persistenti e il loro effetto sul clima.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Come nasce una scia, esattamente?</summary>
+          <p>
+            I motori bruciano cherosene e producono, tra le altre cose, vapore
+            acqueo. A 9–12 km di quota l'aria è a −40/−60 °C: quel vapore si
+            condensa istantaneamente in microcristalli di ghiaccio attorno alle
+            particelle di scarico. È lo stesso fiato visibile d'inverno — aria
+            calda e umida che si mescola con aria fredda. Sopra la soglia
+            Schmidt–Appleman (~−40 °C) il fenomeno non avviene: per questo non
+            tutti gli aerei lasciano scie.
+          </p>
+        </details>
+        <details>
+          <summary>Perché alcune scie durano ore e formano "griglie"?</summary>
+          <p>
+            Se l'aria a quella quota è secca, i cristalli evaporano in pochi
+            secondi. Se è satura di ghiaccio, la scia resta, si allarga con i
+            venti e si trasforma in un cirro: sembra "artificiale", ma è solo
+            vapore che persiste. Le griglie nascono perché gli aerei seguono
+            corridoi fissi — le autostrade del cielo — che si incrociano; i
+            dati ADS-B mostrano che ogni linea corrisponde a un volo reale.
+          </p>
+        </details>
+        <details>
+          <summary>Il paper USAF del 1996 non è una prova?</summary>
+          <p>
+            "Weather as a Force Multiplier: Owning the Weather in 2025" era un
+            esercizio accademico della Air University, la cui introduzione
+            dichiara esplicitamente di contenere "fictional representations of
+            future situations/scenarios". L'aeronautica lo ha chiarito anche nel
+            2005: non riflette né politica né pratica. Citarlo come prova è un
+            errore di lettura del documento.
+          </p>
+        </details>
+        <details>
+          <summary>Il cloud seeding è reale o è una scusa?</summary>
+          <p>
+            È reale, ma è l'opposto di un'irrorazione segreta: si applica a
+            nuvole esistenti, in zone delimitate, con permessi e report
+            obbligatori (negli USA, il Weather Modification Reporting Act
+            gestito dalla NOAA). La California stima un +4% di precipitazioni
+            annue dai suoi programmi. Si usano pochi grammi di argento ioduro
+            o ghiaccio secco dentro singole nubi: non griglie di scie a 10 km
+            di quota.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai spiegarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo la
+          verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="scie.js"></script>
+</body>
+</html>
