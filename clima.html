@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Clima che Cambia · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "C"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">C</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="scie.html">Scie</a>
+    <a class="navbar-link" href="luna.html">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+    <a class="navbar-link" href="#top">Clima</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1859</p>
+    <h1 class="hero-title">
+      Il clima sta cambiando?<br>
+      <em>Si misura — e i numeri<br>non sono un'opinione.</em>
+    </h1>
+    <p class="hero-sub">
+      "Il clima è sempre cambiato", dicono. Vero: è cambiato sempre. Ma la
+      domanda giusta è un'altra — quanto velocemente, e chi lo sta guidando.
+      Qui sotto trovi le misure che lo dicono: una curva di CO₂ misurata ogni
+      giorno dal 1958, uno spettro di assorbimento del 1859, carote di ghiaccio
+      che arrivano a 800.000 anni fa, e termometri che coprono il pianeta.
+    </p>
+    <div class="hero-actions">
+      <a href="#keeling" class="btn btn-primary">La curva di CO₂</a>
+      <a href="#temp" class="btn btn-ghost">I termometri</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>i sospetti più diffusi</h2>
+        <p class="lede">
+          Ogni obiezione seria merita una risposta seria. Nessuna di queste
+          regge al confronto con una misura.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il clima è sempre cambiato"</h3>
+          <p>
+            Vero: ci sono stati cicli glaciali e interglaciali. Ma la velocità
+            attuale è fuori scala: la CO₂ è passata da 280 a oltre 420 ppm in
+            ~170 anni, quando in 800.000 anni non aveva mai superato 300.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il CO₂ è lo 0,04% dell'aria"</h3>
+          <p>
+            È poca, ma conta: un pizzico di gas che assorbe l'infrarosso
+            sposta il bilancio energetico di un intero pianeta. Tyndall lo
+            dimostrò in laboratorio nel 1859: 0,04% basta.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Nel Medioevo faceva più caldo"</h3>
+          <p>
+            Il "Medieval Warm Period" era un riscaldamento regionale, non
+            globale, e comunque più freddo di oggi: i proxy di temperatura
+            mostrano che il presente è il più caldo da migliaia di anni.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"I ghiacciai prima avanzavano"</h3>
+          <p>
+            Alcuni avanzano ancora, per neve locale e dinamica propria. Ma i
+            ghiacciai di riferimento del mondo intero, misurati ogni anno,
+            perdono massa dal 1950: la media è sotto zero, e accelera.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="keeling" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · Curva di Keeling, dal 1958</p>
+        <h2>La CO₂, misurata giorno per giorno</h2>
+        <p class="lede">
+          Dal 1958 l'Osservatorio di Mauna Loa (Hawaii) misura la CO₂
+          atmosferica senza interruzione. È la serie più lunga del mondo:
+          una salita ininterrotta da 315 ppm a oltre 420 ppm, con il "respiro"
+          stagionale delle foreste disegnato sopra.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-keeling" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="keeling-chip">68 anni di misura</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">CO₂ nell'anno scelto</span>
+              <span class="readout-val" id="keeling-ppm">424,6 ppm</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">incremento dal 1958</span>
+              <span class="readout-val" id="keeling-inc">+110 ppm</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">preindustriale (1750)</span>
+              <span class="readout-val" id="keeling-pre">280 ppm</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">anno</span>
+              <input type="range" id="keeling-slider" min="1958" max="2026" step="1" value="2026">
+              <span class="slider-scale"><i>1958</i><i>2026</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="keeling-go" class="btn btn-primary" type="button">Fai scorrere il tempo</button>
+            <button id="keeling-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Il dente di sega è il "respiro" del pianeta: in primavera le foreste
+            dell'emisfero nord assorbono CO₂ e la curva scende, in autunno
+            scende meno e risale. Sotto la stagione, la base sale ogni anno di
+            ~2 ppm. Charles Keeling cominciò nel marzo 1958; la serie prosegue
+            ancora oggi, un dato al giorno.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tyndall" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · John Tyndall, 1859</p>
+        <h2>Il gas che trattiene il calore</h2>
+        <p class="lede">
+          Alla Royal Institution di Londra, John Tyndall costruì uno
+          spettrofotometro e dimostrò che l'azoto e l'ossigeno — il 99% circa
+          dell'aria — sono trasparenti al calore, mentre il vapore acqueo, la
+          CO₂ e l'ozono lo assorbono. Era il 1859: l'effetto serra era
+          dimostrato in laboratorio.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-tyndall" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="tyndall-chip">spettro all'infrarosso</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">CO₂ nell'aria</span>
+              <span class="readout-val" id="tyndall-co2">424 ppm</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">frazione infrarosso assorbita</span>
+              <span class="readout-val" id="tyndall-abs">42 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">forzante dal 1750</span>
+              <span class="readout-val" id="tyndall-forz">+2,2 W/m²</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">CO₂ atmosferica</span>
+              <input type="range" id="tyndall-slider" min="180" max="840" step="1" value="424">
+              <span class="slider-scale"><i>180 ppm</i><i>840 ppm</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="tyndall-go" class="btn btn-primary" type="button">Aumenta la CO₂</button>
+            <button id="tyndall-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Sulla sinistra vedi lo spettro infrarosso che sale dalla Terra
+            (i numeri sono la lunghezza d'onda in micrometri). Le bande scure
+            sono dove la CO₂ assorbe: la più ampia è attorno ai 15 µm. Aumenta
+            la CO₂ e le bande si allargano: una frazione sempre maggiore del
+            calore terrestre resta intrappolata. La relazione è logaritmica —
+            il raddoppio aggiunge ~3,7 W/m², l'inizio della sensibilità climatica.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="forzante" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Bilancio radiativo, oggi</p>
+        <h2>L'energia che entra<br>e quella che esce</h2>
+        <p class="lede">
+          Il Sole invia ~340 W/m² di energia. Per non surriscaldarsi, la Terra
+          deve restituirne altrettanta. La CO₂ in più non blocca la luce in
+          entrata, ma ostacola quella in uscita: nasce uno squilibrio. Ecco
+          come si calcola la forzante e la temperatura che ne segue.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-forzante" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="forzante-chip">bilancio in equilibrio</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">forzante CO₂</span>
+              <span class="readout-val" id="forzante-df">+2,2 W/m²</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">riscaldamento previsto (equilibrio)</span>
+              <span class="readout-val" id="forzante-dt">+1,8 °C</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">sensibilità climatica</span>
+              <span class="readout-val" id="forzante-sens">2,5–4,0 °C</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">CO₂ atmosferica</span>
+              <input type="range" id="forzante-slider" min="280" max="560" step="1" value="424">
+              <span class="slider-scale"><i>280 ppm</i><i>560 ppm</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="forzante-go" class="btn btn-primary" type="button">Applica lo squilibrio</button>
+            <button id="forzante-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La forzante si calcola con la formula di Myhre (1998):
+            ΔF = 5,35 × ln(C/C₀) W/m². Con 424 ppm rispetto ai 280
+            preindustriali ottieni ~+2,2 W/m². Dividendo per la sensibilità
+            climatica (IPCC AR6: 2,5–4,0 °C per raddoppio), ottieni il
+            riscaldamento di equilibrio di lungo periodo. Il readout mostra il
+            valore realistico, non esagerato.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="carote" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · EPICA Dome C / Vostok, 2004–2008</p>
+        <h2>800.000 anni di aria<br>in una carota di ghiaccio</h2>
+        <p class="lede">
+          In Antartide i ghiacci hanno intrappolato bolle d'aria per centinaia
+          di migliaia di anni. Misurando quella CO₂ e gli isotopi dell'acqua,
+          EPICA Dome C ha ricostruito 800.000 anni di clima: 8 cicli glaciali,
+          con la CO₂ che ondeggiava tra ~172 e ~300 ppm. Oggi è 424 ppm — mai
+          vista in tutto il record.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-carote" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="carote-chip">800.000 anni di record</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">CO₂ di allora</span>
+              <span class="readout-val" id="carote-co2">280 ppm</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">temperatura rispetto all'oggi</span>
+              <span class="readout-val" id="carote-dt">+0,0 °C</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">CO₂ di oggi</span>
+              <span class="readout-val" id="carote-oggi">424 ppm</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">migliaia di anni fa</span>
+              <input type="range" id="carote-slider" min="0" max="800" step="1" value="0">
+              <span class="slider-scale"><i>oggi</i><i>800.000 anni fa</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="carote-go" class="btn btn-primary" type="button">Scorri il tempo</button>
+            <button id="carote-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Sposta il cursore indietro di centinaia di migliaia di anni: vedi i
+            cicli di ~100.000 anni guidati dalle orbite (Milanković), con la CO₂
+            che segue la temperatura. La linea orizzontale a 424 ppm — il valore
+            di oggi — supera di un terzo il massimo di tutto il record: 300 ppm.
+            Non è un ciclo: è un'anomalia senza precedenti in 800.000 anni.
+            (Lüthi et al., 2008, Nature.)
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="temp" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · Termometri globali, 1880–2024</p>
+        <h2>Il termometro del pianeta</h2>
+        <p class="lede">
+          Centinaia di stazioni, boe e satelliti — riuniti in serie globali come
+          HadCRUT, GISTEMP e Berkeley Earth — misurano la temperatura media
+          della Terra dal 1880. Le anomalie rispetto al livello preindustriale
+          sono il numero più citato del clima: e sale.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-temp" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="temp-chip">serie 1880–2024</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">anomalia anno scelto</span>
+              <span class="readout-val" id="temp-anom">+1,55 °C</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">record</span>
+              <span class="readout-val" id="temp-rec">2024 · il più caldo finora</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">riscaldamento per decade</span>
+              <span class="readout-val" id="temp-rate">+0,20 °C</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">anno</span>
+              <input type="range" id="temp-slider" min="1880" max="2024" step="1" value="2024">
+              <span class="slider-scale"><i>1880</i><i>2024</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="temp-go" class="btn btn-primary" type="button">Fai scorrere gli anni</button>
+            <button id="temp-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Ogni barra è un anno, blu se più freddo della media 1850–1900,
+            rosso se più caldo. Guarda la colonna destra: il 2024 è stato
+            l'anno più caldo mai misurato, ~+1,55 °C sopra il preindustriale
+            (WMO, consenso di sei serie). I 10 anni più caldi della storia
+            sono tutti caduti negli ultimi 10 anni.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ghiacciai" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Ghiacciai di riferimento, WGMS 1950–2024</p>
+        <h2>Il ghiaccio che si pesa</h2>
+        <p class="lede">
+          Dal 1950 il World Glacier Monitoring Service misura ogni anno la
+          bilancia di massa di decine di ghiacciai "di riferimento" in tutto il
+          mondo. La media cumulativa è sottozero da sette decenni: la massa di
+          ghiaccio perduta equivale a ~26 metri d'acqua sul ghiacciaio medio.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-ghiacciai" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="ghiacciai-chip">bilancia di massa</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">perdita cumulativa (m equiv. acqua)</span>
+              <span class="readout-val" id="ghiacciai-cum">−26,0 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">perdita dell'anno</span>
+              <span class="readout-val" id="ghiacciai-year">−1,1 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">accelerazione dal 2000</span>
+              <span class="readout-val" id="ghiacciai-acc">−2,8×</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">anno</span>
+              <input type="range" id="ghiacciai-slider" min="1950" max="2024" step="1" value="2024">
+              <span class="slider-scale"><i>1950</i><i>2024</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="ghiacciai-go" class="btn btn-primary" type="button">Fai scorrere gli anni</button>
+            <button id="ghiacciai-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La bilancia di massa è il conto del ghiacciaio: neve che entra in
+            inverno, fusione che esce in estate. Da 74 anni consecutivi il
+            saldo è negativo sulla media dei ghiacciai di riferimento. Dal 2000
+            il ritmo si è più che raddoppiato. Alcuni ghiacciai locali avanzano
+            ancora per dinamica propria — la media planetaria no.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "Human-caused radiative forcing of 2.72 W/m² in 2019 relative to 1750
+        has warmed the climate system."
+      </p>
+      <p class="press-byline">IPCC · Sesto rapporto di valutazione · 2021</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Due secoli di misure</p>
+        <h2>Dai laboratori dell'800<br>al termometro globale</h2>
+        <p class="lede">
+          Nessuna scoperta singola ha "scoperto" il clima: è una catena di
+          misure cominciata nel 1859 e ancora aperta. Ognuna ha reso il quadro
+          un po' più nitido.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1859</span>
+            <h4>Tyndall</h4>
+            <p>Dimostra in laboratorio che CO₂ e vapore assorbono il calore. <a href="#tyndall">La prova</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1896</span>
+            <h4>Arrhenius</h4>
+            <p>Quantifica per primo: il raddoppio della CO₂ porterebbe diversi gradi di riscaldamento.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1938</span>
+            <h4>Callendar</h4>
+            <p>Unisce termometri e CO₂ e argomenta che il riscaldamento è già in corso.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1958</span>
+            <h4>Keeling</h4>
+            <p>Inizia la misura continua di CO₂ a Mauna Loa. <a href="#keeling">La curva</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1979</span>
+            <h4>Charney</h4>
+            <p>Il primo rapporto coerente sulla sensibilità climatica: 1,5–4,5 °C per raddoppio.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1988</span>
+            <h4>IPCC</h4>
+            <p>Nasce il Gruppo intergovernativo: la scienza del clima diventa sistematica.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2004–08</span>
+            <h4>EPICA Dome C</h4>
+            <p>La carota arriva a 800.000 anni: la CO₂ non aveva mai superato 300 ppm. <a href="#carote">Il record</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2015</span>
+            <h4>Accordo di Parigi</h4>
+            <p>Il mondo concorda di contenere il riscaldamento ben sotto i 2 °C.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2024</span>
+            <h4>Primo anno sopra +1,5 °C</h4>
+            <p>Le sei serie principali concordano: l'anno più caldo mai misurato. <a href="#temp">I termometri</a>.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Perché lo 0,04% di CO₂ può cambiare un clima?</summary>
+          <p>
+            Perché è un gas che assorbe l'infrarosso. L'aria è per il ~99%
+            azoto e ossigeno, che sono trasparenti al calore: la luce solare
+            arriva, scalda la superficie, e la Terra emette infrarosso. La CO₂,
+            anche in tracce, intercetta parte di quel flusso in uscita e lo
+            rinvia verso il basso. Un pizzico basta perché l'effetto è
+            logaritmico nella concentrazione: ogni raddoppio aggiunge la stessa
+            quantità di energia, ~3,7 W/m².
+          </p>
+        </details>
+        <details>
+          <summary>Ma la CO₂ non è "cibo per le piante"?</summary>
+          <p>
+            Lo è, e le piante ne assorbono di più (è il "fertilizzazione da
+            CO₂"): per questo la curva di Keeling scende in estate. Ma la
+            quantità emessa dall'uomo è così grande che l'assorbimento non
+            basta: la base della curva sale ogni anno di ~2 ppm. Il respiro
+            stagionale cresce, il livello medio continua a salire.
+          </p>
+        </details>
+        <details>
+          <summary>Se è "sempre cambiato", perché oggi sarebbe diverso?</summary>
+          <p>
+            La differenza è il ritmo. Nei cicli glaciali la CO₂ cambiava di
+            decine di ppm nell'arco di migliaia di anni; oggi è salita di
+            ~140 ppm in 170 anni — ordini di grandezza più veloce. E la causa è
+            misurabile: l'isotopo del carbonio nella CO₂ nuova (più
+            <sup>12</sup>C, meno <sup>14</sup>C) è esattamente quello dei
+            combustibili fossili.
+          </p>
+        </details>
+        <details>
+          <summary>I modelli non sono solo ipotesi?</summary>
+          <p>
+            I modelli nascono dalla fisica del bilancio radiativo — quello
+            dell'esperimento 03 — e dalle leggi dei gas. E vengono testati: il
+            modello di Arrhenius del 1896 e le previsioni degli anni '70 hanno
+            indovinato la direzione del riscaldamento osservato. La conferma
+            finale non è il modello, ma il termometro: la Terra si sta
+            comportando come previsto.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai spiegarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo la
+          verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="clima.js"></script>
+</body>
+</html>

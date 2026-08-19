@@ -882,6 +882,7 @@ body {
   .controls--wrap .btn { flex: 1 1 auto; }
   .timeline-track { grid-template-columns: 1fr; }
   .timeline-track::before { display: none; }
-  .navbar { padding: 12px 20px; }
+  .navbar { padding: 12px 20px; flex-wrap: wrap; row-gap: 8px; }
+  .navbar-links { flex-wrap: wrap; }
   .navbar-link { font-size: 11px; padding: 8px 11px; letter-spacing: 0.08em; }
 }
