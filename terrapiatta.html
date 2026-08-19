@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra Piatta · Gravità</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">γ</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="#top">Terra Piatta</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1687</p>
+    <h1 class="hero-title">
+      La Terra è piatta?<br>
+      <em>Un dubbio antico,<br>risolto misurando.</em>
+    </h1>
+    <p class="hero-sub">
+      Anche su questo argomento sono sorti dei dubbi — ed è giusto che sia così,
+      perché la scienza vive di dubbi. Ma un dubbio non si risolve con un'opinione:
+      si risolve con esperimenti che puoi ripetere. Qui sotto, due tra i più antichi
+      e più semplici, e il perché la Terra è tonda.
+    </p>
+    <div class="hero-actions">
+      <a href="#nave" class="btn btn-primary">La nave all'orizzonte</a>
+      <a href="#eratos" class="btn btn-ghost">L'esperimento di Eratostene</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="nave" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · La nave all'orizzonte</p>
+        <h2>La chiglia scompare per prima</h2>
+        <p class="lede">
+          In mare aperto, una nave che si allontana non si limita a rimpicciolire:
+          sprofonda sotto l'orizzonte prima con lo scafo, poi con l'albero.
+          Su una Terra piatta accadrebbe il contrario — l'intera nave resterebbe
+          visibile, solo più piccola.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-ship" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="ship-chip">guarda la chiglia: sprofonda per prima</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">distanza</span>
+              <span class="readout-val" id="ship-dist">0 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">scafo</span>
+              <span class="readout-val" id="ship-hull">visibile</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">albero</span>
+              <span class="readout-val" id="ship-mast">visibile</span>
+            </div>
+          </div>
+
+          <div class="controls controls--wrap">
+            <button id="ship-flat" class="btn" type="button">Terra piatta</button>
+            <button id="ship-sphere" class="btn is-active" type="button">Terra sferica</button>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">distanza della nave</span>
+              <input type="range" id="ship-slider" min="0" max="100" step="1" value="0">
+              <span class="slider-scale"><i>a bordo</i><i>all'orizzonte</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            Con la <strong>Terra sferica</strong> selezionata, trascina la distanza:
+            la curvatura solleva l'acqua fino a nascondere lo scafo, mentre l'albero
+            resta. Ora passa a <strong>Terra piatta</strong>: la nave rimpicciolisce
+            ma resta intera. È lo stesso esperimento che chiunque può rifare da una scogliera.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="eratos" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 07 · L'esperimento di Eratostene</p>
+        <h2>Un bastone, un'ombra,<br>il giro del mondo</h2>
+        <p class="lede">
+          Nel 240 a.C. Eratostene misurò la circonferenza della Terra con due bastoni,
+          due città e i raggi del sole. A Siene, a mezzogiorno, il sole era a picco:
+          nessuna ombra. Ad Alessandria, 800 chilometri più a nord, il bastone proiettava
+          un'ombra inclinata di 7,2°. Da lì si ricava il giro completo del pianeta.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-erato" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="erato-chip">240 a.C. · Eratostene di Cirene</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">distanza tra le città</span>
+              <span class="readout-val" id="erato-dist">800 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">angolo dell'ombra</span>
+              <span class="readout-val" id="erato-angle">7,2°</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">circonferenza calcolata</span>
+              <span class="readout-val" id="erato-circ">≈ 40.000 km</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">distanza tra le città</span>
+              <input type="range" id="erato-slider" min="0" max="100" step="1" value="37">
+              <span class="slider-scale"><i>vicine</i><i>lontane</i></span>
+            </label>
+          </div>
+
+          <p class="aside">
+            Sposta il cursore e osserva: qualunque distanza tu scelga, l'angolo
+            dell'ombra cresce in proporzione e la circonferenza calcolata resta
+            sempre ≈ 40.000 km. Un bastone, un'ombra e la forma della Terra
+            si rivelano da sole — duemila e duecento anni prima dei satelliti.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="perche" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Tre verifiche che non hanno bisogno di noi</p>
+        <h2>La forma che si vede<br>da sola</h2>
+        <p class="lede">
+          Oltre ai due esperimenti, ci sono tre osservazioni che chiunque può
+          ripetere — e che nessun modello di Terra piatta riesce a spiegare.
+        </p>
+      </div>
+
+      <div class="cards cards--three reveal">
+        <article class="card">
+          <span class="card-num">●</span>
+          <h3>L'eclissi di Luna</h3>
+          <p>
+            Quando la Terra si frappone tra il Sole e la Luna, l'ombra che proietta
+            sul nostro satellite è sempre un cerchio. Solo una sfera produce un'ombra
+            circolare in ogni orientamento: un disco piatto, ruotato, la avrebbe ellittica.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✦</span>
+          <h3>Le stelle cambiano con la latitudine</h3>
+          <p>
+            Viaggia verso nord e la Stella Polare si alza; verso sud sprofonda sotto
+            l'orizzonte e compaiono costellazioni nuove. È la geometria di una sfera
+            che ruota sotto una volta fissa: su un piano, il cielo non cambierebbe.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">g</span>
+          <h3>E perché è tonda?</h3>
+          <p>
+            Per lo stesso motivo per cui è tonda una goccia: la gravità tira ogni
+            cosa verso il centro. Qualunque irregolarità più alta di qualche chilometro
+            collasserebbe su sé stessa. La sfera è la forma che la gravità costruisce —
+            e questo quaderno è pieno di esperimenti che la misurano.
+          </p>
+        </article>
+      </div>
+
+      <p class="closing reveal">
+        Non c'è bisogno di crederci:<br>
+        c'è bisogno di misurare.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="terrapiatta.js"></script>
+</body>
+</html>
