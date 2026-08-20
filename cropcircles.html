@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I cerchi nel grano · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "◎"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">◎</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="scie.html">Scie</a>
+    <a class="navbar-link" href="luna.html">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+    <a class="navbar-link" href="clima.html">Clima</a>
+    <a class="navbar-link" href="inquinamento.html">Aria</a>
+    <a class="navbar-link" href="#top">Crop</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1972</p>
+    <h1 class="hero-title">
+      I cerchi nel grano<br>
+      <em>Si misurano —<br>e si rifanno.</em>
+    </h1>
+    <p class="hero-sub">
+      "Troppo perfetti per essere umani", "il grano è piegato senza rompersi",
+      "la scienza non li ha spiegati". Ogni affermazione ha un test: una corda
+      e una tavola, un compasso fatto di pioli, e un campo che non mente.
+      Da quando Doug Bower e Dave Chorley confessarono nel 1991, i cerchi nel
+      grano sono un esperimento di geometria applicata — non un mistero.
+    </p>
+    <div class="hero-actions">
+      <a href="#corda" class="btn btn-primary">La tecnica</a>
+      <a href="#tempo" class="btn btn-ghost">La storia</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>i sospetti più diffusi</h2>
+        <p class="lede">
+          Ogni obiezione seria merita una risposta seria. Nessuna di queste
+          regge al confronto con una misura.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Sono troppo perfetti per essere umani"</h3>
+          <p>
+            Un cerchio perfetto si fa con un piolo, una corda e una tavola —
+            è la costruzione del compasso. Le figure complesse sono
+            combinate di cerchi e poligoni, disegnate a mano in notturna
+            come un cantiere. Nessuna geometria impossibile.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il grano è piegato senza rompersi: non può essere umano"</h3>
+          <p>
+            Una tavola che rotola sul fusto piega i nodi senza spezzarli:
+            è il "pounder" dei tracciatori. La piegatura a nodo si replica
+            in dieci secondi. Il test è riproducibile — ed è stato pubblicato.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Se ce ne sono sempre più, c'è qualcosa"</h3>
+          <p>
+            Il numero è cresciuto con l'attenzione dei media e col turismo:
+            i cerchi compaiono dove c'è pubblico e accesso. La curva segue
+            la fama, non i visitatori dello spazio.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"La scienza non li ha mai spiegati"</h3>
+          <p>
+            La scienza li ha replicati con attrezzi da giardino. Di nessun
+            cerchio è mai stata dimostrata una causa paranormale: i "casi
+            aperti" sono cerchi senza autore noto, non cerchi soprannaturali.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tempo" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · Raccolta dei casi, 1972–2025</p>
+        <h2>La linea del tempo<br>dei cerchi</h2>
+        <p class="lede">
+          Il conteggio dei cerchi documentati in Inghilterra parte dal 1972 e
+          esplode negli anni '90 — proprio quando i media cominciano a
+          parlarne. Nel 1991 Doug Bower e Dave Chorley confessano di averne
+          fatti centinaia dal 1978, con corda e tavole.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-tempo" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="tempo-chip">cerchi documentati per anno</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">cerchi nell'anno scelto</span>
+              <span class="readout-val" id="tempo-count">32</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">totale documentati</span>
+              <span class="readout-val" id="tempo-tot">6.400</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">casi con autore confessato</span>
+              <span class="readout-val" id="tempo-hoax">centinaia</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">anno</span>
+              <input type="range" id="tempo-slider" min="1972" max="2025" step="1" value="1991">
+              <span class="slider-scale"><i>1972</i><i>2025</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="tempo-go" class="btn btn-primary" type="button">Fai scorrere gli anni</button>
+            <button id="tempo-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Prima del 1972 i cerchi moderni erano rarissimi; dopo la confessione
+            del 1991 il fenomeno non è sparito, ha cambiato natura: artisti e
+            squadre ne hanno fatti altri, spesso per campagne e turismo. La
+            curva non misura "visite aliene": misura attenzione e accesso.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="corda" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · La tecnica del "pounder"</p>
+        <h2>La corda e la tavola</h2>
+        <p class="lede">
+          Bower e Chorley usavano due strumenti: una corda fissata a un piolo
+          per tracciare il raggio, e una tavola di legno per appiattire il
+          grano lungo il percorso. Un cerchio perfetto si disegna in pochi
+          minuti — di notte, in un campo.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-corda" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="corda-chip">piolo · corda · tavola</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">raggio del cerchio</span>
+              <span class="readout-val" id="corda-raggio">5,0 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">strumenti</span>
+              <span class="readout-val" id="corda-tools">corda 2 m · tavola 1,2 m</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">tempo per tracciare</span>
+              <span class="readout-val" id="corda-tempo">6 min</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">raggio</span>
+              <input type="range" id="corda-slider" min="1" max="15" step="0.5" value="5">
+              <span class="slider-scale"><i>1 m</i><i>15 m</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="corda-go" class="btn btn-primary" type="button">Traccia il cerchio</button>
+            <button id="corda-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La geometria è quella del compasso: un punto fisso (il piolo), una
+            distanza fissa (la corda), un percorso circolare (il passo della
+            tavola). Per una figura a più cerchi si ripete il giro cambiando
+            centro e raggio. La "perfezione" che sorprende è la stessa di un
+            compasso da scuola.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="geometria" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Costruzione a pioli</p>
+        <h2>La geometria del compasso</h2>
+        <p class="lede">
+          Le figure complesse — pentagrammi, anelli, stelle — sono
+          combinazioni di cerchi e poligoni. Si tracciano con corde tese tra
+          pioli e archi di raggio fisso: è la costruzione classica, la stessa
+          dei geografi antichi.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-geometria" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="geometria-chip">poligono tracciato a pioli</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">numero di punti</span>
+              <span class="readout-val" id="geometria-n">5</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">angolo al centro</span>
+              <span class="readout-val" id="geometria-ang">72°</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">distanza tra pioli</span>
+              <span class="readout-val" id="geometria-dist">6,3 m</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">numero di punti</span>
+              <input type="range" id="geometria-slider" min="3" max="12" step="1" value="5">
+              <span class="slider-scale"><i>triangolo</i><i>stella</i><i>12 punti</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="geometria-go" class="btn btn-primary" type="button">Costruisci</button>
+            <button id="geometria-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Con una corda della lunghezza del raggio si marcano i punti su una
+            circonferenza: ogni passo di corda è un angolo fisso. Cinque passi
+            danno il pentagono, sei l'esagono, e unendo punti non consecutivi
+            nascono le stelle. Nessuna conoscenza segreta: è aritmetica dei
+            poligoni.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="nodi" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · Il test dei fusti</p>
+        <h2>I nodi piegati</h2>
+        <p class="lede">
+          "Le spighe sono piegate al nodo senza rompersi: lo fanno solo i
+          raggi energetici." Falso: una tavola che rotola sul fusto esercita
+          una pressione dolce e costante, e il nodo si piega senza spezzarsi.
+          È il test che ha smontato la teoria delle microonde.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-nodi" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="nodi-chip">pressione dolce</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">steli piegati senza rottura</span>
+              <span class="readout-val" id="nodi-pie">95 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">angolo medio di piega</span>
+              <span class="readout-val" id="nodi-ang">92°</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">tempo per metro di traccia</span>
+              <span class="readout-val" id="nodi-tempo">12 s</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">pressione della tavola</span>
+              <input type="range" id="nodi-slider" min="0" max="10" step="0.5" value="4">
+              <span class="slider-scale"><i>nessuna</i><i>forte</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="nodi-go" class="btn btn-primary" type="button">Premi la tavola</button>
+            <button id="nodi-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Nel 2010 il fisico Richard Taylor ha pubblicato la replica
+            sperimentale: una tavola che rotola piega i nodi senza rottura,
+            con angoli tipici di 90°. Il "mistero" dei fusti piegati è
+            l'effetto meccanico di un'attrezzo da giardino — niente calore,
+            niente onde, solo pressione.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mappa" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · Distribuzione geografica</p>
+        <h2>La mappa dei cerchi</h2>
+        <p class="lede">
+          I cerchi non compaiono a caso: si addensano nell'Inghilterra
+          meridionale, vicino a strade, villaggi e siti turistici — dove un
+          tracciatore arriva di notte e dove la scoperta farà notizia.
+          La mappa è una curva di accessibilità, non di energia.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-mappa" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="mappa-chip">cluster vicino alle strade</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">distanza media dalle strade</span>
+              <span class="readout-val" id="mappa-dist">1,2 km</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">cerchi entro 2 km da una strada</span>
+              <span class="readout-val" id="mappa-pct">78 %</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">regione principale</span>
+              <span class="readout-val" id="mappa-reg">Wiltshire, UK</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">raggio di accesso</span>
+              <input type="range" id="mappa-slider" min="0.5" max="5" step="0.1" value="2">
+              <span class="slider-scale"><i>0,5 km</i><i>5 km</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="mappa-go" class="btn btn-primary" type="button">Allarga il raggio</button>
+            <button id="mappa-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            La maggior parte dei cerchi documentati sta entro pochi chilometri
+            da una strada o da un centro abitato. Non c'è correlazione con
+            zone "energetiche": c'è correlazione con dove si può parcheggiare,
+            entrare in un campo di notte e tornare prima dell'alba.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="statistica" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Il bilancio dei casi</p>
+        <h2>Quanti cerchi<br>hanno una causa aliena?</h2>
+        <p class="lede">
+          Mettiamo in fila i numeri: cerchi attribuiti a squadre, a confessati,
+          a repliche, e cerchi con causa paranormale dimostrata. Il conto è
+          semplice — e il risultato è zero.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-statistica" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="statistica-chip">cause note vs paranormale</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">cerchi con autore dimostrato</span>
+              <span class="readout-val" id="statistica-noto">molti</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">cerchi "inspiegati" (senza autore)</span>
+              <span class="readout-val" id="statistica-aperti">qualche centinaio</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">causa paranormale dimostrata</span>
+              <span class="readout-val" id="statistica-zero">0</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">casi verificati</span>
+              <input type="range" id="statistica-slider" min="0" max="100" step="1" value="100">
+              <span class="slider-scale"><i>0</i><i>100</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="statistica-go" class="btn btn-primary" type="button">Verifica i casi</button>
+            <button id="statistica-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            "Inspiegato" non significa "soprannaturale": significa che nessuno
+            ha confessato o è stato colto sul fatto. Di nessun cerchio al mondo
+            è mai stata prodotta una prova di origine non umana. Il quaderno
+            chiude con lo zero più importante: 0 cause paranormali dimostrate.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "We do have a sense of humour. We thought it was a joke
+        that had got out of hand."
+      </p>
+      <p class="press-byline">Doug Bower · confessione del 1991</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Dal campo alla dimostrazione</p>
+        <h2>Quarant'anni di mistero<br>e un'attrezzo da giardino</h2>
+        <p class="lede">
+          La storia dei cerchi nel grano è la storia di un'ipotesi fantastica
+          battuta da un test riproducibile. Ecco le tappe.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1966</span>
+            <h4>Tully, Australia</h4>
+            <p>Il "saucer nest": un'area appiattita attribuita agli alieni,
+            poi spiegata con cause naturali. Il primo caso mediatico. <a href="#corda">La tecnica</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1972</span>
+            <h4>Primi cerchi moderni</h4>
+            <p>In Inghilterra compaiono i primi cerchi "moderni": pochi, isolati,
+            ancora senza nome.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1978</span>
+            <h4>Bower e Chorley iniziano</h4>
+            <p>Due amici del Wiltshire cominciano a tracciarne a decine, con
+            corda e tavole, di notte.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1980–90</span>
+            <h4>Il boom</h4>
+            <p>I media scoprono il fenomeno: il numero di cerchi esplode e le
+            figure diventano più complesse. <a href="#tempo">La linea del tempo</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1991</span>
+            <h4>La confessione</h4>
+            <p>Bower e Chorley rivelano al "Today" di averne fatti centinaia
+            dal 1978, dimostrando la tecnica in diretta.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2000s</span>
+            <h4>Arte e marketing</h4>
+            <p>Artisti e squadre firmano cerchi su commissione: la geometria
+            diventa un mestiere, non un mistero.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2010</span>
+            <h4>La replica fisica</h4>
+            <p>Richard Taylor pubblica la piegatura dei nodi con la tavola:
+            il test che chiude la teoria delle microonde. <a href="#nodi">I nodi</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">Oggi</span>
+            <h4>0 cause paranormali</h4>
+            <p>Nessun cerchio ha mai superato il vaglio di una causa non umana.
+            Il quaderno finisce dove comincia: con la misura. <a href="#statistica">Il bilancio</a>.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Ma come fanno a essere così precisi di notte?</summary>
+          <p>
+            Perché la costruzione non richiede precisione ottica: richiede
+            una corda. Con un piolo e una corda si traccia un cerchio esatto
+            al buio, e i poligoni si ottengono passando la corda tra i pioli.
+            La "perfezione" è la matematica del compasso, che funziona anche
+            con gli occhi chiusi.
+          </p>
+        </details>
+        <details>
+          <summary>E i cerchi che nessuno ha mai confessato?</summary>
+          <p>
+            Sono la stragrande maggioranza — ma "senza autore noto" non è una
+            causa. Un crimine senza colpevole non è un miracolo: è un caso
+            irrisolto. Molti sono stati attribuiti ad artisti e squadre dalla
+            tecnica identica; altri restano di autore ignoto. Nessuno ha mai
+            prodotto una prova di origine non umana.
+          </p>
+        </details>
+        <details>
+          <summary>E la teoria delle microonde e del calore?</summary>
+          <p>
+            Era un'ipotesi (il grano "esplode" con le microonde), ma i fusti
+            dei cerchi non mostrano segni di calore. La replica di Taylor ha
+            mostrato che una tavola che rotola piega i nodi senza rottura,
+            con gli stessi angoli. L'ipotesi energetica non serviva: spiegava
+            un effetto che un attrezzo da giardino riproduce in pieno.
+          </p>
+        </details>
+        <details>
+          <summary>Allora il mistero è finito?</summary>
+          <p>
+            Il mistero paranormale sì: non regge a un test. Ciò che resta è
+            interessante: la creatività di chi disegna con corde e pioli
+            figure di geometria complessa, e la storia di come un'ipotesi
+            fantastica si sia dissolta davanti a una misura. Anche questo è
+            un esperimento — ed è quello di questo quaderno.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai spiegarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo la
+          verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="cropcircles.js"></script>
+</body>
+</html>
