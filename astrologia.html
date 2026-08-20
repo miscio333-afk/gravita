@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astrologia · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='8' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "☉"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">☉</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="scie.html">Scie</a>
+    <a class="navbar-link" href="luna.html">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+    <a class="navbar-link" href="clima.html">Clima</a>
+    <a class="navbar-link" href="inquinamento.html">Aria</a>
+    <a class="navbar-link" href="cropcircles.html">Crop</a>
+    <a class="navbar-link" href="damanhur.html">Damanhur</a>
+    <a class="navbar-link" href="cinque.html">5G</a>
+    <a class="navbar-link" href="#top">Astrologia</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1948</p>
+    <h1 class="hero-title">
+      Astrologia.<br>
+      <em>Si legge —<br>o si misura.</em>
+    </h1>
+    <p class="hero-sub">
+      Dal 1948 sappiamo che un oroscopo generico convince quasi tutti:
+      lo stesso testo, valutato 4,26 su 5. Da allora il cielo è stato
+      misurato: un test alla cieca, oltre quindicimila persone, e una
+      stanza di parto in cui l'ostetrica pesa più di Marte. Tre
+      affermazioni, tre misure — e tutte e tre parlano lo stesso
+      linguaggio.
+    </p>
+    <div class="hero-actions">
+      <a href="#forza" class="btn btn-primary">La misura</a>
+      <a href="#storia" class="btn btn-ghost">La storia</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>le promesse dell'oroscopo</h2>
+        <p class="lede">
+          L'astrologia fa tre affermazioni precise: i pianeti agiscono su
+          chi nasce, il segno dice com'è fatto il carattere, gli astrologi
+          sanno leggere un tema natale. Tutte e tre hanno un test — e tutti
+          e tre i test sono già stati fatti.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"I pianeti influenzano chi nasce"</h3>
+          <p>
+            La gravità di Marte su un neonato vale circa tre miliardesimi
+            di newton: meno di un sesto di quella dell'ostetrica a un metro.
+            E la Terra lo tira con una forza un miliardo di volte maggiore.
+            Se i pianeti contassero davvero, chi è vicino conterebbe molto
+            di più.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il mio oroscopo è sorprendentemente preciso"</h3>
+          <p>
+            Nel 1948 Bertram Forer diede a 39 studenti lo stesso testo
+            preso da un libro di oroscopi da edicola: valutazione media
+            4,26 su 5. Replicato centinaia di volte, il voto resta
+            intorno a 4,2. Non è precisione: è l'effetto Forer.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il segno dice com'è fatta una persona"</h3>
+          <p>
+            Hartmann, Reuter e Nyborg (2006) hanno confrontato data di
+            nascita e personalità di oltre 15.000 persone: zero correlazioni
+            con segno solare, elementi o genere astrologico. Nessun segno è
+            più ansioso, più estroverso o più intelligente.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Gli astrologi sanno leggere un tema natale"</h3>
+          <p>
+            Nel test alla cieca di Carlson (Nature, 1985), 28 astrologi
+            hanno abbinato i temi natali a 1 profilo su 3. Hanno indovinato
+            il 34%: esattamente il caso. Avevano previsto almeno il 50%.
+            La conclusione pubblicata: "refutes the astrological hypothesis".
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="forza" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · La gravità in sala parto</p>
+        <h2>Un pianeta pesa meno<br>di un'ostetrica</h2>
+        <p class="lede">
+          L'astrologia dice che i pianeti agiscono su chi nasce. La gravità
+          è l'unica forza fisica che un pianeta può esercitare — e si misura
+          con F = G·m₁·m₂/d². Mettiamo un neonato, la sua ostetrica e Marte
+          nella stessa stanza, e facciamo il conto.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-forza" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="forza-chip">alla distanza media, l'ostetrica tira più di Marte</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">forza di Marte sul neonato</span>
+              <span class="readout-val" id="forza-marte">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">l'ostetrica a 1 metro</span>
+              <span class="readout-val" id="forza-doc">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">la gravità terrestre</span>
+              <span class="readout-val" id="forza-terra">—</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">distanza Terra–Marte</span>
+              <input type="range" id="forza-slider" min="55" max="400" step="1" value="225">
+              <span class="slider-scale"><i>55 milioni di km</i><i>400 milioni di km</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="forza-go" class="btn btn-primary" type="button">Pesa il cielo</button>
+            <button id="forza-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Alla distanza media (225 milioni di km) l'ostetrica tira sul
+            neonato circa sei volte più di Marte; l'edificio dell'ospedale
+            tira cinquecentomila volte più di Marte, come osservava
+            l'astronomo Andrew Fraknoi nel 1988. E la Terra intera tira un
+            miliardo di volte più di tutti i pianeti messi insieme. Se i
+            pianeti ci influenzassero con la gravità, saremmo governati da
+            chi è fisicamente vicino.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="carlson" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · Il test alla cieca (1985)</p>
+        <h2>116 temi natali.<br>Zero indovinati dal talento</h2>
+        <p class="lede">
+          Il modo più pulito di mettere alla prova l'astrologia è il test
+          alla cieca: all'astrologo si danno un tema natale e tre profili
+          di personalità, e si chiede quale va con quale. Con tre scelte
+          possibili, il caso indovina un terzo. Guarda cosa succede.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-carlson" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="carlson-chip">test alla cieca · il risultato converge sul caso</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">abbinamenti corretti</span>
+              <span class="readout-val" id="carlson-hit">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">percentuale di successo</span>
+              <span class="readout-val" id="carlson-pct">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">atteso dal caso · previsto dagli astrologi</span>
+              <span class="readout-val" id="carlson-atteso">33,3 % · ≥ 50 %</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">temi esaminati</span>
+              <input type="range" id="carlson-slider" min="0" max="116" step="1" value="116">
+              <span class="slider-scale"><i>0</i><i>116</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="carlson-go" class="btn btn-primary" type="button">Metti alla prova</button>
+            <button id="carlson-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Carlson ha pubblicato i risultati su Nature nel 1985: 0,34 ±
+            0,044, contro un 0,50 che gli astrologi avevano dichiarato prima
+            del test. La conclusione degli autori è esplicita: il risultato
+            "refutes the astrological hypothesis". Il caso basta a spiegare
+            tutto — e il caso è tutto quello che c'è.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="segni" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · La correlazione segno–carattere</p>
+        <h2>15.000 persone.<br>Zero correlazioni</h2>
+        <p class="lede">
+          Se il segno dicesse qualcosa del carattere, la personalità
+          dovrebbe differire sistematicamente da un segno all'altro.
+          Hartmann e colleghi (2006) l'hanno misurato su oltre 15.000
+          persone con test standardizzati di personalità e intelligenza.
+          Conta i soggetti e guarda cosa emerge.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-segni" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="segni-chip">15.000+ soggetti · correlazione: 0</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">soggetti esaminati</span>
+              <span class="readout-val" id="segni-n">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">correlazioni significative</span>
+              <span class="readout-val" id="segni-corr">0</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">test effettuati</span>
+              <span class="readout-val" id="segni-test">3 · segno · elemento · genere</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">soggetti esaminati</span>
+              <input type="range" id="segni-slider" min="0" max="15000" step="100" value="15000">
+              <span class="slider-scale"><i>0</i><i>15.000+</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="segni-go" class="btn btn-primary" type="button">Esamina i soggetti</button>
+            <button id="segni-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Il confronto ha incluso segno solare, elementi (fuoco, terra,
+            aria, acqua) e genere astrologico. Niente: nessuna correlazione
+            con i tratti di personalità o con l'intelligenza, in nessun
+            segno. Non "poca" correlazione: zero. Quando la misura c'è, il
+            segno non c'è.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="precessione" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · La precessione degli equinozi</p>
+        <h2>Il tuo segno non è<br>più il tuo segno</h2>
+        <p class="lede">
+          L'asse terrestre oscilla come una trottola: un giro completo ogni
+          ~25.800 anni. In duemila anni l'equinozio è scivolato di circa un
+          segno. L'oroscopo occidentale (tropicale) ignora questa deriva;
+          il cielo reale (siderale) no. Sposta l'anno di nascita e guarda
+          dove sta davvero il Sole.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-precessione" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="precessione-chip">l'oroscopo è fisso · il cielo è scivolato</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">il tuo oroscopo (tropicale)</span>
+              <span class="readout-val" id="prec-trop">Leone (15 agosto)</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">dove sta davvero il Sole (siderale)</span>
+              <span class="readout-val" id="prec-sider">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">scarto dalla costellazione</span>
+              <span class="readout-val" id="prec-scarto">—</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">anno di nascita</span>
+              <input type="range" id="precessione-slider" min="-150" max="2026" step="1" value="2000">
+              <span class="slider-scale"><i>150 a.C.</i><i>2026</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="precessione-go" class="btn btn-primary" type="button">Guarda il cielo</button>
+            <button id="precessione-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Chi è nato il 15 agosto "è" Leone per l'oroscopo, ma ha il Sole
+            nella costellazione del Cancro: circa 24° di scarto, quasi un
+            segno. Lo zodiaco tropicale è agganciato all'equinozio, non al
+            cielo; quello siderale (vedico) segue le costellazioni, e per
+            questo i due sistemi divergono. La lista dei segni è poi
+            arbitraria: il Sole attraversa lo Scorpione in 5 giorni e il
+            Toro in 38 — con un tredicesimo segmento, Ofiuco, tagliato fuori.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="forer" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · L'effetto Forer (1948)</p>
+        <h2>L'oroscopo che<br>convince tutti</h2>
+        <p class="lede">
+          Nel 1948 lo psicologo Bertram Forer diede ai suoi studenti un
+          test di personalità e promise un'analisi individuale. Poi
+          consegnò a tutti lo stesso testo, copiato da un libro di
+          oroscopi. La valutazione media di accuratezza fu 4,26 su 5.
+          Aggiungi studenti e guarda il voto.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-forer" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="forer-chip">effetto Forer · 1 testo per tutti · 4,26/5</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">studenti coinvolti</span>
+              <span class="readout-val" id="forer-n">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">voto medio di accuratezza</span>
+              <span class="readout-val" id="forer-avg">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">un testo diverso per ognuno?</span>
+              <span class="readout-val" id="forer-testo">no · uno solo per tutti</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">studenti coinvolti</span>
+              <input type="range" id="forer-slider" min="1" max="39" step="1" value="39">
+              <span class="slider-scale"><i>1</i><i>39</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="forer-go" class="btn btn-primary" type="button">Distribuisci il testo</button>
+            <button id="forer-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Il fenomeno ha un nome: effetto Forer, o effetto Barnum. Testi
+            vaghi, lusinghieri e universali — "hai bisogno di essere
+            apprezzato", "a volte dubiti delle tue decisioni" — sembrano
+            scritti per noi proprio perché valgono per tutti. Ripetuto
+            centinaia di volte in classi di tutto il mondo, il voto medio
+            resta intorno a 4,2 su 5.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="bilancio" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Il conto finale</p>
+        <h2>Quanto ha retto<br>alla misura?</h2>
+        <p class="lede">
+          Mettiamo in fila le promesse dell'astrologia e i test che le
+          hanno misurate. Il conto è semplice — e ha un solo lato che si
+          riempie.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-bilancio" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="bilancio-chip">prove per l'astrologia: 0</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">rivendicazioni esaminate</span>
+              <span class="readout-val" id="bilancio-rev">3</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">con prova controllata e riprodotta</span>
+              <span class="readout-val" id="bilancio-zero">0</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">test controllati riprodotti</span>
+              <span class="readout-val" id="bilancio-reale">3 · Carlson · Hartmann · Forer</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">verifiche esaminate</span>
+              <input type="range" id="bilancio-slider" min="0" max="100" step="1" value="100">
+              <span class="slider-scale"><i>0</i><i>100</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="bilancio-go" class="btn btn-primary" type="button">Chiudi il conto</button>
+            <button id="bilancio-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Tre rivendicazioni — i pianeti agiscono, il segno dice chi sei,
+            gli astrologi sanno leggere — e nessuna ha superato un test
+            alla cieca. I tre esperimenti reali di questo quaderno sono
+            tutti contro: Carlson su Nature, Hartmann su oltre 15.000
+            persone, Forer con il suo oroscopo universale. L'astrologia non
+            ha bisogno di essere smontata: le basta essere misurata.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "The gravitational pull of the obstetrician is six times that of
+        Mars. The hospital building has 500,000 times the pull of Mars."
+      </p>
+      <p class="press-byline">Andrew Fraknoi, astronomo · UPI, 1988</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Dalle stelle ai test alla cieca</p>
+        <h2>Dall'antica Babilonia<br>alla misura</h2>
+        <p class="lede">
+          L'astrologia ha una storia lunghissima e documentata. Anche la
+          sua messa alla prova ha una storia: ecco le tappe.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">~150 a.C.</span>
+            <h4>Ipparco scopre la precessione</h4>
+            <p>L'astronomo greco misura lo spostamento del cielo e scopre
+            l'oscillazione dell'asse terrestre: un giro ogni ~25.800 anni.
+            <a href="#precessione">Il segno che scivola</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">~150 d.C.</span>
+            <h4>Tolomeo fissa lo zodiaco</h4>
+            <p>Il Tetrabiblos codifica lo zodiaco tropicale, agganciato
+            all'equinozio: è la base degli oroscopi occidentali moderni.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1948</span>
+            <h4>L'effetto Forer</h4>
+            <p>39 studenti, lo stesso testo, voto 4,26/5: nasce la prova
+            che gli oroscopi convincono perché sono vaghi.
+            <a href="#forer">L'esperimento</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1955</span>
+            <h4>L'"effetto Marte"</h4>
+            <p>Michel Gauquelin annuncia che i campioni sportivi nascono più
+            spesso con Marte in posizioni chiave: 22% contro il 17% atteso.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1977</span>
+            <h4>Il test di Zelen</h4>
+            <p>Marvin Zelen analizza il dato di Gauquelin: l'effetto non
+            regge. La disputa si sposta sui criteri con cui i campioni erano
+            stati scelti.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1979</span>
+            <h4>Il test americano</h4>
+            <p>Su 408 campioni sportivi USA, la frequenza di Marte torna al
+            caso: 13,5%. L'effetto non si riproduce.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1985</span>
+            <h4>Carlson su Nature</h4>
+            <p>Il doppio cieco definitivo: 0,34 ± 0,044, esattamente il
+            caso. La rivista più citata al mondo pubblica la smentita.
+            <a href="#carlson">Il test</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1996</span>
+            <h4>La conferma francese</h4>
+            <p>Il CFEPP testa 1.120 campioni: 18,66% contro il 17,7% atteso
+            — nessun effetto Marte. Il dato originale era un artefatto della
+            selezione.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2006</span>
+            <h4>15.000 persone, zero correlazioni</h4>
+            <p>Hartmann, Reuter e Nyborg chiudono il discorso
+            segno–personalità su una scala che nessuno aveva usato prima.
+            <a href="#segni">I dati</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2011</span>
+            <h4>La notizia del "segno cambiato"</h4>
+            <p>Il planetario del Minnesota fa notare che lo zodiaco non
+            coincide più con le costellazioni. I giornali di mezzo mondo
+            titolano sul "cambio di segno": è solo la precessione, sempre
+            stata lì.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Perché l'oroscopo sembra così preciso?</summary>
+          <p>
+            Perché è vago e universale — e la mente fa il resto. L'effetto
+            Forer mostra che uno stesso testo generico viene giudicato
+            "fatto su misura" da quasi tutti. A questo si sommano il bias di
+            conferma (ricordiamo i colpi, dimentichiamo i mancati) e
+            l'auto-applicazione (tendiamo ad applicare a noi ciò che vale
+            per chiunque). La precisione dell'oroscopo è la precisione di
+            uno specchio sfocato.
+          </p>
+        </details>
+        <details>
+          <summary>Il mio segno è davvero sbagliato?</summary>
+          <p>
+            Dipende dal sistema che scegli. Lo zodiaco tropicale
+            (occidentale) è fisso all'equinozio e non segue le costellazioni;
+            quello siderale (vedico) le segue. Oggi i due divergono di circa
+            24°, quasi un segno: per questo un "Leone" tropicale ha il Sole
+            nel Cancro siderale. La precessione è un fatto misurato; la
+            scelta del segno è una convenzione.
+          </p>
+        </details>
+        <details>
+          <summary>Ma l'effetto Marte era un dato vero?</summary>
+          <p>
+            Gauquelin aveva pubblicato numeri reali: 22% contro 17%. Il
+            problema era come erano stati scelti i campioni: aggiungendo e
+            scartando dati, l'effetto appariva e spariva. Le repliche
+            indipendenti — Zelen, il test americano, il CFEPP francese —
+            non l'hanno mai riprodotto. Un dato non basta: va riprodotto.
+          </p>
+        </details>
+        <details>
+          <summary>E l'antichità dell'astrologia?</summary>
+          <p>
+            Un'idea antica è solo un'idea antica. I Babilonesi osservavano
+            il cielo con cura — e quelle osservazioni hanno dato alla
+            scienza la precessione. Ma l'astrologia non ha mai superato un
+            test alla cieca in duemila anni. L'età di un'idea non è una
+            misura della sua verità.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai misurarlo?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo
+          la verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="astrologia.js"></script>
+</body>
+</html>

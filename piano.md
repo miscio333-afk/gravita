@@ -9,7 +9,15 @@
 - **Crop**: `cropcircles.html` + `cropcircles.js` completati e verificati (nuovo argomento "I cerchi nel grano").
 - **Damanhur**: `damanhur.html` + `damanhur.js` completati e verificati (nuovo argomento "Energie invisibili: linee sincroniche e selfica").
 - **5G**: `cinque.html` + `cinque.js` completati e verificati (nuovo argomento "5G: si misura o si teme").
-- **Navbar condivisa** su index/luna/terrapiatta/scie/clima/aria/crop/damanhur/cinque aggiornata con link a tutte le pagine (9 voci).
+- **Astrologia**: `astrologia.html` + `astrologia.js` completati e verificati (nuovo argomento "Astrologia: si legge — o si misura").
+- **Navbar condivisa** su tutte le 10 pagine aggiornata con link a tutte le pagine (11 voci; ogni pagina mostra sé stessa come `#top`).
+
+## Verifiche Astrologia (ultimo ciclo)
+- `node --check astrologia.js` OK; console 0 errori su 10 pagine; overflow 0 a 375/561/640/780/900/1000/1280 su tutte le 10 pagine.
+- **Fix CSS navbar (styles.css)**: con 11 voci la navbar non stava più a ~900px (sbordo 3px) né tra 561-640px (sbordo ~100-180px). Aggiunti due media query: `@media (max-width:1000px)` (link più stretti: font 11px, padding 8px 11px, letter-spacing 0.08em, gap 5px) e `@media (max-width:820px)` (navbar e links con `flex-wrap: wrap`). Le regole phone (cards 1fr, hero, timeline) restano a 560px.
+- Pixel check: 6 canvas disegnano dopo scroll (forza/carlson/segni/precessione/forer/bilancio), con colori accent/teal presenti. Nota: serve `scrollBehavior:auto` + attesa ≥400ms prima del capture, altrimenti lo scroll animato porta a capture su canvas non ancora ridimensionati (falso negativo).
+- Interazioni: forza (400 Mkm → 9,37 × 10⁻¹⁰ N, doc ~17× Marte; default 225 Mkm → 2,96 × 10⁻⁹ N, doc ~5,5×), carlson (go → 38/116 = 32,8%, chip "0,33 = caso"), segni (go → 15.000 soggetti, corr 0), precessione (2026 → siderale Cancro, scarto 24,3° ≈ 1 segno), forer (39/39 → 4,22/5), bilancio (zero 0, reale 3 · Carlson · Hartmann · Forer), quiz 6/6 con verdetto.
+- **Produzione**: https://gravita180826.vercel.app/ — astrologia.html = 200 (verifica dopo push).
 
 ## Verifiche 5G (ultimo ciclo)
 - `node --check cinque.js` OK; console 0 errori su 10 pagine; overflow 0 a 375/560/900/1280 (navbar a 9 voci regge a 375 col flex-wrap).
@@ -47,4 +55,4 @@
 ## Info repository
 - Remote: https://github.com/miscio333-afk/gravita.git (branch main)
 - Utente: miscio333-afk
-- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, damanhur.html/damanhur.js, cinque.html/cinque.js, styles.css condiviso, SKILL.md.
+- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, damanhur.html/damanhur.js, cinque.html/cinque.js, astrologia.html/astrologia.js, styles.css condiviso, SKILL.md.
