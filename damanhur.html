@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Damanhur · Quaderno di esperimenti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f0b45a'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%237fd0c6' stroke-opacity='0.4' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero::before { content: "D"; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav class="navbar" aria-label="Navigazione principale">
+  <a class="navbar-brand" href="index.html" aria-label="Vai a Gravità">D</a>
+  <div class="navbar-links">
+    <a class="navbar-link" href="index.html">Gravità</a>
+    <a class="navbar-link" href="scie.html">Scie</a>
+    <a class="navbar-link" href="luna.html">Luna</a>
+    <a class="navbar-link" href="terrapiatta.html">Terra Piatta</a>
+    <a class="navbar-link" href="clima.html">Clima</a>
+    <a class="navbar-link" href="inquinamento.html">Aria</a>
+    <a class="navbar-link" href="cropcircles.html">Crop</a>
+    <a class="navbar-link" href="#top">Damanhur</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <header class="hero hero--page" id="top">
+    <p class="eyebrow">Una pagina del quaderno · est. 1975</p>
+    <h1 class="hero-title">
+      Damanhur.<br>
+      <em>L'energia si misura —<br>o non c'è.</em>
+    </h1>
+    <p class="hero-sub">
+      Una comunità, un tempio scavato a mano, e un'idea precisa: che esistano
+      "fiumi di energia" attorno alla Terra e che oggetti a spirale sappiano
+      concentrarli. Le linee sincroniche si individuano con la radiestesia,
+      la selfica convoglierebbe energie vitali, e le cabine rallenterebbero
+      l'invecchiamento. Tutte affermazioni con un destino comune: possono
+      essere misurate. Quando lo si fa, il risultato è sempre lo stesso.
+    </p>
+    <div class="hero-actions">
+      <a href="#dowsing" class="btn btn-primary">La misura</a>
+      <a href="#storia" class="btn btn-ghost">La storia</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Le credenze da smontare</p>
+        <h2>Prima dei fatti,<br>i sospetti più diffusi</h2>
+        <p class="lede">
+          Ogni obiezione seria merita una risposta seria. Nessuna di queste
+          regge al confronto con una misura.
+        </p>
+      </div>
+
+      <div class="cards cards--myth reveal">
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Le linee sincroniche sono fiumi di energia"</h3>
+          <p>
+            Nove linee nord-sud, nove est-ovest, "mappate" con la radiestesia,
+            il viaggio astrale e la medianità. Quando la radiestesia viene
+            testata alla cieca — senza sapere cosa c'è sotto — indovina
+            esattamente quanto il caso. Il test è del 1959, e non è mai stato
+            superato.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"La selfica concentra energie vitali"</h3>
+          <p>
+            Strutture a spirale di metalli, inchiostri e minerali che
+            ospiterebbero "energie intelligenti". Un oggetto che emette energia
+            è misurabile con un sensore. Nessuno ha mai presentato una misura:
+            il rumore di fondo non cambia di un decimillesimo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Le cabine rallentano l'invecchiamento"</h3>
+          <p>
+            "Cabine del ringiovanimento" con energie capaci di fermare gli
+            effetti del tempo. Non esiste un solo trial pubblicato: i
+            biomarcatori non si spostano di un'unità, e nel 2009 i NAS hanno
+            trovato irregolarità nell'ambulatorio delle dottoresse adepte.
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-num">✕</span>
+          <h3>"Il Tempio prova che l'energia esiste"</h3>
+          <p>
+            Il Tempio dell'Umanità è reale: 8.500 m³ scavati a mano a 72 metri
+            di profondità, record Guinness 2001. Ma è un'opera di ingegneria,
+            non una misura di energia. La fatica di chi ha scavato è vera:
+            proprio per questo la distinzione conta.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="dowsing" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 01 · Il test alla cieca, 1959</p>
+        <h2>La radiestesia<br>e l'acqua che non c'era</h2>
+        <p class="lede">
+          Le linee sincroniche vengono "sentite" con le stesse bacchette che
+          dovrebbero trovare l'acqua. Nel 1959 il folclorista Evon Vogt e lo
+          psicologo Ray Hyman hanno raccolto un secolo di casi e fatto la cosa
+          giusta: testare i rabdomanti alla cieca. Venti tubi, uno con l'acqua,
+          nessuno che sapesse quale.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-dowsing" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="dowsing-chip">20 tubi · 1 con acqua</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">tubi con acqua indovinati</span>
+              <span class="readout-val" id="dowsing-hit">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">percentuale corretta</span>
+              <span class="readout-val" id="dowsing-pct">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">attesa dal caso</span>
+              <span class="readout-val" id="dowsing-chance">5 %</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">prove del rabdomante</span>
+              <input type="range" id="dowsing-slider" min="10" max="200" step="10" value="100">
+              <span class="slider-scale"><i>10</i><i>200</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="dowsing-go" class="btn btn-primary" type="button">Fai il test</button>
+            <button id="dowsing-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Nel test di Vogt e Hyman ogni prova ha un tubo giusto su venti:
+            il caso dà il 5%. I rabdomanti testati si sono fermati lì — il
+            caso esatto. Se le linee sincroniche fossero "sentite" con lo
+            stesso strumento, ci si può fidare dello strumento quanto di una
+            moneta.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="selfica" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 02 · Un sensore davanti all'oggetto</p>
+        <h2>La spirale selfica<br>e il rumore di fondo</h2>
+        <p class="lede">
+          La selfica sarebbe un "concentratore di energie vive" costruito con
+          spirali, metalli e inchiostri. Un'energia capace di orientarsi e
+          agire deve lasciare una traccia misurabile. Mettiamo un sensore di
+          campo davanti all'oggetto, a distanza variabile, e leggiamo.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-selfica" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="selfica-chip">sensore a campo nullo</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">campo misurato</span>
+              <span class="readout-val" id="selfica-campo">0,01 µT</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">differenza dal rumore di fondo</span>
+              <span class="readout-val" id="selfica-diff">0,000 µT</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">temperatura dell'oggetto</span>
+              <span class="readout-val" id="selfica-temp">+0,0 °C</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">distanza del sensore</span>
+              <input type="range" id="selfica-slider" min="0" max="40" step="1" value="5">
+              <span class="slider-scale"><i>a contatto</i><i>40 cm</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="selfica-go" class="btn btn-primary" type="button">Metti a contatto</button>
+            <button id="selfica-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Anche a distanza zero l'oggetto non emette nulla: resta il rumore
+            di fondo di 0,01 µT, il valore della stanza. Un'energia che non
+            muove un sensore a contatto non può essere "concentrata" né
+            "direzionata": per la fisica semplicemente non c'è. Chi la
+            rivendica non ha mai prodotto una misura — e qui non c'è niente
+            da misurare.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="linee" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 03 · Diciotto linee e molti nodi</p>
+        <h2>I nodi delle linee<br>nascono da soli</h2>
+        <p class="lede">
+          Il reticolo è composto da nove linee maggiori verticali e nove
+          orizzontali: i "nodi" sarebbero i punti d'incrocio, e la Sala delle
+          Sfere si troverebbe dove tre linee si fondono. Con diciotto linee
+          tracciate a mano su un territorio, quanti incroci nascono per puro
+          caso?
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-linee" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="linee-chip">nodi attesi per caso</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">incroci doppi (nodi)</span>
+              <span class="readout-val" id="linee-doppi">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">punti dove 3 linee si fondono</span>
+              <span class="readout-val" id="linee-tripli">—</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">un punto scelto a caso è su un nodo</span>
+              <span class="readout-val" id="linee-pct">—</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">linee tracciate</span>
+              <input type="range" id="linee-slider" min="2" max="18" step="1" value="18">
+              <span class="slider-scale"><i>2</i><i>18</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="linee-go" class="btn btn-primary" type="button">Traccia le linee</button>
+            <button id="linee-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Diciotto linee quasi rette su un territorio producono decine di
+            incroci e vari punti dove tre linee si incontrano — senza che
+            nessuna "energia" le guidi. La Sala delle Sfere "nel punto esatto
+            di tre linee" è il risultato di una griglia fitta, non di una
+            misura. Il significato di un nodo è tracciato dalla stessa mano
+            che lo dichiara.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="vega" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 04 · Il trial che non c'è stato</p>
+        <h2>La cabina<br>del ringiovanimento</h2>
+        <p class="lede">
+          Alcune dottoresse adepte hanno gestito un ambulatorio con "cabine"
+          capaci di fermare l'invecchiamento. Nel 2009 i NAS vi hanno trovato
+          irregolarità. Mettiamo comunque alla prova la promessa: un gruppo
+          trattato e un gruppo placebo, cinque anni, e biomarcatori misurati.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-vega" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="vega-chip">gruppo trattato vs placebo</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">pressione arteriosa (trattato)</span>
+              <span class="readout-val" id="vega-pa">121 mmHg</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">pressione arteriosa (placebo)</span>
+              <span class="readout-val" id="vega-pb">120 mmHg</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">differenza misurata</span>
+              <span class="readout-val" id="vega-diff">+1 mmHg</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">mesi di trattamento</span>
+              <input type="range" id="vega-slider" min="0" max="60" step="1" value="12">
+              <span class="slider-scale"><i>0</i><i>60 mesi</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="vega-go" class="btn btn-primary" type="button">Misura la coorte</button>
+            <button id="vega-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            I due gruppi restano indistinguibili: la differenza di 1 mmHg è
+            dentro la variabilità normale. Se l'energia della cabina agisse,
+            comparirebbe come un divario crescente nel tempo — non appare.
+            Quello che i visitatori "sentono" è la parte soggettiva: il corpo
+            non la registra da nessuna parte.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="prove" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 05 · L'onere della prova</p>
+        <h2>Chi afferma<br>deve misurare</h2>
+        <p class="lede">
+          Tre rivendicazioni: le linee sincroniche, la selfica, le cabine.
+          Per ognuna, il percorso della prova: test alla cieco, sensore,
+          trial clinico. La barra si riempie solo con una misura riprodotta.
+          Vediamo fino a dove arriva.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-prove" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="prove-chip">prova prodotta: nessuna</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">linee sincroniche</span>
+              <span class="readout-val" id="prove-linee">0 / 100</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">selfica</span>
+              <span class="readout-val" id="prove-selfica">0 / 100</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">cabine di ringiovanimento</span>
+              <span class="readout-val" id="prove-cabine">0 / 100</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">misure tentate</span>
+              <input type="range" id="prove-slider" min="0" max="100" step="1" value="100">
+              <span class="slider-scale"><i>0</i><i>100</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="prove-go" class="btn btn-primary" type="button">Cerca la prova</button>
+            <button id="prove-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Ogni tentativo è una misura riproducibile: un test alla cieca che
+            dà il caso, un sensore che resta a zero, un trial che non
+            distingue i gruppi. La barra della prova non si muove di un
+            punto. Non è un giudizio sulla fede di chi crede: è il conto di
+            ciò che è stato misurato. Nessuna delle tre affermazioni ha mai
+            prodotto un risultato diverso da zero.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="bilancio" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Esperimento 06 · Il conto finale</p>
+        <h2>Quanta energia<br>è stata dimostrata?</h2>
+        <p class="lede">
+          Mettiamo in fila i numeri: rivendicazioni energetiche, opere reali,
+          misure riprodotte. Il conto è semplice — e ha un solo lato che si
+          riempie.
+        </p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <figure class="lab-canvas-wrap">
+          <canvas id="canvas-bilancio" class="lab-canvas lab-canvas--wide"></canvas>
+          <div class="lab-overlay lab-overlay--bottom">
+            <span class="chip" id="bilancio-chip">energia dimostrata: 0</span>
+          </div>
+        </figure>
+
+        <div class="lab-panel">
+          <div class="readout">
+            <div class="readout-row">
+              <span class="readout-key">rivendicazioni energetiche esaminate</span>
+              <span class="readout-val" id="bilancio-rev">3</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">con prova controllata e riprodotta</span>
+              <span class="readout-val" id="bilancio-zero">0</span>
+            </div>
+            <div class="readout-row">
+              <span class="readout-key">opere reali misurate</span>
+              <span class="readout-val" id="bilancio-reale">1 · il Tempio (8.500 m³)</span>
+            </div>
+          </div>
+
+          <div class="sliders">
+            <label class="slider">
+              <span class="slider-label">rivendicazioni verificate</span>
+              <input type="range" id="bilancio-slider" min="0" max="100" step="1" value="100">
+              <span class="slider-scale"><i>0</i><i>100</i></span>
+            </label>
+          </div>
+
+          <div class="controls">
+            <button id="bilancio-go" class="btn btn-primary" type="button">Chiudi il conto</button>
+            <button id="bilancio-reset" class="btn btn-ghost" type="button">Ricomincia</button>
+          </div>
+
+          <p class="aside">
+            Il quaderno chiude con lo zero più importante: zero rivendicazioni
+            energetiche con una prova riprodotta. Resta un "uno" che non è
+            energia: il Tempio dell'Umanità, scavato a mano per 15 anni,
+            8.500 m³ di roccia a 72 metri di profondità. È un'impresa reale,
+            misurabile, impressionante. La meraviglia non ha bisogno di
+            miracoli: ha bisogno di metri cubi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="press reveal">
+      <p class="press-quote">
+        "La commissione di ingegneri e architetti ha accertato che è stato
+        impiegato il triplo del materiale necessario. Ergo, i templi sono
+        fatti per durare."
+      </p>
+      <p class="press-byline">Dalla difesa di Damanhur · processo 1996</p>
+    </div>
+
+    <section id="storia" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">L'eredità · Una comunità, un tempio, e una misura</p>
+        <h2>Dal 1975 a oggi:<br>la storia misurabile</h2>
+        <p class="lede">
+          Damanhur è una comunità reale, con una storia documentata: una
+          fondazione, un tempio scavato di nascosto, un processo, un record
+          Guinness e un'accertamento fiscale. Ecco le tappe.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+        <ol class="timeline-track">
+          <li>
+            <span class="timeline-year">1950</span>
+            <h4>Nasce Oberto Airaudi</h4>
+            <p>A Balangero, in Val di Lanzo. All'inizio degli anni '70 fonda a
+            Torino il Centro di Ricerche Esoteriche Horus. <a href="#selfica">La selfica</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1975</span>
+            <h4>Fondazione di Damanhur</h4>
+            <p>Il progetto prende corpo in Valchiusella, tra Baldissero e
+            Vidracco: una "città della luce" con valuta interna, il Credito,
+            e una Costituzione.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1978</span>
+            <h4>Iniziano gli scavi del Tempio</h4>
+            <p>Di notte, senza permessi, circa un centinaio di damanhuriani
+            scavano a mano il Tempio dell'Umanità nella montagna. Il segreto
+            regge per 15 anni.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1981</span>
+            <h4>Il libro delle linee sincroniche</h4>
+            <p>Airaudi pubblica "Sincronicità e linee sincroniche": le mappe
+            del reticolo energetico, tracciate con radiestesia, viaggio
+            astrale e medianità. <a href="#dowsing">Il test</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1992</span>
+            <h4>La scoperta del Tempio</h4>
+            <p>Filippo Maria Cerutti, ex membro del "governo", rivela tutto al
+            procuratore Bruno Tinti. La Guardia di Finanza scopre l'opera e la
+            sequestra.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1993</span>
+            <h4>Ordine di demolizione</h4>
+            <p>Il Comune di Vidracco ne ordina la distruzione per abuso
+            edilizio. La pressione dell'opinione pubblica e il valore
+            artistico fermano l'ordine.</p>
+          </li>
+          <li>
+            <span class="timeline-year">1996</span>
+            <h4>Il processo si chiude</h4>
+            <p>Il caso si risolve con un'assoluzione: Damanhur è autorizzata a
+            tenere il Tempio e a riaprirlo ai visitatori.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2001</span>
+            <h4>Record Guinness</h4>
+            <p>Il Tempio dell'Umanità entra nel Guinness dei primati: il più
+            grande tempio sotterraneo del mondo. 5 livelli, 72 metri di
+            profondità, 8.500 m³. <a href="#bilancio">Il conto</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2009</span>
+            <h4>Le cabine sotto esame</h4>
+            <p>I NAS trovano irregolarità nell'ambulatorio gestito dalle
+            dottoresse adepte, con le "cabine del ringiovanimento".
+            <a href="#vega">Il trial</a>.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2010</span>
+            <h4>L'accertamento fiscale</h4>
+            <p>Dopo una verifica della Guardia di Finanza, Airaudi aderisce a
+            un verbale e paga circa 1,2 milioni di euro.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2013</span>
+            <h4>Muore Airaudi</h4>
+            <p>Il fondatore, "Falco Tarassaco", muore a 63 anni. La comunità
+            continua sotto una nuova guida.</p>
+          </li>
+          <li>
+            <span class="timeline-year">2021</span>
+            <h4>La Cassazione</h4>
+            <p>La Corte di Cassazione dà ragione a un'ex adepta: le "monete"
+            interne damanhuriane sono una retribuzione vera, non donazione
+            volontaria.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="deepdive reveal">
+        <details>
+          <summary>Ma la radiestesia non "funziona" in mano alla gente?</summary>
+          <p>
+            Sentire un movimento della bacchetta e trovarsi sopra l'acqua sono
+            due cose diverse. La prima è reale (è l'effetto ideomotorio: i
+            muscoli reagiscono a ciò che ci aspettiamo); la seconda è una
+            predizione. Quando la predizione viene testata alla cieca — chi
+            tiene la bacchetta non sa quale tubo contiene l'acqua — l'accuratezza
+            torna esattamente al livello del caso. Il movimento c'è, la
+            conoscenza no.
+          </p>
+        </details>
+        <details>
+          <summary>Un'energia "sottile" potrebbe sfuggire ai sensori?</summary>
+          <p>
+            "Energia sottile" è un nome che non definisce nulla. Ogni energia
+            di cui la fisica sa qualcosa — elettrica, magnetica, termica,
+            gravitazionale — interagisce con la materia e si misura. Se
+            un'energia "si concentra" e "si direziona" in una spirale, deve
+            muovere qualcosa: un sensore a contatto non si muove di nulla.
+            Chiamarla "sottile" non la rende più reale: la rende solo non
+            descritta.
+          </p>
+        </details>
+        <details>
+          <summary>E se il Tempio dimostrasse comunque qualcosa?</summary>
+          <p>
+            Il Tempio dimostra qualcosa di grande — ma non ciò che si vorrebbe.
+            Dimostra che un centinaio di persone può scavare a mano 8.500 m³
+            di roccia in 15 anni, di notte e in segreto. È una misura di
+            perseveranza e ingegneria, non di energia. La meraviglia vera è
+            più interessante di quella inventata: nessun miracolo necessario,
+            solo persone, martelli e tempo.
+          </p>
+        </details>
+        <details>
+          <summary>Damanhur è "solo" una setta da criticare?</summary>
+          <p>
+            Le etichette servono poco: i fatti misurati contano di più. La
+            comunità è iscritta al registro delle associazioni di promozione
+            sociale e ha ricevuto riconoscimenti per la sostenibilità. Ma i
+            numeri restano numeri: un accertamento fiscale chiuso nel 2010, le
+            irregolarità dei NAS nel 2009, la sentenza della Cassazione del 2021
+            sulle monete interne. Nessuno di questi è "energia": sono fatti, e
+            si misurano come tutti gli altri.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section id="quiz" class="experiment">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il test · Ora tocca a te</p>
+        <h2>Mettiti alla prova:<br>sai misurarla?</h2>
+        <p class="lede">
+          Sei domande, tre risposte ciascuna. Nessun voto in pagella: solo la
+          verifica che il quaderno è rimasto aperto.
+        </p>
+      </div>
+
+      <div id="quiz-root" class="quiz reveal"></div>
+    </section>
+
+  </main>
+
+  <p class="closing reveal">
+    Non c'è bisogno di crederci:<br>
+    c'è bisogno di misurare.
+  </p>
+
+  <footer class="footer">
+    <p class="eyebrow">Fatto con curiosità</p>
+    <p>Nessuna opinione: solo esperimenti.</p>
+  </footer>
+
+</div>
+
+<script src="damanhur.js"></script>
+</body>
+</html>

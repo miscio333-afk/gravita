@@ -7,7 +7,13 @@
 - **Clima**: `clima.html` + `clima.js` completati e verificati (97b11cb).
 - **Aria**: `inquinamento.html` + `inquinamento.js` completati e verificati (abad30b).
 - **Crop**: `cropcircles.html` + `cropcircles.js` completati e verificati (nuovo argomento "I cerchi nel grano").
-- **Navbar condivisa** su index/luna/terrapiatta/scie/clima/aria/crop aggiornata con link a tutte le pagine (8 voci).
+- **Damanhur**: `damanhur.html` + `damanhur.js` completati e verificati (nuovo argomento "Energie invisibili: linee sincroniche e selfica").
+- **Navbar condivisa** su index/luna/terrapiatta/scie/clima/aria/crop/damanhur aggiornata con link a tutte le pagine (9 voci).
+
+## Verifiche Damanhur (ultimo ciclo)
+- `node --check damanhur.js` OK; console 0 errori su 9 pagine; overflow 0 a 375/560/900/1280 (navbar a 9 voci regge a 375 col flex-wrap).
+- Pixel check: 6 canvas disegnano dopo scroll (dowsing/selfica/linee/vega/prove/bilancio), con colori accent/teal presenti.
+- Interazioni: dowsing (50 prove → hit 0-2, chip in corso), selfica (a contatto → 0,01 µT rumore, diff 0,000), linee (18 linee → 82 nodi doppi, 6 tripli), vega (24 mesi → diff +1 mmHg), prove (100 → 0/100 x3), bilancio (100 → zero 0, reale 1 · Tempio 8.500 m³), quiz 6/6 con verdetto.
 - **Produzione**: https://gravita180826.vercel.app/ — scie.html e luna.html = 200, link navbar presenti.
 
 ## Verifiche Crop (ultimo ciclo)
@@ -34,4 +40,4 @@
 ## Info repository
 - Remote: https://github.com/miscio333-afk/gravita.git (branch main)
 - Utente: miscio333-afk
-- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, styles.css condiviso, SKILL.md.
+- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, damanhur.html/damanhur.js, styles.css condiviso, SKILL.md.
