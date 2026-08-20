@@ -8,7 +8,14 @@
 - **Aria**: `inquinamento.html` + `inquinamento.js` completati e verificati (abad30b).
 - **Crop**: `cropcircles.html` + `cropcircles.js` completati e verificati (nuovo argomento "I cerchi nel grano").
 - **Damanhur**: `damanhur.html` + `damanhur.js` completati e verificati (nuovo argomento "Energie invisibili: linee sincroniche e selfica").
-- **Navbar condivisa** su index/luna/terrapiatta/scie/clima/aria/crop/damanhur aggiornata con link a tutte le pagine (9 voci).
+- **5G**: `cinque.html` + `cinque.js` completati e verificati (nuovo argomento "5G: si misura o si teme").
+- **Navbar condivisa** su index/luna/terrapiatta/scie/clima/aria/crop/damanhur/cinque aggiornata con link a tutte le pagine (9 voci).
+
+## Verifiche 5G (ultimo ciclo)
+- `node --check cinque.js` OK; console 0 errori su 10 pagine; overflow 0 a 375/560/900/1280 (navbar a 9 voci regge a 375 col flex-wrap).
+- Pixel check: 6 canvas disegnano dopo scroll (spettro/fotone/pelle/antenne/covid/bilancio), con colori accent/teal presenti.
+- Interazioni: spettro (52,6 GHz → 52,6 GHz · 5,7 mm · microonde non ionizzante), fotone (52,6 GHz → 2,18 × 10⁻⁴ eV · calore a 20 °C 174× più · ~4.598 fotoni), pelle (45 GHz → 0,79 mm · 28% potenza a 1 mm · niente organi), antenne (500 m → 0,03 mW/m² · 0,0003% del limite), covid (gen 2021 → 2600 migliaia casi · 30.000 siti · 159 attacchi), bilancio (100 → zero 0, reale 1 · Ofcom 0,039%), quiz 6/6 con verdetto.
+- **Produzione**: https://gravita180826.vercel.app/ — cinque.html e altre pagine = 200, link navbar presenti.
 
 ## Verifiche Damanhur (ultimo ciclo)
 - `node --check damanhur.js` OK; console 0 errori su 9 pagine; overflow 0 a 375/560/900/1280 (navbar a 9 voci regge a 375 col flex-wrap).
@@ -40,4 +47,4 @@
 ## Info repository
 - Remote: https://github.com/miscio333-afk/gravita.git (branch main)
 - Utente: miscio333-afk
-- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, damanhur.html/damanhur.js, styles.css condiviso, SKILL.md.
+- File: index.html/app.js (Gravità), terrapiatta.html/terrapiatta.js, luna.html/luna.js, scie.html/scie.js, clima.html/clima.js, inquinamento.html/inquinamento.js, cropcircles.html/cropcircles.js, damanhur.html/damanhur.js, cinque.html/cinque.js, styles.css condiviso, SKILL.md.
